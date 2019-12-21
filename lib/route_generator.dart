@@ -8,7 +8,7 @@ import 'package:ecommerce_app_ui_kit/src/screens/checkout.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/checkout_done.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/help.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/languages.dart';
-import 'package:ecommerce_app_ui_kit/src/screens/on_boarding.dart';
+// import 'package:ecommerce_app_ui_kit/src/screens/on_boarding.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/orders.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/product.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/signin.dart';
@@ -23,7 +23,7 @@ class RouteGenerator {
 
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => OnBoardingWidget());
+        return MaterialPageRoute(builder: (_) => SignInWidget());
       case '/SignUp':
         return MaterialPageRoute(builder: (_) => SignUpWidget());
       case '/SignIn':

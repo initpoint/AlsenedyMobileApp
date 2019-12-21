@@ -1,4 +1,4 @@
-# ecommerce_app_ui_kit
+# Alsenedy
 
 A new Flutter project.
 

@@ -1,4 +1,4 @@
-package com.smartervision.ecommerce_app_ui_kit.ecommerce_app_ui_kit
+package com.initpoint.alsenedy
 
 import android.os.Bundle
 
