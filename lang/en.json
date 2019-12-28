@@ -1,5 +1,6 @@
 {
   "sign_in": "Sign In",
+  "sign": "Login",
   "sign_up": "Sign Up",
   "customer1": "Customer 1",
   "customer2": "Customer 2",
@@ -9,5 +10,8 @@
   "email_placeholder": "Email Address",
   "password_placeholder": "Password",
   "password_can_not_be_empty": "Password cannot be empty",
-  "email_can_not_be_empty": "Email cannot be empty"
+  "email_can_not_be_empty": "Email cannot be empty",
+  "back_to_sign_in": "Back to sign in",
+  "reset_password": "Reset Password",
+  "comfirm_to_send_email": "Comfirm And Send"
 }

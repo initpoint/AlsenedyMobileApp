@@ -2,8 +2,9 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
-abstract class BaseAuth with ChangeNotifier{
+abstract class BaseAuth with ChangeNotifier {
   Future<String> signIn(String email, String password);
+  Future<void> resetPassword(String email);
   Future<String> signUp(String email, String password);
   Future<FirebaseUser> getCurrentUser();
   Future<void> signOut();
@@ -12,7 +13,7 @@ abstract class BaseAuth with ChangeNotifier{
 
 class Auth with ChangeNotifier implements BaseAuth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  
+
   Future<String> signIn(String email, String password) async {
     var result = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
@@ -36,7 +37,12 @@ class Auth with ChangeNotifier implements BaseAuth {
   Stream<FirebaseUser> onAuthStateChanged() {
     return _firebaseAuth.onAuthStateChanged;
   }
+
   Future<void> signOut() async {
     return _firebaseAuth.signOut();
+  }
+
+  Future<void> resetPassword(String email) {
+    return _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 }

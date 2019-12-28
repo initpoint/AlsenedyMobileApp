@@ -1,5 +1,6 @@
 {
   "sign_in": "تسجيل الدخول",
+  "sign": "تسجيل",
   "signup": "إنشاء حساب",
   "customer1": "عميل رقم 1",
   "customer2": "عميل رقم 2",
@@ -9,5 +10,8 @@
   "email_placeholder": "البريد الإلكتروني",
   "password_placeholder": "كلمة المرور",
   "password_can_not_be_empty": "يجب إدخال كلمة المرور",
-  "email_can_not_be_empty": "يجب إدخال البريد الإلكتروني"
+  "email_can_not_be_empty": "يجب إدخال البريد الإلكتروني",
+  "back_to_sign_in": "العودة إلي تسجيل الدخول",
+  "reset_password": "إعادة تعين كلمة المرور",
+  "comfirm_to_send_email": "تأكيد وإرسال "
 }

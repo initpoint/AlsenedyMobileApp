@@ -12,6 +12,7 @@ import 'package:ecommerce_app_ui_kit/src/screens/languages.dart';
 // import 'package:ecommerce_app_ui_kit/src/screens/on_boarding.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/orders.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/product.dart';
+import 'package:ecommerce_app_ui_kit/src/screens/reset_password.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/signin.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/signup.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/tabs.dart';
@@ -31,6 +32,8 @@ class RouteGenerator {
 
       case '/SignUp':
         return MaterialPageRoute(builder: (_) => SignUpWidget());
+      case '/ResetPassword':
+        return MaterialPageRoute(builder: (_) => ResetPasswordWidget());
       case '/SignIn':
         return MaterialPageRoute(builder: (_) => SignInWidget());
       case '/Categories':
@@ -39,7 +42,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => OrdersWidget());
       case '/Brands':
         return MaterialPageRoute(builder: (_) => BrandsWidget());
-        
+
       case '/Auth':
         return MaterialPageRoute(builder: (_) => Navigation());
 //      case '/MobileVerification':

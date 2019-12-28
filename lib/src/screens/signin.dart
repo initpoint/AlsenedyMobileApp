@@ -138,7 +138,9 @@ class _SignInWidgetState extends State<SignInWidget> {
                         ),
                         SizedBox(height: 20),
                         FlatButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/ResetPassword');
+                          },
                           child: Text(
                             AppLocalizations.of(context)
                                 .translate('forgot_password'),
@@ -150,7 +152,8 @@ class _SignInWidgetState extends State<SignInWidget> {
                           padding: EdgeInsets.symmetric(
                               vertical: 12, horizontal: 70),
                           child: Text(
-                            'Login',
+                            AppLocalizations.of(context)
+                                  .translate('sign'),
                             style: Theme.of(context).textTheme.title.merge(
                                   TextStyle(
                                       color: Theme.of(context).primaryColor),
