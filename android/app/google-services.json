@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "896400692930",
+    "firebase_url": "https://alsenedy-455c6.firebaseio.com",
+    "project_id": "alsenedy-455c6",
+    "storage_bucket": "alsenedy-455c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896400692930:android:77bd9bc094a3a8bf1d4d5b",
+        "android_client_info": {
+          "package_name": "com.initpoint.alsenedy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "896400692930-turf09qc7u6i8nc3o50avdbvo7k978ul.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhIjwZ-BWTI1tcP-1mWZd-N0DUDgQpRDA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "896400692930-turf09qc7u6i8nc3o50avdbvo7k978ul.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "896400692930-m182riodfofsic394gh93rr0bk8iedgi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.quickbee.initpoint"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,11 +1,16 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
 import 'package:ecommerce_app_ui_kit/src/models/user.dart';
+import 'package:ecommerce_app_ui_kit/src/services/auth.service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DrawerWidget extends StatelessWidget {
   User _user = new User.init().getCurrentUser();
+
   @override
   Widget build(BuildContext context) {
+    final BaseAuth auth = Provider.of<BaseAuth>(context);
+
     // TODO: implement build
     return Drawer(
       child: ListView(
@@ -74,7 +79,8 @@ class DrawerWidget extends StatelessWidget {
             trailing: Chip(
               padding: EdgeInsets.symmetric(horizontal: 5),
               backgroundColor: Colors.transparent,
-              shape: StadiumBorder(side: BorderSide(color: Theme.of(context).focusColor)),
+              shape: StadiumBorder(
+                  side: BorderSide(color: Theme.of(context).focusColor)),
               label: Text(
                 '8',
                 style: TextStyle(color: Theme.of(context).focusColor),
@@ -182,8 +188,8 @@ class DrawerWidget extends StatelessWidget {
             ),
           ),
           ListTile(
-            onTap: () {
-              Navigator.of(context).pushNamed('/Login');
+            onTap: () async {
+              auth.signOut();
             },
             leading: Icon(
               UiIcons.upload,

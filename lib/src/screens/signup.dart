@@ -1,7 +1,8 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
-import 'package:ecommerce_app_ui_kit/src/widgets/SocialMediaWidget.dart';
+import 'package:ecommerce_app_ui_kit/src/services/auth.service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignUpWidget extends StatefulWidget {
   @override
@@ -10,8 +11,12 @@ class SignUpWidget extends StatefulWidget {
 
 class _SignUpWidgetState extends State<SignUpWidget> {
   bool _showPassword = false;
+  String _email;
+  String _password;
 
   Widget build(BuildContext context) {
+    final BaseAuth auth = Provider.of<BaseAuth>(context);
+
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
       body: SingleChildScrollView(
@@ -45,7 +50,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       SizedBox(height: 25),
                       Text('Sign Up', style: Theme.of(context).textTheme.display3),
                       SizedBox(height: 20),
-                      new TextField(
+                      new TextFormField(
                         style: TextStyle(color: Theme.of(context).accentColor),
                         keyboardType: TextInputType.emailAddress,
                         decoration: new InputDecoration(
@@ -62,6 +67,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             color: Theme.of(context).accentColor,
                           ),
                         ),
+                         validator: (value) =>
+                            value.isEmpty ? 'Email cannot be empty' : null,
+                        onChanged: (value) {
+                          _email = value.trim();
+                        },
                       ),
                       SizedBox(height: 20),
                       new TextField(
@@ -93,7 +103,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         ),
                       ),
                       SizedBox(height: 20),
-                      new TextField(
+                      new TextFormField(
                         style: TextStyle(color: Theme.of(context).accentColor),
                         keyboardType: TextInputType.text,
                         obscureText: !_showPassword,
@@ -120,6 +130,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             icon: Icon(_showPassword ? Icons.visibility_off : Icons.visibility),
                           ),
                         ),
+                      validator: (value) =>
+                            value.isEmpty ? 'Password cannot be empty' : null,
+                        onChanged: (value) {
+                          _password = value.trim();
+                        },
                       ),
                       SizedBox(height: 40),
                       FlatButton(
@@ -136,13 +151,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         color: Theme.of(context).accentColor,
                         shape: StadiumBorder(),
                       ),
-                      SizedBox(height: 50),
-                      Text(
-                        'Or using social media',
-                        style: Theme.of(context).textTheme.body1,
-                      ),
-                      SizedBox(height: 20),
-                      new SocialMediaWidget()
+                      // SizedBox(height: 50),
+                      // Text(
+                      //   'Or using social media',
+                      //   style: Theme.of(context).textTheme.body1,
+                      // ),
+                      // SizedBox(height: 20),
+                      // new SocialMediaWidget()
                     ],
                   ),
                 ),

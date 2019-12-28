@@ -5,10 +5,14 @@ import 'package:ecommerce_app_ui_kit/src/screens/favorites.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/home.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/messages.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/notifications.dart';
+import 'package:ecommerce_app_ui_kit/src/screens/signin.dart';
+import 'package:ecommerce_app_ui_kit/src/services/auth.service.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/DrawerWidget.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/FilterWidget.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/ShoppingCartButtonWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // ignore: must_be_immutable
 class TabsWidget extends StatefulWidget {
@@ -16,6 +20,7 @@ class TabsWidget extends StatefulWidget {
   int selectedTab = 2;
   String currentTitle = 'Home';
   Widget currentPage = HomeWidget();
+  bool firstRout = true;
 
   TabsWidget({
     Key key,
@@ -29,6 +34,15 @@ class TabsWidget extends StatefulWidget {
 }
 
 class _TabsWidgetState extends State<TabsWidget> {
+  void canActivate(BaseAuth auth, BuildContext context) async {
+    await auth.getCurrentUser().then((user) {
+      if (user == null && widget.firstRout) {
+        Navigator.of(context).pushNamed('/SignIn');
+        widget.firstRout = false;
+      }
+    });
+  }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   initState() {
@@ -78,6 +92,13 @@ class _TabsWidgetState extends State<TabsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    try {
+      final user = Provider.of<FirebaseUser>(context);
+      if (user == null) {
+        return SignInWidget(); 
+      }
+    } catch (e) {}
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: DrawerWidget(),
@@ -100,7 +121,8 @@ class _TabsWidgetState extends State<TabsWidget> {
         ),
         actions: <Widget>[
           new ShoppingCartButtonWidget(
-              iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
+              iconColor: Theme.of(context).hintColor,
+              labelColor: Theme.of(context).accentColor),
           Container(
               width: 30,
               height: 30,
@@ -190,12 +212,17 @@ class _TabsWidgetState extends State<TabsWidget> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                        color: Theme.of(context).accentColor.withOpacity(0.4), blurRadius: 40, offset: Offset(0, 15)),
+                        color: Theme.of(context).accentColor.withOpacity(0.4),
+                        blurRadius: 40,
+                        offset: Offset(0, 15)),
                     BoxShadow(
-                        color: Theme.of(context).accentColor.withOpacity(0.4), blurRadius: 13, offset: Offset(0, 3))
+                        color: Theme.of(context).accentColor.withOpacity(0.4),
+                        blurRadius: 13,
+                        offset: Offset(0, 3))
                   ],
                 ),
-                child: new Icon(UiIcons.home, color: Theme.of(context).primaryColor),
+                child: new Icon(UiIcons.home,
+                    color: Theme.of(context).primaryColor),
               )),
           BottomNavigationBarItem(
             icon: new Icon(UiIcons.chat),

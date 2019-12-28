@@ -1,6 +1,13 @@
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'app_localizations.dart';
 import 'package:ecommerce_app_ui_kit/config/app_config.dart' as config;
 import 'package:ecommerce_app_ui_kit/route_generator.dart';
+import 'package:ecommerce_app_ui_kit/src/screens/signin.dart';
+import 'package:ecommerce_app_ui_kit/src/screens/tabs.dart';
+import 'package:ecommerce_app_ui_kit/src/services/auth.service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,54 +15,150 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Restaurant Flutter UI',
-      initialRoute: '/',
-      onGenerateRoute: RouteGenerator.generateRoute,
-      debugShowCheckedModeBanner: false,
-      darkTheme: ThemeData(
-        fontFamily: 'Poppins',
-        primaryColor: Color(0xFF252525),
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: Color(0xFF2C2C2C),
-        accentColor: config.Colors().mainDarkColor(1),
-        hintColor: config.Colors().secondDarkColor(1),
-        focusColor: config.Colors().accentDarkColor(1),
-        textTheme: TextTheme(
-          button: TextStyle(color: Color(0xFF252525)),
-          headline: TextStyle(fontSize: 20.0, color: config.Colors().secondDarkColor(1)),
-          display1: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: config.Colors().secondDarkColor(1)),
-          display2: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600, color: config.Colors().secondDarkColor(1)),
-          display3: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w700, color: config.Colors().mainDarkColor(1)),
-          display4: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w300, color: config.Colors().secondDarkColor(1)),
-          subhead: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w500, color: config.Colors().secondDarkColor(1)),
-          title: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: config.Colors().mainDarkColor(1)),
-          body1: TextStyle(fontSize: 12.0, color: config.Colors().secondDarkColor(1)),
-          body2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: config.Colors().secondDarkColor(1)),
-          caption: TextStyle(fontSize: 12.0, color: config.Colors().secondDarkColor(0.7)),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<BaseAuth>(
+          create: (_) => new Auth(),
         ),
-      ),
-      theme: ThemeData(
-        fontFamily: 'Poppins',
-        primaryColor: Colors.white,
-        brightness: Brightness.light,
-        accentColor: config.Colors().mainColor(1),
-        focusColor: config.Colors().accentColor(1),
-        hintColor: config.Colors().secondColor(1),
-        textTheme: TextTheme(
-          button: TextStyle(color: Colors.white),
-          headline: TextStyle(fontSize: 20.0, color: config.Colors().secondColor(1)),
-          display1: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: config.Colors().secondColor(1)),
-          display2: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600, color: config.Colors().secondColor(1)),
-          display3: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w700, color: config.Colors().mainColor(1)),
-          display4: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w300, color: config.Colors().secondColor(1)),
-          subhead: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w500, color: config.Colors().secondColor(1)),
-          title: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: config.Colors().mainColor(1)),
-          body1: TextStyle(fontSize: 12.0, color: config.Colors().secondColor(1)),
-          body2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: config.Colors().secondColor(1)),
-          caption: TextStyle(fontSize: 12.0, color: config.Colors().secondColor(0.6)),
+        StreamProvider<FirebaseUser>(create: (_) => Auth().onAuthStateChanged(),)
+      ],
+      child: MaterialApp(
+        title: 'Alsenedy',
+        initialRoute: '/Auth',
+        onGenerateRoute: RouteGenerator.generateRoute,
+        debugShowCheckedModeBanner: false,
+        darkTheme: ThemeData(
+          fontFamily: 'Poppins',
+          primaryColor: Color(0xFF252525),
+          brightness: Brightness.dark,
+          scaffoldBackgroundColor: Color(0xFF2C2C2C),
+          accentColor: config.Colors().mainDarkColor(1),
+          hintColor: config.Colors().secondDarkColor(1),
+          focusColor: config.Colors().accentDarkColor(1),
+          textTheme: TextTheme(
+            button: TextStyle(color: Color(0xFF252525)),
+            headline: TextStyle(
+                fontSize: 20.0, color: config.Colors().secondDarkColor(1)),
+            display1: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w600,
+                color: config.Colors().secondDarkColor(1)),
+            display2: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w600,
+                color: config.Colors().secondDarkColor(1)),
+            display3: TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.w700,
+                color: config.Colors().mainDarkColor(1)),
+            display4: TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.w300,
+                color: config.Colors().secondDarkColor(1)),
+            subhead: TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.w500,
+                color: config.Colors().secondDarkColor(1)),
+            title: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w600,
+                color: config.Colors().mainDarkColor(1)),
+            body1: TextStyle(
+                fontSize: 12.0, color: config.Colors().secondDarkColor(1)),
+            body2: TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w600,
+                color: config.Colors().secondDarkColor(1)),
+            caption: TextStyle(
+                fontSize: 12.0, color: config.Colors().secondDarkColor(0.7)),
+          ),
         ),
+        theme: ThemeData(
+          fontFamily: 'Poppins',
+          primaryColor: Colors.white,
+          brightness: Brightness.light,
+          accentColor: config.Colors().mainColor(1),
+          focusColor: config.Colors().accentColor(1),
+          hintColor: config.Colors().secondColor(1),
+          textTheme: TextTheme(
+            button: TextStyle(color: Colors.white),
+            headline: TextStyle(
+                fontSize: 20.0, color: config.Colors().secondColor(1)),
+            display1: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w600,
+                color: config.Colors().secondColor(1)),
+            display2: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w600,
+                color: config.Colors().secondColor(1)),
+            display3: TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.w700,
+                color: config.Colors().mainColor(1)),
+            display4: TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.w300,
+                color: config.Colors().secondColor(1)),
+            subhead: TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.w500,
+                color: config.Colors().secondColor(1)),
+            title: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w600,
+                color: config.Colors().mainColor(1)),
+            body1: TextStyle(
+                fontSize: 12.0, color: config.Colors().secondColor(1)),
+            body2: TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w600,
+                color: config.Colors().secondColor(1)),
+            caption: TextStyle(
+                fontSize: 12.0, color: config.Colors().secondColor(0.6)),
+          ),
+        ),
+        supportedLocales: [
+          Locale('en', 'US'),
+          Locale('ar', 'EG'),
+        ],
+        // These delegates make sure that the localization data for the proper language is loaded
+        localizationsDelegates: [
+          // THIS CLASS WILL BE ADDED LATER
+          // A class which loads the translations from JSON files
+          AppLocalizations.delegate,
+          // Built-in localization of basic text for Material widgets
+          GlobalMaterialLocalizations.delegate,
+          // Built-in localization for text direction LTR/RTL
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        // Returns a locale which will be used by the app
+        localeResolutionCallback: (locale, supportedLocales) {
+          // Check if the current device locale is supported
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode &&
+                supportedLocale.countryCode == locale.countryCode) {
+              return supportedLocale;
+            }
+          }
+          // If the locale of the device is not supported, use the first one
+          // from the list (English, in this case).
+          return supportedLocales.first;
+        },
       ),
     );
+  }
+}
+
+class Navigation extends StatefulWidget {
+  @override
+  _NavigationState createState() => _NavigationState();
+}
+
+class _NavigationState extends State<Navigation> {
+  @override
+  Widget build(BuildContext context) {
+    final user = Provider.of<FirebaseUser>(context);
+    return user != null ? TabsWidget(currentTab: 2) : SignInWidget();
   }
 }
