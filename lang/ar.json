@@ -1,4 +1,13 @@
 {
-    "sign_in": "تسجيل الدخول",
-    "signup": "إنشاء حساب"
-  }
+  "sign_in": "تسجيل الدخول",
+  "signup": "إنشاء حساب",
+  "customer1": "عميل رقم 1",
+  "customer2": "عميل رقم 2",
+  "login_error": "اسم المستخدم أو كلمة المرور غير صحيحة",
+  "forgot_password": "هل نسيت كلمة المرور ؟",
+  "do_not_have_account": " أليس لديك حساب ؟",
+  "email_placeholder": "البريد الإلكتروني",
+  "password_placeholder": "كلمة المرور",
+  "password_can_not_be_empty": "يجب إدخال كلمة المرور",
+  "email_can_not_be_empty": "يجب إدخال البريد الإلكتروني"
+}

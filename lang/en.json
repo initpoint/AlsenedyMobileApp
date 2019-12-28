@@ -1,4 +1,13 @@
 {
-    "sign_in": "SignIn",
-    "sign_up": "SignUp"
-  }
+  "sign_in": "Sign In",
+  "sign_up": "Sign Up",
+  "customer1": "Customer 1",
+  "customer2": "Customer 2",
+  "forgot_password": "Forgot your password ?",
+  "login_error": "Incorrect username or password",
+  "do_not_have_account": "Don't have an account ? ",
+  "email_placeholder": "Email Address",
+  "password_placeholder": "Password",
+  "password_can_not_be_empty": "Password cannot be empty",
+  "email_can_not_be_empty": "Email cannot be empty"
+}
