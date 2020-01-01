@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_ui_kit/src/services/combinations.service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app_localizations.dart';
 import 'package:ecommerce_app_ui_kit/config/app_config.dart' as config;
@@ -8,6 +9,7 @@ import 'package:ecommerce_app_ui_kit/src/services/auth.service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,7 +22,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<BaseAuth>(
           create: (_) => new Auth(),
         ),
-        StreamProvider<FirebaseUser>(create: (_) => Auth().onAuthStateChanged(),)
+        StreamProvider<FirebaseUser>(create: (_) => Auth().onAuthStateChanged(),),
+         StreamProvider<QuerySnapshot>(create: (_) => CombinationsRepo().getCombinations(),),
       ],
       child: MaterialApp(
         title: 'Alsenedy',

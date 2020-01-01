@@ -1,5 +1,6 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
 import 'package:ecommerce_app_ui_kit/src/models/category.dart';
+import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:ecommerce_app_ui_kit/src/models/product.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/FavoriteListItemWidget.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/ProductGridItemWidget.dart';
@@ -76,15 +77,14 @@ class _ProductsByCategoryWidgetState extends State<ProductsByCategoryWidget> {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             primary: false,
-            itemCount: widget.subCategory.products.length,
+            itemCount: widget.subCategory.combination.length,
             separatorBuilder: (context, index) {
               return SizedBox(height: 10);
             },
             itemBuilder: (context, index) {
-              // TODO replace with products list item
               return FavoriteListItemWidget(
                 heroTag: 'products_by_category_list',
-                product: widget.subCategory.products.elementAt(index),
+                combination: widget.subCategory.combination.elementAt(index),
                 onDismissed: () {
                   setState(() {
                     widget.subCategory.products.removeAt(index);
@@ -104,9 +104,9 @@ class _ProductsByCategoryWidgetState extends State<ProductsByCategoryWidget> {
               crossAxisCount: 4,
               itemCount: widget.subCategory.products.length,
               itemBuilder: (BuildContext context, int index) {
-                Product product = widget.subCategory.products.elementAt(index);
+                Combination combination = widget.subCategory.combination.elementAt(index);
                 return ProductGridItemWidget(
-                  product: product,
+                  combination: combination,
                   heroTag: 'products_by_category_grid',
                 );
               },

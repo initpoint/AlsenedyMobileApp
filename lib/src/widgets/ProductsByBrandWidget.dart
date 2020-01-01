@@ -1,5 +1,6 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
 import 'package:ecommerce_app_ui_kit/src/models/brand.dart';
+import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:ecommerce_app_ui_kit/src/models/product.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/FavoriteListItemWidget.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/ProductGridItemWidget.dart';
@@ -76,7 +77,7 @@ class _ProductsByBrandWidgetState extends State<ProductsByBrandWidget> {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             primary: false,
-            itemCount: widget.brand.products.length,
+            itemCount: widget.brand.combinations.length,
             separatorBuilder: (context, index) {
               return SizedBox(height: 10);
             },
@@ -84,10 +85,10 @@ class _ProductsByBrandWidgetState extends State<ProductsByBrandWidget> {
               // TODO replace with products list item
               return FavoriteListItemWidget(
                 heroTag: 'products_by_category_list',
-                product: widget.brand.products.elementAt(index),
+                combination: widget.brand.combinations.elementAt(index),
                 onDismissed: () {
                   setState(() {
-                    widget.brand.products.removeAt(index);
+                    widget.brand.combinations.removeAt(index);
                   });
                 },
               );
@@ -102,11 +103,11 @@ class _ProductsByBrandWidgetState extends State<ProductsByBrandWidget> {
               primary: false,
               shrinkWrap: true,
               crossAxisCount: 4,
-              itemCount: widget.brand.products.length,
+              itemCount: widget.brand.combinations.length,
               itemBuilder: (BuildContext context, int index) {
-                Product product = widget.brand.products.elementAt(index);
+                Combination combination = widget.brand.combinations.elementAt(index);
                 return ProductGridItemWidget(
-                  product: product,
+                   combination: combination,
                   heroTag: 'products_by_category_grid',
                 );
               },

@@ -1,5 +1,6 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
 import 'package:ecommerce_app_ui_kit/src/models/brand.dart';
+import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:ecommerce_app_ui_kit/src/models/product.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/FlashSalesCarouselWidget.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/HomeSliderWidget.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 
 class BrandHomeTabWidget extends StatefulWidget {
   Brand brand;
-  ProductsList _productsList = new ProductsList();
+  List<Combination> _combinationList = new List<Combination>();
 
   BrandHomeTabWidget({this.brand});
 
@@ -71,7 +72,7 @@ class _BrandHomeTabWidgetState extends State<BrandHomeTabWidget> {
             ),
           ),
         ),
-        FlashSalesCarouselWidget(heroTag: 'brand_featured_products', productsList: widget._productsList.flashSalesList),
+        FlashSalesCarouselWidget(heroTag: 'brand_featured_products', combinationList: widget._combinationList),
       ],
     );
   }

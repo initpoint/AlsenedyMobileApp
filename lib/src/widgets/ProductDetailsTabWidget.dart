@@ -1,13 +1,14 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
+import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:ecommerce_app_ui_kit/src/models/product.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/FlashSalesCarouselWidget.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailsTabWidget extends StatefulWidget {
-  Product product;
-  ProductsList _productsList = new ProductsList();
+  Combination combination;
+  List<Combination> _combinationList = new List<Combination>();
 
-  ProductDetailsTabWidget({this.product});
+  ProductDetailsTabWidget({this.combination});
 
   @override
   ProductDetailsTabWidgetState createState() => ProductDetailsTabWidgetState();
@@ -55,7 +56,7 @@ class ProductDetailsTabWidgetState extends State<ProductDetailsTabWidget> {
           ),
         ),
         FlashSalesCarouselWidget(
-            heroTag: 'product_details_related_products', productsList: widget._productsList.flashSalesList),
+            heroTag: 'product_details_related_products', combinationList: widget._combinationList),
       ],
     );
   }

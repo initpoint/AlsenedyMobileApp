@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
+import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:ecommerce_app_ui_kit/src/models/product.dart';
 import 'package:ecommerce_app_ui_kit/src/models/route_argument.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +7,11 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class FavoriteListItemWidget extends StatefulWidget {
   String heroTag;
-  Product product;
+  Combination combination;
+
   VoidCallback onDismissed;
 
-  FavoriteListItemWidget({Key key, this.heroTag, this.product, this.onDismissed}) : super(key: key);
+  FavoriteListItemWidget({Key key, this.heroTag, this.combination, this.onDismissed}) : super(key: key);
 
   @override
   _FavoriteListItemWidgetState createState() => _FavoriteListItemWidgetState();
@@ -19,7 +21,7 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key(this.widget.product.hashCode.toString()),
+      key: Key(this.widget.combination.hashCode.toString()),
       background: Container(
         color: Colors.red,
         child: Align(
@@ -41,7 +43,7 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
 
         // Then show a snackbar.
         Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text("The ${widget.product.name} product is removed from wish list")));
+            .showSnackBar(SnackBar(content: Text("The ${widget.combination.nameAr} product is removed from wish list")));
       },
       child: InkWell(
         splashColor: Theme.of(context).accentColor,
@@ -50,7 +52,7 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
         onTap: () {
           Navigator.of(context).pushNamed('/Product',
               arguments: new RouteArgument(
-                  argumentsList: [this.widget.product, this.widget.heroTag], id: this.widget.product.id));
+                  argumentsList: [this.widget.combination, this.widget.heroTag], id: this.widget.combination.id));
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -64,13 +66,13 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Hero(
-                tag: widget.heroTag + widget.product.id,
+                tag: widget.heroTag + widget.combination.id,
                 child: Container(
                   height: 60,
                   width: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(image: AssetImage(widget.product.image), fit: BoxFit.cover),
+                    image: DecorationImage(image: NetworkImage(widget.combination.photoUrl), fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -84,7 +86,7 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            widget.product.name,
+                            widget.combination.nameAr,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: Theme.of(context).textTheme.subhead,
@@ -93,7 +95,7 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
                             children: <Widget>[
                               // The title of the product
                               Text(
-                                '${widget.product.sales} Sales',
+                                '${widget.combination.price} Sales',
                                 style: Theme.of(context).textTheme.body1,
                                 overflow: TextOverflow.fade,
                                 softWrap: false,
@@ -105,7 +107,7 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
                                 size: 18,
                               ),
                               Text(
-                                widget.product.rate.toString(),
+                                widget.combination.rate.toString(),
                                 style: Theme.of(context).textTheme.body2,
                               )
                             ],
@@ -115,7 +117,7 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
                       ),
                     ),
                     SizedBox(width: 8),
-                    Text(widget.product.getPrice(), style: Theme.of(context).textTheme.display1),
+                    Text(widget.combination.price.toString(), style: Theme.of(context).textTheme.display1),
                   ],
                 ),
               )

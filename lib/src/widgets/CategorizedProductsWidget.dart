@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:ecommerce_app_ui_kit/src/models/product.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/ProductGridItemWidget.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +8,12 @@ class CategorizedProductsWidget extends StatelessWidget {
   const CategorizedProductsWidget({
     Key key,
     @required this.animationOpacity,
-    @required List<Product> productsList,
-  })  : _productsList = productsList,
+    @required List<Combination> combinationList,
+  })  : _combinationsList = combinationList,
         super(key: key);
 
   final Animation animationOpacity;
-  final List<Product> _productsList;
+  final List<Combination> _combinationsList;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +25,11 @@ class CategorizedProductsWidget extends StatelessWidget {
           primary: false,
           shrinkWrap: true,
           crossAxisCount: 4,
-          itemCount: _productsList.length,
+          itemCount: _combinationsList.length,
           itemBuilder: (BuildContext context, int index) {
-            Product product = _productsList.elementAt(index);
+            Combination combination = _combinationsList.elementAt(index);
             return ProductGridItemWidget(
-              product: product,
+              combination: combination,
               heroTag: 'categorized_products_grid',
             );
           },

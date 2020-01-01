@@ -17,7 +17,7 @@ class _FlashSalesHeaderWidgetState extends State<FlashSalesHeaderWidget> {
   String _timer;
   @override
   void initState() {
-    _initTimer();
+    // _initTimer();
     super.initState();
   }
 
@@ -36,20 +36,20 @@ class _FlashSalesHeaderWidgetState extends State<FlashSalesHeaderWidget> {
           'Flash Sales',
           style: Theme.of(context).textTheme.display1,
         ),
-        trailing: Text('End in $_timer'),
+        // trailing: Text('End in $_timer'),
       ),
     );
   }
 
-  void _initTimer() {
-    var _now = DateTime.now();
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      if (mounted) {
-        setState(() {
-          _now = _now.subtract(Duration(seconds: 1));
-          _timer = DateFormat('HH:mm:ss').format(_now);
-        });
-      }
-    });
-  }
+  // void _initTimer() {
+  //   var _now = DateTime.now();
+  //   Timer.periodic(Duration(seconds: 1), (timer) {
+  //     if (mounted) {
+  //       setState(() {
+  //         _now = _now.subtract(Duration(seconds: 1));
+  //         _timer = DateFormat('HH:mm:ss').format(_now);
+  //       });
+  //     }
+  //   });
+  // }
 }

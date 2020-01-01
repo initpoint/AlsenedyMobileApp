@@ -1,14 +1,14 @@
-import 'package:ecommerce_app_ui_kit/src/models/product.dart';
+import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/FlashSalesCarouselItemWidget.dart';
 import 'package:flutter/material.dart';
 
 class FlashSalesCarouselWidget extends StatelessWidget {
-  List<Product> productsList;
+  List<Combination> combinationList;
   String heroTag;
 
   FlashSalesCarouselWidget({
     Key key,
-    this.productsList,
+    this.combinationList,
     this.heroTag,
   }) : super(key: key);
 
@@ -18,14 +18,14 @@ class FlashSalesCarouselWidget extends StatelessWidget {
         height: 300,
         margin: EdgeInsets.only(top: 10),
         child: ListView.builder(
-          itemCount: productsList.length,
+          itemCount: combinationList.length,
           itemBuilder: (context, index) {
             double _marginLeft = 0;
             (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
             return FlashSalesCarouselItemWidget(
               heroTag: this.heroTag,
               marginLeft: _marginLeft,
-              product: productsList.elementAt(index),
+              combination: combinationList.elementAt(index),
             );
           },
           scrollDirection: Axis.horizontal,

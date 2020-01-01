@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
+import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:ecommerce_app_ui_kit/src/models/product.dart';
 import 'package:ecommerce_app_ui_kit/src/models/route_argument.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/DrawerWidget.dart';
@@ -10,11 +11,11 @@ import 'package:flutter/material.dart';
 
 class ProductWidget extends StatefulWidget {
   RouteArgument routeArgument;
-  Product _product;
+  Combination _combination;
   String _heroTag;
 
   ProductWidget({Key key, this.routeArgument}) {
-    _product = this.routeArgument.argumentsList[0] as Product;
+    _combination = this.routeArgument.argumentsList[0] as Combination;
     _heroTag = this.routeArgument.argumentsList[1] as String;
   }
 
@@ -176,7 +177,7 @@ class _ProductWidgetState extends State<ProductWidget> with SingleTickerProvider
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(widget._product.image),
+                        image: NetworkImage(widget._combination.photoUrl),
                       ),
                     ),
                   ),
@@ -251,7 +252,7 @@ class _ProductWidgetState extends State<ProductWidget> with SingleTickerProvider
               offstage: 0 != _tabIndex,
               child: Column(
                 children: <Widget>[
-                  ProductHomeTabWidget(product: widget._product),
+                  ProductHomeTabWidget(combination: widget._combination),
                 ],
               ),
             ),
@@ -260,7 +261,7 @@ class _ProductWidgetState extends State<ProductWidget> with SingleTickerProvider
               child: Column(
                 children: <Widget>[
                   ProductDetailsTabWidget(
-                    product: widget._product,
+                    combination: widget._combination,
                   )
                 ],
               ),

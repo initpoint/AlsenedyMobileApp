@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
+import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:ecommerce_app_ui_kit/src/models/product.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/EmptyFavoritesWidget.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/FavoriteListItemWidget.dart';
@@ -14,7 +15,7 @@ class FavoritesWidget extends StatefulWidget {
 
 class _FavoritesWidgetState extends State<FavoritesWidget> {
   String layout = 'grid';
-  ProductsList _productsList = new ProductsList();
+  List<Combination> _combinationList = new List<Combination>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
           ),
           SizedBox(height: 10),
           Offstage(
-            offstage: _productsList.favoritesList.isEmpty,
+            offstage: _combinationList.isEmpty,
             child: Padding(
               padding: const EdgeInsets.only(left: 20, right: 10),
               child: ListTile(
@@ -77,22 +78,22 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
             ),
           ),
           Offstage(
-            offstage: this.layout != 'list' || _productsList.favoritesList.isEmpty,
+            offstage: this.layout != 'list' || _combinationList.isEmpty,
             child: ListView.separated(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               primary: false,
-              itemCount: _productsList.favoritesList.length,
+              itemCount: _combinationList.length,
               separatorBuilder: (context, index) {
                 return SizedBox(height: 10);
               },
               itemBuilder: (context, index) {
                 return FavoriteListItemWidget(
                   heroTag: 'favorites_list',
-                  product: _productsList.favoritesList.elementAt(index),
+                  combination: _combinationList.elementAt(index),
                   onDismissed: () {
                     setState(() {
-                      _productsList.favoritesList.removeAt(index);
+                      _combinationList.removeAt(index);
                     });
                   },
                 );
@@ -100,18 +101,18 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
             ),
           ),
           Offstage(
-            offstage: this.layout != 'grid' || _productsList.favoritesList.isEmpty,
+            offstage: this.layout != 'grid' || _combinationList.isEmpty,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: new StaggeredGridView.countBuilder(
                 primary: false,
                 shrinkWrap: true,
                 crossAxisCount: 4,
-                itemCount: _productsList.favoritesList.length,
+                itemCount: _combinationList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  Product product = _productsList.favoritesList.elementAt(index);
+                  Combination combination = _combinationList.elementAt(index);
                   return ProductGridItemWidget(
-                    product: product,
+                    combination: combination,
                     heroTag: 'favorites_grid',
                   );
                 },
@@ -123,7 +124,7 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
             ),
           ),
           Offstage(
-            offstage: _productsList.favoritesList.isNotEmpty,
+            offstage: _combinationList.isNotEmpty,
             child: EmptyFavoritesWidget(),
           )
         ],

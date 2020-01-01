@@ -107,7 +107,7 @@ class BrandGridWidget extends StatelessWidget {
                         // The title of the product
                         Expanded(
                           child: Text(
-                            '${brand.products.length} Products',
+                            '${brand.combinations.length} Products',
                             style: Theme.of(context).textTheme.body1,
                             overflow: TextOverflow.fade,
                             softWrap: false,
