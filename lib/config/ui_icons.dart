@@ -23,7 +23,12 @@ class UiIcons {
   UiIcons._();
 
   static const _kFontFam = 'EcommerceAppUI';
+  static const _kFontFam2 = 'MyFlutterApp';
 
+  static const IconData new_releases = const IconData(59394, fontFamily: _kFontFam2);
+  static const IconData local_shipping = const IconData(59393, fontFamily: _kFontFam2);
+  static const IconData custom_icons = const IconData(59392, fontFamily: _kFontFam2);
+  static const IconData whatshot = const IconData(59395, fontFamily: _kFontFam2);
   static const IconData home = const IconData(0xe800, fontFamily: _kFontFam);
   static const IconData heart = const IconData(0xe801, fontFamily: _kFontFam);
   static const IconData facebook_circled = const IconData(0xe802, fontFamily: _kFontFam);

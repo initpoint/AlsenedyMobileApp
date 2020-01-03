@@ -57,23 +57,23 @@ class ProductGridItemWidget extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   // The title of the product
-                  Expanded(
-                    child: Text(
-                      '${combination.price.toString()} Sales',
-                      style: Theme.of(context).textTheme.body1,
-                      overflow: TextOverflow.fade,
-                      softWrap: false,
-                    ),
-                  ),
-                  Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                    size: 18,
-                  ),
-                  Text(
-                    combination.rate.toString(),
-                    style: Theme.of(context).textTheme.body2,
-                  )
+                  // Expanded(
+                    // child: Text(
+                    //   '${combination.price.toString()} Sales',
+                    //   style: Theme.of(context).textTheme.body1,
+                    //   overflow: TextOverflow.fade,
+                    //   softWrap: false,
+                    // ),
+                  // ),
+                  // Icon(
+                  //   Icons.star,
+                  //   color: Colors.amber,
+                  //   size: 18,
+                  // ),
+                  // Text(
+                  //   combination.rate.toString(),
+                  //   style: Theme.of(context).textTheme.body2,
+                  // )
                 ],
                 crossAxisAlignment: CrossAxisAlignment.center,
               ),

@@ -177,6 +177,9 @@ flutter:
     - family: EcommerceAppUI
       fonts:
         - asset: fonts/EcommerceAppUI.ttf
+    - family: MyFlutterApp
+      fonts:
+        - asset: fonts/MyFlutterApp.ttf
     - family: Poppins
       fonts:
         - asset: fonts/Poppins-Thin.ttf

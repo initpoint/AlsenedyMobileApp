@@ -94,22 +94,22 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
                           Row(
                             children: <Widget>[
                               // The title of the product
-                              Text(
-                                '${widget.combination.price} Sales',
-                                style: Theme.of(context).textTheme.body1,
-                                overflow: TextOverflow.fade,
-                                softWrap: false,
-                              ),
-                              SizedBox(width: 10),
-                              Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                                size: 18,
-                              ),
-                              Text(
-                                widget.combination.rate.toString(),
-                                style: Theme.of(context).textTheme.body2,
-                              )
+                              // Text(
+                              //   '${widget.combination.price} Sales',
+                              //   style: Theme.of(context).textTheme.body1,
+                              //   overflow: TextOverflow.fade,
+                              //   softWrap: false,
+                              // ),
+                              // SizedBox(width: 10),
+                              // Icon(
+                              //   Icons.star,
+                              //   color: Colors.amber,
+                              //   size: 18,
+                              // ),
+                              // Text(
+                              //   widget.combination.rate.toString(),
+                              //   style: Theme.of(context).textTheme.body2,
+                              // )
                             ],
                             crossAxisAlignment: CrossAxisAlignment.center,
                           ),

@@ -4,7 +4,11 @@ import 'package:ecommerce_app_ui_kit/src/screens/chat.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/favorites.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/home.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/messages.dart';
+import 'package:ecommerce_app_ui_kit/src/screens/my_transactions.dart';
+import 'package:ecommerce_app_ui_kit/src/screens/new_combinations.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/notifications.dart';
+import 'package:ecommerce_app_ui_kit/src/screens/promotions.dart';
+import 'package:ecommerce_app_ui_kit/src/screens/shipment.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/signin.dart';
 import 'package:ecommerce_app_ui_kit/src/services/auth.service.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/DrawerWidget.dart';
@@ -62,24 +66,24 @@ class _TabsWidgetState extends State<TabsWidget> {
       widget.selectedTab = tabItem;
       switch (tabItem) {
         case 0:
-          widget.currentTitle = 'Notifications';
-          widget.currentPage = NotificationsWidget();
+          widget.currentTitle = 'Account Statement';
+          widget.currentPage = TransactionsWidget();
           break;
         case 1:
-          widget.currentTitle = 'Account';
-          widget.currentPage = AccountWidget();
+          widget.currentTitle = 'Shipments';
+          widget.currentPage = ShipmentsWidget();
           break;
         case 2:
           widget.currentTitle = 'Home';
           widget.currentPage = HomeWidget();
           break;
         case 3:
-          widget.currentTitle = 'Messages';
-          widget.currentPage = MessagesWidget();
+          widget.currentTitle = 'Promotions';
+          widget.currentPage = PromotionsWidget();
           break;
         case 4:
-          widget.currentTitle = 'Favorites';
-          widget.currentPage = FavoritesWidget();
+          widget.currentTitle = 'New Combinations';
+          widget.currentPage = NewCombinationsWidget();
           break;
         case 5:
           widget.selectedTab = 3;
@@ -95,7 +99,7 @@ class _TabsWidgetState extends State<TabsWidget> {
     try {
       final user = Provider.of<FirebaseUser>(context);
       if (user == null) {
-        return SignInWidget(); 
+        return SignInWidget();
       }
     } catch (e) {}
 
@@ -123,19 +127,19 @@ class _TabsWidgetState extends State<TabsWidget> {
           new ShoppingCartButtonWidget(
               iconColor: Theme.of(context).hintColor,
               labelColor: Theme.of(context).accentColor),
-          Container(
-              width: 30,
-              height: 30,
-              margin: EdgeInsets.only(top: 12.5, bottom: 12.5, right: 20),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(300),
-                onTap: () {
-                  Navigator.of(context).pushNamed('/Tabs', arguments: 1);
-                },
-                child: CircleAvatar(
-                  backgroundImage: AssetImage('img/user2.jpg'),
-                ),
-              )),
+          // Container(
+          //     width: 30,
+          //     height: 30,
+          //     margin: EdgeInsets.only(top: 12.5, bottom: 12.5, right: 20),
+          //     child: InkWell(
+          //       borderRadius: BorderRadius.circular(300),
+          //       onTap: () {
+          //         Navigator.of(context).pushNamed('/Tabs', arguments: 1);
+          //       },
+          //       child: CircleAvatar(
+          //         backgroundImage: AssetImage('img/user2.jpg'),
+          //       ),
+          //     )),
         ],
       ),
       body: widget.currentPage,
@@ -193,18 +197,38 @@ class _TabsWidgetState extends State<TabsWidget> {
         // this will be set when a new tab is tapped
         items: [
           BottomNavigationBarItem(
-            icon: Icon(UiIcons.bell),
+            icon: Column(
+              children: <Widget>[
+                Icon(UiIcons.custom_icons),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'Statement',
+                )
+              ],
+            ),
             title: new Container(height: 0.0),
           ),
           BottomNavigationBarItem(
-            icon: Icon(UiIcons.user_1),
+            icon: Column(
+              children: <Widget>[
+                Icon(UiIcons.local_shipping),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'Shipments',
+                )
+              ],
+            ),
             title: new Container(height: 0.0),
           ),
           BottomNavigationBarItem(
               title: new Container(height: 5.0),
               icon: Container(
-                width: 45,
-                height: 45,
+                width: 50,
+                height: 50,
                 decoration: BoxDecoration(
                   color: Theme.of(context).accentColor,
                   borderRadius: BorderRadius.all(
@@ -225,11 +249,31 @@ class _TabsWidgetState extends State<TabsWidget> {
                     color: Theme.of(context).primaryColor),
               )),
           BottomNavigationBarItem(
-            icon: new Icon(UiIcons.chat),
+            icon: Column(
+              children: <Widget>[
+                new Icon(UiIcons.whatshot),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'Promotions',
+                )
+              ],
+            ),
             title: new Container(height: 0.0),
           ),
           BottomNavigationBarItem(
-            icon: new Icon(UiIcons.heart),
+            icon: Column(
+              children: <Widget>[
+                new Icon(UiIcons.new_releases),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'New Items',
+                )
+              ],
+            ),
             title: new Container(height: 0.0),
           ),
         ],
