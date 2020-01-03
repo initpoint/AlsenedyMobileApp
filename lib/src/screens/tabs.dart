@@ -96,13 +96,6 @@ class _TabsWidgetState extends State<TabsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    try {
-      final user = Provider.of<FirebaseUser>(context);
-      if (user == null) {
-        return SignInWidget();
-      }
-    } catch (e) {}
-
     return Scaffold(
       key: _scaffoldKey,
       drawer: DrawerWidget(),

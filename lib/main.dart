@@ -167,7 +167,17 @@ class Navigation extends StatefulWidget {
 class _NavigationState extends State<Navigation> {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<FirebaseUser>(context);
-    return user != null ? TabsWidget(currentTab: 2) : SignInWidget();
+    final auth = Provider.of<BaseAuth>(context);
+    return StreamBuilder(
+      stream: auth.onAuthStateChanged(),
+      builder: (context,AsyncSnapshot<FirebaseUser> snapshot) {
+        if(snapshot.hasData) {
+          return TabsWidget(currentTab: 2);
+        } else {
+         return SignInWidget();
+        }
+      }
+    );
   }
 }
+// user != null ? TabsWidget(currentTab: 2) : SignInWidget();

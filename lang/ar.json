@@ -14,5 +14,6 @@
   "back_to_sign_in": "العودة إلي تسجيل الدخول",
   "reset_password": "إعادة تعين كلمة المرور",
   "comfirm_to_send_email": "تأكيد وإرسال ",
-  "combinations": "التركيبات"
+  "combinations": "التركيبات",
+  "new_combinations": "التركيبات الجديدة"
 }

@@ -106,11 +106,10 @@ class _HomeWidgetState extends State<HomeWidget>
                 stream: combinationsRef.getCombinations(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasData) {
-                    print('hello ');
                     _compbinationList = snapshot.data.documents
                         .map((doc) =>
                             Combination.fromMap(doc.data, doc.documentID))
-                        .where((com) => com.active == true)
+                        .where((com) => com.isActive == true)
                         .toList();
                     return ListView.separated(
                       scrollDirection: Axis.vertical,
@@ -146,11 +145,10 @@ class _HomeWidgetState extends State<HomeWidget>
                   stream: combinationsRef.getCombinations(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasData) {
-                      print('hello ');
                       _compbinationList = snapshot.data.documents
                           .map((doc) =>
                               Combination.fromMap(doc.data, doc.documentID))
-                          .where((com) => com.active == true)
+                          .where((com) => com.isActive == true)
                           .toList();
                       return new StaggeredGridView.countBuilder(
                         primary: false,

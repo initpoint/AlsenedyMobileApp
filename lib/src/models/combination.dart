@@ -9,7 +9,8 @@ class Combination {
   double rate;
   double discount;
   String photoUrl;
-  bool active;
+  bool isActive;
+  bool isNew;
 
   Combination({
     this.id,
@@ -22,7 +23,8 @@ class Combination {
     this.rate,
     this.discount,
     this.photoUrl,
-    this.active,
+    this.isActive,
+    this.isNew,
   });
 
   Combination.fromMap(Map snapshot, String id) :
@@ -36,7 +38,8 @@ class Combination {
         rate = snapshot['rate'] ?? 0.0,
         discount = snapshot['discount'] ?? 0.0,
         photoUrl = snapshot['photoUrl'] ?? '',
-        active = snapshot['active'] ?? false;
+        isActive = snapshot['isActive'] ?? false,
+        isNew = snapshot['isNew'] ?? false;
 
   toJson() {
     return {
@@ -50,7 +53,8 @@ class Combination {
       "rate": rate,
       "discount": discount,
       "photoUrl": photoUrl,
-      "active": active,
+      "isActive": isActive,
+      "isNew": isNew,
     };
   }
 }

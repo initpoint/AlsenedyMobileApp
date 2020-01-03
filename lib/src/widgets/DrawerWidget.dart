@@ -21,9 +21,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   Widget build(BuildContext context) {
     final BaseAuth auth = Provider.of<BaseAuth>(context);
     final UsersService usersService = Provider.of<UsersService>(context);
-    usersService.getUser().asStream().listen((dd) {
-      print(dd.fullName);
-    });
+
     // TODO: implement build
     return Drawer(
       child: ListView(
@@ -49,10 +47,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         snapshot.data.email,
                         style: Theme.of(context).textTheme.caption,
                       ),
-                      currentAccountPicture: CircleAvatar(
-                        backgroundColor: Theme.of(context).accentColor,
-                        backgroundImage: NetworkImage(snapshot.data.photoUrl),
-                      ),
+                      // currentAccountPicture: CircleAvatar(
+                      //   backgroundColor: Theme.of(context).accentColor,
+                      //   backgroundImage: NetworkImage(snapshot.data.photoUrl),
+                      // ),
                     );
                   } else {
                     return Text('Loogjsklfjdslkjfkljs');
