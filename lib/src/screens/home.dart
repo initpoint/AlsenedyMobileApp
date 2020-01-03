@@ -26,12 +26,14 @@ class _HomeWidgetState extends State<HomeWidget>
 
   @override
   Widget build(BuildContext context) {
-    var combinationsRef = Provider.of<QuerySnapshot>(context);
+    var combinationsRef = Provider.of<CombinationsService>(context);
 
-    _compbinationList = combinationsRef.documents
-        .map((doc) => Combination.fromMap(doc.data, doc.documentID))
-        .where((com) => com.active == true)
-        .toList();
+    // combinationsRef.getCombinations().listen((data) {
+    //   _compbinationList = data.documents
+    //       .map((doc) => Combination.fromMap(doc.data, doc.documentID))
+    //       .where((com) => com.active == true)
+    //       .toList();
+    // });
 
     // _compbinationList = _compbinationList.where((com) => com.active == true).toList();
 
@@ -100,49 +102,79 @@ class _HomeWidgetState extends State<HomeWidget>
           Offstage(
             offstage:
                 this.layout != 'list' || _productsList.favoritesList.isEmpty,
-            child: ListView.separated(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              primary: false,
-              itemCount: combinationsRef.documents.length,
-              separatorBuilder: (context, index) {
-                return SizedBox(height: 10);
-              },
-              itemBuilder: (context, index) {
-                return FavoriteListItemWidget(
-                  heroTag: 'favorites_list',
-                  combination: _compbinationList.elementAt(index),
-                  onDismissed: () {
-                    setState(() {
-                      _productsList.favoritesList.removeAt(index);
-                    });
-                  },
-                );
-              },
-            ),
+            child: StreamBuilder(
+                stream: combinationsRef.getCombinations(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    print('hello ');
+                    _compbinationList = snapshot.data.documents
+                        .map((doc) =>
+                            Combination.fromMap(doc.data, doc.documentID))
+                        .where((com) => com.active == true)
+                        .toList();
+                    return ListView.separated(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      primary: false,
+                      itemCount: _compbinationList.length,
+                      separatorBuilder: (context, index) {
+                        return SizedBox(height: 10);
+                      },
+                      itemBuilder: (context, index) {
+                        return FavoriteListItemWidget(
+                          heroTag: 'favorites_list',
+                          combination: _compbinationList.elementAt(index),
+                          onDismissed: () {
+                            setState(() {
+                              _productsList.favoritesList.removeAt(index);
+                            });
+                          },
+                        );
+                      },
+                    );
+                  } else {
+                    return Text('fetching');
+                  }
+                }),
           ),
           Offstage(
             offstage:
                 this.layout != 'grid' || _productsList.favoritesList.isEmpty,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: new StaggeredGridView.countBuilder(
-                primary: false,
-                shrinkWrap: true,
-                crossAxisCount: 4,
-                itemCount: _compbinationList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Combination combination = _compbinationList.elementAt(index);
-                  return ProductGridItemWidget(
-                    combination: combination,
-                    heroTag: 'favorites_grid',
-                  );
-                },
+              child: StreamBuilder(
+                  stream: combinationsRef.getCombinations(),
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasData) {
+                      print('hello ');
+                      _compbinationList = snapshot.data.documents
+                          .map((doc) =>
+                              Combination.fromMap(doc.data, doc.documentID))
+                          .where((com) => com.active == true)
+                          .toList();
+                      return new StaggeredGridView.countBuilder(
+                        primary: false,
+                        shrinkWrap: true,
+                        crossAxisCount: 4,
+                        itemCount: _compbinationList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          Combination combination =
+                              _compbinationList.elementAt(index);
+                          return ProductGridItemWidget(
+                            combination: combination,
+                            heroTag: 'favorites_grid',
+                          );
+                        },
 //                  staggeredTileBuilder: (int index) => new StaggeredTile.fit(index % 2 == 0 ? 1 : 2),
-                staggeredTileBuilder: (int index) => new StaggeredTile.fit(2),
-                mainAxisSpacing: 15.0,
-                crossAxisSpacing: 15.0,
-              ),
+                        staggeredTileBuilder: (int index) =>
+                            new StaggeredTile.fit(2),
+                        mainAxisSpacing: 15.0,
+                        crossAxisSpacing: 15.0,
+                      );
+                    } else {
+                      return Text('Lodinnngl.........');
+                    }
+                  }),
             ),
           ),
           Offstage(

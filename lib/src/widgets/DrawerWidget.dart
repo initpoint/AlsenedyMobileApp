@@ -1,16 +1,29 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
+import 'package:ecommerce_app_ui_kit/src/models/customer.dart';
 import 'package:ecommerce_app_ui_kit/src/models/user.dart';
 import 'package:ecommerce_app_ui_kit/src/services/auth.service.dart';
+import 'package:ecommerce_app_ui_kit/src/services/customer.service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DrawerWidget extends StatelessWidget {
+class DrawerWidget extends StatefulWidget {
+  @override
+  _DrawerWidgetState createState() => _DrawerWidgetState();
+}
+
+class _DrawerWidgetState extends State<DrawerWidget> {
   User _user = new User.init().getCurrentUser();
+
+  Customer _customer = Customer();
 
   @override
   Widget build(BuildContext context) {
     final BaseAuth auth = Provider.of<BaseAuth>(context);
-
+    final UsersService usersService = Provider.of<UsersService>(context);
+    usersService.getUser().asStream().listen((dd) {
+      print(dd.fullName);
+    });
     // TODO: implement build
     return Drawer(
       child: ListView(
@@ -19,24 +32,32 @@ class DrawerWidget extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushNamed('/Tabs', arguments: 1);
             },
-            child: UserAccountsDrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).hintColor.withOpacity(0.1),
-//              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(35)),
-              ),
-              // accountName: Text(
-              //   _user.name,
-              //   style: Theme.of(context).textTheme.title,
-              // ),
-              // accountEmail: Text(
-              //   _user.email,
-              //   style: Theme.of(context).textTheme.caption,
-              // ),
-              // currentAccountPicture: CircleAvatar(
-              //   backgroundColor: Theme.of(context).accentColor,
-              //   backgroundImage: AssetImage(_user.avatar),
-              // ),
-            ),
+            child: StreamBuilder(
+                stream: usersService.getUser().asStream(),
+                builder: (context, AsyncSnapshot<Customer> snapshot) {
+                  if (snapshot.hasData) {
+                    return UserAccountsDrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).hintColor.withOpacity(0.1),
+                        // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(35)),
+                      ),
+                      accountName: Text(
+                        snapshot.data.fullName == null ? '' : snapshot.data.fullName,
+                        style: Theme.of(context).textTheme.title,
+                      ),
+                      accountEmail: Text(
+                        snapshot.data.email,
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                      currentAccountPicture: CircleAvatar(
+                        backgroundColor: Theme.of(context).accentColor,
+                        backgroundImage: NetworkImage(snapshot.data.photoUrl),
+                      ),
+                    );
+                  } else {
+                    return Text('Loogjsklfjdslkjfkljs');
+                  }
+                }),
           ),
           // ListTile(
           //   onTap: () {

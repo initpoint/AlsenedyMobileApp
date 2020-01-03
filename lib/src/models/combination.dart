@@ -31,10 +31,10 @@ class Combination {
         nameEn = snapshot['nameEn'] ?? '',
         descriptionAr = snapshot['descriptionAr'] ?? '',
         descriptionEn = snapshot['descriptionEn'] ?? '',
-        amount = snapshot['amount'].toDouble() ?? 0.0,
-        price = snapshot['price'].toDouble() ?? 0.0,
-        rate = snapshot['rate'].toDouble() ?? 0.0,
-        discount = snapshot['discount'].toDouble() ?? 0.0,
+        amount = snapshot['amount'] ?? 0.0,
+        price = snapshot['price'] ?? 0.0,
+        rate = snapshot['rate'] ?? 0.0,
+        discount = snapshot['discount'] ?? 0.0,
         photoUrl = snapshot['photoUrl'] ?? '',
         active = snapshot['active'] ?? false;
 

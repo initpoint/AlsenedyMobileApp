@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_ui_kit/src/services/combinations.service.dart';
+import 'package:ecommerce_app_ui_kit/src/services/customer.service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app_localizations.dart';
 import 'package:ecommerce_app_ui_kit/config/app_config.dart' as config;
@@ -11,19 +12,24 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() => runApp(MyApp());
-
+void main() {
+  Provider.debugCheckInvalidValueType = null;
+  runApp(MyApp());
+}
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<BaseAuth>(
-          create: (_) => new Auth(),
-        ),
-        StreamProvider<FirebaseUser>(create: (_) => Auth().onAuthStateChanged(),),
-         StreamProvider<QuerySnapshot>(create: (_) => CombinationsRepo().getCombinations(),),
+        ChangeNotifierProvider<BaseAuth>(create: (_) => new Auth()),
+        ChangeNotifierProvider<CombinationsService>(
+            create: (_) => new CombinationsRepo()),
+        ProxyProvider<BaseAuth, UsersService>(
+            update: (context, baseAuth, usersService) =>
+                new UsersRepo(baseAuth: baseAuth)),
+        StreamProvider<FirebaseUser>(
+            create: (_) => Auth().onAuthStateChanged()),
       ],
       child: MaterialApp(
         title: 'Alsenedy',
