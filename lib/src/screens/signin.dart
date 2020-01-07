@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
+import 'package:ecommerce_app_ui_kit/main.dart';
 import 'package:ecommerce_app_ui_kit/src/services/auth.service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -162,19 +163,21 @@ class _SignInWidgetState extends State<SignInWidget> {
                           color: Theme.of(context).accentColor,
                           shape: StadiumBorder(),
                           onPressed: () async {
-                            if (_formKey.currentState.validate()) {
-                              try {
-                                var userId =
-                                    await auth.signIn(_email, _password);
-                                if (userId != null) {
-                                  Navigator.of(context).pushNamed('/');
-                                }
-                              } catch (e) {
-                                setState(() {
-                                  _loginError = true;
-                                });
-                              }
-                            }
+                            Locale newLocale = Locale('en', 'US');
+                            MyApp.setLocale(context, newLocale);
+                            // if (_formKey.currentState.validate()) {
+                            //   try {
+                            //     var userId =
+                            //         await auth.signIn(_email, _password);
+                            //     if (userId != null) {
+                            //       Navigator.of(context).pushNamed('/');
+                            //     }
+                            //   } catch (e) {
+                            //     setState(() {
+                            //       _loginError = true;
+                            //     });
+                            //   }
+                            // }
                           },
                         ),
                         SizedBox(height: 10),

@@ -1,6 +1,8 @@
 import 'package:ecommerce_app_ui_kit/src/models/language.dart';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
+
 class LanguageItemWidget extends StatefulWidget {
   final Language language;
 
@@ -60,6 +62,13 @@ class _LanguageItemWidgetState extends State<LanguageItemWidget> with SingleTick
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        if(widget.language.englishName == "English") {
+           Locale newLocale = Locale('en', 'US');
+            MyApp.setLocale(context, newLocale);
+        } else if(widget.language.englishName == "Arabic") {
+           Locale newLocale = Locale('ar', 'EG');
+            MyApp.setLocale(context, newLocale);
+        }
         if (checked) {
           animationController.reverse();
         } else {

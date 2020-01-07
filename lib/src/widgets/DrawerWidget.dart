@@ -193,19 +193,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           //     style: Theme.of(context).textTheme.subhead,
           //   ),
           // ),
-          // ListTile(
-          //   onTap: () {
-          //     Navigator.of(context).pushNamed('/Languages');
-          //   },
-          //   leading: Icon(
-          //     UiIcons.planet_earth,
-          //     color: Theme.of(context).focusColor.withOpacity(1),
-          //   ),
-          //   title: Text(
-          //     "Languages",
-          //     style: Theme.of(context).textTheme.subhead,
-          //   ),
-          // ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).pushNamed('/Languages');
+            },
+            leading: Icon(
+              UiIcons.planet_earth,
+              color: Theme.of(context).focusColor.withOpacity(1),
+            ),
+            title: Text(
+              "Languages",
+              style: Theme.of(context).textTheme.subhead,
+            ),
+          ),
           ListTile(
             onTap: () async {
               auth.signOut();

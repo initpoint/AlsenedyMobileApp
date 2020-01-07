@@ -10,14 +10,53 @@ import 'package:ecommerce_app_ui_kit/src/services/auth.service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   Provider.debugCheckInvalidValueType = null;
   runApp(MyApp());
 }
-class MyApp extends StatelessWidget {
+
+class MyApp extends StatefulWidget {
+  MyApp({Key key}) : super(key: key);
+
+  static void setLocale(BuildContext context, Locale newLocale) async {
+    _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
+    state.changeLanguage(newLocale);
+  }
+
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale _locale;
+
+  initState() {
+    getCurrentLanguage();
+    super.initState();
+  }
+
+  getCurrentLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var currentLang = prefs.getString('lang');
+    if (currentLang == "en") {
+      _locale = Locale("en", "US");
+    } else {
+      _locale = Locale("ar", "EG");
+    }
+  }
+
+  changeLanguage(Locale locale) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('lang', locale.languageCode);
+
+    setState(() {
+      _locale = locale;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -32,6 +71,7 @@ class MyApp extends StatelessWidget {
             create: (_) => Auth().onAuthStateChanged()),
       ],
       child: MaterialApp(
+        locale: _locale,
         title: 'Alsenedy',
         initialRoute: '/Auth',
         onGenerateRoute: RouteGenerator.generateRoute,
@@ -144,7 +184,14 @@ class MyApp extends StatelessWidget {
         // Returns a locale which will be used by the app
         localeResolutionCallback: (locale, supportedLocales) {
           // Check if the current device locale is supported
-         
+          try {
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale.languageCode &&
+                  supportedLocale.countryCode == locale.countryCode) {
+                return supportedLocale;
+              }
+            }
+          } catch (e) {}
           // If the locale of the device is not supported, use the first one
           // from the list (English, in this case).
           return supportedLocales.first;
@@ -164,15 +211,14 @@ class _NavigationState extends State<Navigation> {
   Widget build(BuildContext context) {
     final auth = Provider.of<BaseAuth>(context);
     return StreamBuilder(
-      stream: auth.onAuthStateChanged(),
-      builder: (context,AsyncSnapshot<FirebaseUser> snapshot) {
-        if(snapshot.hasData) {
-          return TabsWidget(currentTab: 2);
-        } else {
-         return SignInWidget();
-        }
-      }
-    );
+        stream: auth.onAuthStateChanged(),
+        builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
+          if (snapshot.hasData) {
+            return TabsWidget(currentTab: 2);
+          } else {
+            return SignInWidget();
+          }
+        });
   }
 }
 // user != null ? TabsWidget(currentTab: 2) : SignInWidget();

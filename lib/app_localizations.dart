@@ -18,7 +18,7 @@ class AppLocalizations {
 
   Map<String, String> _localizedStrings;
 
-  Future<bool> load() async {
+  Future<bool> load(Locale locale) async {
     // Load the language JSON file from the "lang" folder
     String jsonString =
         await rootBundle.loadString('lang/${locale.languageCode}.json');
@@ -55,10 +55,10 @@ class _AppLocalizationsDelegate
   Future<AppLocalizations> load(Locale locale) async {
     // AppLocalizations class is where the JSON loading actually runs
     AppLocalizations localizations = new AppLocalizations(locale);
-    await localizations.load();
+    await localizations.load(locale);
     return localizations;
   }
 
   @override
-  bool shouldReload(_AppLocalizationsDelegate old) => false;
+  bool shouldReload(_AppLocalizationsDelegate old) => true;
 }

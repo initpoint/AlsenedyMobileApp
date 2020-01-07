@@ -99,7 +99,7 @@ class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
                     _compbinationList = snapshot.data.documents
                         .map((doc) =>
                             Combination.fromMap(doc.data, doc.documentID))
-                        .where((com) => com.isNew == true)
+                        .where((com) => com.isNew == true  && com.isActive == true)
                         .toList();
                     return ListView.separated(
                       scrollDirection: Axis.vertical,
