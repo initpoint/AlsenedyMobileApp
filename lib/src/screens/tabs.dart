@@ -18,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../app_localizations.dart';
+
 // ignore: must_be_immutable
 class TabsWidget extends StatefulWidget {
   int currentTab = 2;
@@ -38,14 +40,6 @@ class TabsWidget extends StatefulWidget {
 }
 
 class _TabsWidgetState extends State<TabsWidget> {
-  void canActivate(BaseAuth auth, BuildContext context) async {
-    await auth.getCurrentUser().then((user) {
-      if (user == null && widget.firstRout) {
-        Navigator.of(context).pushNamed('/SignIn');
-        widget.firstRout = false;
-      }
-    });
-  }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
@@ -66,7 +60,7 @@ class _TabsWidgetState extends State<TabsWidget> {
       widget.selectedTab = tabItem;
       switch (tabItem) {
         case 0:
-          widget.currentTitle = 'Account Statement';
+          widget.currentTitle = 'AccountStatement';
           widget.currentPage = TransactionsWidget();
           break;
         case 1:
@@ -82,7 +76,7 @@ class _TabsWidgetState extends State<TabsWidget> {
           widget.currentPage = PromotionsWidget();
           break;
         case 4:
-          widget.currentTitle = 'New Combinations';
+          widget.currentTitle = 'NewCombinations';
           widget.currentPage = NewCombinationsWidget();
           break;
         case 5:
@@ -113,7 +107,8 @@ class _TabsWidgetState extends State<TabsWidget> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          widget.currentTitle,
+           AppLocalizations.of(context)
+                                  .translate(widget.currentTitle),
           style: Theme.of(context).textTheme.display1,
         ),
         actions: <Widget>[
@@ -197,7 +192,8 @@ class _TabsWidgetState extends State<TabsWidget> {
                   height: 5,
                 ),
                 Text(
-                  'Statement',
+                  AppLocalizations.of(context)
+                                  .translate('AccountStatement'),
                 )
               ],
             ),
@@ -211,7 +207,8 @@ class _TabsWidgetState extends State<TabsWidget> {
                   height: 5,
                 ),
                 Text(
-                  'Shipments',
+                  AppLocalizations.of(context)
+                                  .translate('Shipments'),
                 )
               ],
             ),
@@ -249,7 +246,8 @@ class _TabsWidgetState extends State<TabsWidget> {
                   height: 5,
                 ),
                 Text(
-                  'Promotions',
+                  AppLocalizations.of(context)
+                                  .translate('Shipments'),
                 )
               ],
             ),
@@ -263,7 +261,8 @@ class _TabsWidgetState extends State<TabsWidget> {
                   height: 5,
                 ),
                 Text(
-                  'New Items',
+                  AppLocalizations.of(context)
+                                  .translate('NewCombinations'),
                 )
               ],
             ),

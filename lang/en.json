@@ -15,6 +15,15 @@
   "reset_password": "Reset Password",
   "comfirm_to_send_email": "Comfirm And Send",
   "combinations": "Combinations",
-  "new_combinations": "New Combinations"
+  "new_combinations": "New Combinations",
+  "home": "Home",
+  "languages":"Languages",
+  "logout":"Log out",
+  "AccountStatement": "Account Statement",
+  "Shipments": "Shipments",
+  "Home": "Home",
+  "Promotions": "Promotions",
+  "NewCombinations": "NewCombinations",
+  "Chat": "Chat"
   
 }

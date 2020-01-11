@@ -63,6 +63,7 @@ flutter:
   assets:
     - lang/en.json
     - lang/ar.json
+    - img/defalut.jpg
     - img/onboarding0.png
     - img/onboarding1.png
     - img/onboarding2.png

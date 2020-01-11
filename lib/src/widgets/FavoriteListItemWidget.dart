@@ -21,7 +21,7 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key(this.widget.combination.hashCode.toString()),
+      key: Key(this.widget.combination?.hashCode?.toString()),
       background: Container(
         color: Colors.red,
         child: Align(
@@ -43,7 +43,7 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
 
         // Then show a snackbar.
         Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text("The ${widget.combination.nameAr} product is removed from wish list")));
+            .showSnackBar(SnackBar(content: Text("The ${widget.combination?.nameAr} product is removed from wish list")));
       },
       child: InkWell(
         splashColor: Theme.of(context).accentColor,
@@ -52,7 +52,7 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
         onTap: () {
           Navigator.of(context).pushNamed('/Product',
               arguments: new RouteArgument(
-                  argumentsList: [this.widget.combination, this.widget.heroTag], id: this.widget.combination.id));
+                  argumentsList: [this.widget.combination, this.widget.heroTag], id: this.widget.combination?.id));
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -66,13 +66,13 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Hero(
-                tag: widget.heroTag + widget.combination.id,
+                tag: widget.heroTag + widget.combination?.id,
                 child: Container(
                   height: 60,
                   width: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(image: NetworkImage(widget.combination.photoUrl), fit: BoxFit.cover),
+                    image: DecorationImage(image: widget.combination.pics.isEmpty? AssetImage('img/defalut.jpg') : NetworkImage(widget.combination.pics.first), fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -86,7 +86,7 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            widget.combination.nameAr,
+                            widget.combination?.nameArFull,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: Theme.of(context).textTheme.subhead,
@@ -117,7 +117,7 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
                       ),
                     ),
                     SizedBox(width: 8),
-                    Text(widget.combination.price.toString(), style: Theme.of(context).textTheme.display1),
+                    Text(widget.combination?.price?.toString(), style: Theme.of(context).textTheme.display1),
                   ],
                 ),
               )

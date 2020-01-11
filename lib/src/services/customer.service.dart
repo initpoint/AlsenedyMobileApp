@@ -12,7 +12,7 @@ abstract class UsersService with ChangeNotifier {
 class UsersRepo with ChangeNotifier implements UsersService {
   final BaseAuth baseAuth;
 
-  final CollectionReference usersCollection =  Firestore.instance.collection('users');
+  final CollectionReference usersCollection =  Firestore.instance.collection('customers');
 
   UsersRepo({this.baseAuth});
 

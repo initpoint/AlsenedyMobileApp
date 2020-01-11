@@ -83,7 +83,7 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               primary: false,
-              itemCount: _combinationList.length,
+              itemCount: _combinationList?.length,
               separatorBuilder: (context, index) {
                 return SizedBox(height: 10);
               },
@@ -93,7 +93,7 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
                   combination: _combinationList.elementAt(index),
                   onDismissed: () {
                     setState(() {
-                      _combinationList.removeAt(index);
+                      _combinationList?.removeAt(index);
                     });
                   },
                 );
@@ -108,9 +108,9 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
                 primary: false,
                 shrinkWrap: true,
                 crossAxisCount: 4,
-                itemCount: _combinationList.length,
+                itemCount: _combinationList?.length,
                 itemBuilder: (BuildContext context, int index) {
-                  Combination combination = _combinationList.elementAt(index);
+                  Combination combination = _combinationList?.elementAt(index);
                   return ProductGridItemWidget(
                     combination: combination,
                     heroTag: 'favorites_grid',

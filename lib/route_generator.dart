@@ -25,10 +25,7 @@ class RouteGenerator {
 
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(
-            builder: (_) => TabsWidget(
-                  currentTab: 2,
-                ));
+        return MaterialPageRoute(builder: (_) => Navigation());
 
       case '/SignUp':
         return MaterialPageRoute(builder: (_) => SignUpWidget());

@@ -21,7 +21,7 @@ class FlashSalesCarouselItemWidget extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.of(context)
-            .pushNamed('/Product', arguments: new RouteArgument(id: combination.id, argumentsList: [combination, heroTag]));
+            .pushNamed('/Product', arguments: new RouteArgument(id: combination?.id, argumentsList: [combination, heroTag]));
       },
       child: Container(
         margin: EdgeInsets.only(left: this.marginLeft, right: 20),
@@ -29,7 +29,7 @@ class FlashSalesCarouselItemWidget extends StatelessWidget {
           alignment: AlignmentDirectional.topCenter,
           children: <Widget>[
             Hero(
-              tag: heroTag + combination.id,
+              tag: heroTag + combination?.id,
               child: Container(
                 width: 160,
                 height: 200,
@@ -37,7 +37,7 @@ class FlashSalesCarouselItemWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(combination.photoUrl),
+                    image: NetworkImage(combination?.pics?.first),
                   ),
                 ),
               ),
@@ -51,7 +51,7 @@ class FlashSalesCarouselItemWidget extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(100)), color: Theme.of(context).accentColor),
                 alignment: AlignmentDirectional.topEnd,
                 child: Text(
-                  '${combination.discount} %',
+                  '${combination?.discount} %',
                   style: Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).primaryColor)),
                 ),
               ),
@@ -72,7 +72,7 @@ class FlashSalesCarouselItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    combination.nameAr,
+                    combination?.nameAr,
                     style: Theme.of(context).textTheme.body2,
                     maxLines: 1,
                     softWrap: false,
@@ -83,7 +83,7 @@ class FlashSalesCarouselItemWidget extends StatelessWidget {
                       // The title of the product
                       Expanded(
                         child: Text(
-                          '${combination.price.toString()} Sales',
+                          '${combination?.price?.toString()} Sales',
                           style: Theme.of(context).textTheme.body1,
                           overflow: TextOverflow.fade,
                           softWrap: false,
@@ -95,7 +95,7 @@ class FlashSalesCarouselItemWidget extends StatelessWidget {
                         size: 18,
                       ),
                       Text(
-                        combination.rate.toString(),
+                        combination?.rate?.toString(),
                         style: Theme.of(context).textTheme.body2,
                       )
                     ],
@@ -103,11 +103,11 @@ class FlashSalesCarouselItemWidget extends StatelessWidget {
                   ),
                   SizedBox(height: 7),
                   Text(
-                    '${combination.amount} Available',
+                    '${combination?.amount} Available',
                     style: Theme.of(context).textTheme.body1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  AvailableProgressBarWidget(available: combination.amount.toDouble())
+                  AvailableProgressBarWidget(available: combination?.amount?.toDouble())
                 ],
               ),
             )

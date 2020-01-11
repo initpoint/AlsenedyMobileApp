@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_ui_kit/app_localizations.dart';
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
 import 'package:ecommerce_app_ui_kit/src/models/customer.dart';
 import 'package:ecommerce_app_ui_kit/src/models/user.dart';
@@ -57,19 +58,20 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   }
                 }),
           ),
-          // ListTile(
-          //   onTap: () {
-          //     Navigator.of(context).pushNamed('/Tabs', arguments: 2);
-          //   },
-          //   leading: Icon(
-          //     UiIcons.home,
-          //     color: Theme.of(context).focusColor.withOpacity(1),
-          //   ),
-          //   title: Text(
-          //     "Home",
-          //     style: Theme.of(context).textTheme.subhead,
-          //   ),
-          // ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).pushNamed('/Tabs', arguments: 2);
+            },
+            leading: Icon(
+              UiIcons.home,
+              color: Theme.of(context).focusColor.withOpacity(1),
+            ),
+            title: Text(
+               AppLocalizations.of(context)
+                                  .translate('home'),
+              style: Theme.of(context).textTheme.subhead,
+            ),
+          ),
           // ListTile(
           //   onTap: () {
           //     Navigator.of(context).pushNamed('/Tabs', arguments: 0);
@@ -202,7 +204,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(
-              "Languages",
+               AppLocalizations.of(context)
+                                  .translate('languages'),
               style: Theme.of(context).textTheme.subhead,
             ),
           ),
@@ -215,7 +218,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(
-              "Log out",
+               AppLocalizations.of(context)
+                                  .translate('logout'),
               style: Theme.of(context).textTheme.subhead,
             ),
           ),

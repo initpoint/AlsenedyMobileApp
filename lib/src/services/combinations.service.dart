@@ -1,19 +1,27 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
+import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 
-abstract class CombinationsService with ChangeNotifier {
-  Stream<QuerySnapshot> getCombinations();
+abstract class CombinationsService {
+  Stream<List<Combination>> getCombinations();
 }
 
-class CombinationsRepo with ChangeNotifier implements CombinationsService {
-
+class CombinationsRepo implements CombinationsService {
   final CollectionReference combinationCollection =  Firestore.instance.collection('combination');
 
-  Stream<QuerySnapshot> getCombinations() {
-    var com = combinationCollection.snapshots();
-    return com;
+  Stream<List<Combination>> getCombinations() {
+    var combinationRef = combinationCollection.reference();
+    var combinations = combinationRef.limit(10).snapshots()
+    .map((doc) => doc.documents.map((dd) => Combination.fromMap(dd.data, dd.documentID)).toList());
+    return combinations;
   }
   
 }
+
+// main(List<String> args) {
+//   CombinationsRepo().getCombinations().listen((data) {
+//     data.forEach((com) {
+//       print(com.amount);
+//     });
+//   });
+// }

@@ -14,11 +14,12 @@ abstract class BaseAuth with ChangeNotifier {
 class Auth with ChangeNotifier implements BaseAuth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  
+
   Future<String> signIn(String email, String password) async {
     var result = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     FirebaseUser user = result.user;
-    print(user.uid);
     return user.uid;
   }
 

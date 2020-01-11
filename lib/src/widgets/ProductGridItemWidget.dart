@@ -20,7 +20,7 @@ class ProductGridItemWidget extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
         Navigator.of(context).pushNamed('/Product',
-            arguments: new RouteArgument(argumentsList: [this.combination, this.heroTag], id: this.combination.id));
+            arguments: new RouteArgument(argumentsList: [this.combination, this.heroTag], id: this.combination?.id));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -34,21 +34,21 @@ class ProductGridItemWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Hero(
-              tag: this.heroTag + combination.id,
-              child: Image.network(combination.photoUrl),
+              tag: this.heroTag + combination?.id,
+              child: combination.pics.isEmpty ? Image.asset('img/defalut.jpg') : Image.network(combination.pics.first),
             ),
             SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               child: Text(
-                combination.nameAr,
+                combination?.nameArFull,
                 style: Theme.of(context).textTheme.body2,
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Text(
-                combination.price.toString(),
+                combination?.price?.toString(),
                 style: Theme.of(context).textTheme.title,
               ),
             ),
@@ -58,12 +58,12 @@ class ProductGridItemWidget extends StatelessWidget {
                 children: <Widget>[
                   // The title of the product
                   // Expanded(
-                    // child: Text(
-                    //   '${combination.price.toString()} Sales',
-                    //   style: Theme.of(context).textTheme.body1,
-                    //   overflow: TextOverflow.fade,
-                    //   softWrap: false,
-                    // ),
+                  //   child: Text(
+                  //     combination.nameArFull,
+                  //     style: Theme.of(context).textTheme.body1,
+                  //     overflow: TextOverflow.fade,
+                  //     softWrap: false,
+                  //   ),
                   // ),
                   // Icon(
                   //   Icons.star,

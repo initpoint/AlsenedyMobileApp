@@ -94,13 +94,13 @@ class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
                 this.layout != 'list' || _productsList.favoritesList.isEmpty,
             child: StreamBuilder(
                 stream: combinationsRef.getCombinations(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                builder: (context, AsyncSnapshot<List<Combination>> snapshot) {
                   if (snapshot.hasData) {
-                    _compbinationList = snapshot.data.documents
-                        .map((doc) =>
-                            Combination.fromMap(doc.data, doc.documentID))
-                        .where((com) => com.isNew == true  && com.isActive == true)
-                        .toList();
+                    // _compbinationList = snapshot.data.documents
+                    //     .map((doc) =>
+                    //         Combination.fromMap(doc.data, doc.documentID))
+                    //     .where((com) => com.isNew == true  && com.isActive == true)
+                    //     .toList();
                     return ListView.separated(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
@@ -110,7 +110,7 @@ class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
                         return SizedBox(height: 10);
                       },
                       itemBuilder: (context, index) {
-                        return FavoriteListItemWidget(
+                        return null; FavoriteListItemWidget(
                           heroTag: 'favorites_list',
                           combination: _compbinationList.elementAt(index),
                           onDismissed: () {
@@ -133,13 +133,13 @@ class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: StreamBuilder(
                   stream: combinationsRef.getCombinations(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  builder: (context, AsyncSnapshot<List<Combination>> snapshot) {
                     if (snapshot.hasData) {
-                      _compbinationList = snapshot.data.documents
-                          .map((doc) =>
-                              Combination.fromMap(doc.data, doc.documentID))
-                          .where((com) => com.isNew == true)
-                          .toList();
+                      // _compbinationList = snapshot.data.documents
+                      //     .map((doc) =>
+                      //         Combination.fromMap(doc.data, doc.documentID))
+                      //     .where((com) => com.isNew == true)
+                      //     .toList();
                       return new StaggeredGridView.countBuilder(
                         primary: false,
                         shrinkWrap: true,
@@ -148,7 +148,7 @@ class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
                         itemBuilder: (BuildContext context, int index) {
                           Combination combination =
                               _compbinationList.elementAt(index);
-                          return ProductGridItemWidget(
+                          return null; ProductGridItemWidget(
                             combination: combination,
                             heroTag: 'favorites_grid',
                           );

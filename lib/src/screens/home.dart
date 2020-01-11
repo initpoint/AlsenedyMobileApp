@@ -25,18 +25,18 @@ class _HomeWidgetState extends State<HomeWidget>
   List<Combination> _compbinationList = List<Combination>();
 
   @override
+  void initState() {
+    CombinationsRepo().getCombinations().listen((data) {
+      print(data);
+      setState(() {
+        _compbinationList = data;
+      });
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var combinationsRef = Provider.of<CombinationsService>(context);
-
-    // combinationsRef.getCombinations().listen((data) {
-    //   _compbinationList = data.documents
-    //       .map((doc) => Combination.fromMap(doc.data, doc.documentID))
-    //       .where((com) => com.active == true)
-    //       .toList();
-    // });
-
-    // _compbinationList = _compbinationList.where((com) => com.active == true).toList();
-
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -100,79 +100,50 @@ class _HomeWidgetState extends State<HomeWidget>
             ),
           ),
           Offstage(
-            offstage:
-                this.layout != 'list' || _productsList.favoritesList.isEmpty,
-            child: StreamBuilder(
-                stream: combinationsRef.getCombinations(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    _compbinationList = snapshot.data.documents
-                        .map((doc) =>
-                            Combination.fromMap(doc.data, doc.documentID))
-                        .where((com) => com.isActive == true)
-                        .toList();
-                    return ListView.separated(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      primary: false,
-                      itemCount: _compbinationList.length,
-                      separatorBuilder: (context, index) {
-                        return SizedBox(height: 10);
-                      },
-                      itemBuilder: (context, index) {
-                        return FavoriteListItemWidget(
-                          heroTag: 'favorites_list',
-                          combination: _compbinationList.elementAt(index),
-                          onDismissed: () {
-                            setState(() {
-                              _productsList.favoritesList.removeAt(index);
-                            });
-                          },
-                        );
-                      },
-                    );
-                  } else {
-                    return Text('fetching');
-                  }
-                }),
-          ),
+              offstage:
+                  this.layout != 'list' || _productsList.favoritesList.isEmpty,
+              child: ListView.separated(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                primary: false,
+                itemCount: _compbinationList.length,
+                separatorBuilder: (context, index) {
+                  return SizedBox(height: 10);
+                },
+                itemBuilder: (context, index) {
+                  // print(_compbinationList.elementAt(index).toJson());
+                  // return Text(_compbinationList.elementAt(index).nameArFull + 'helllloo');
+                  return FavoriteListItemWidget(
+                    heroTag: 'favorites_list',
+                    combination: _compbinationList?.elementAt(index),
+                  );
+                },
+              )),
           Offstage(
             offstage:
                 this.layout != 'grid' || _productsList.favoritesList.isEmpty,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: StreamBuilder(
-                  stream: combinationsRef.getCombinations(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasData) {
-                      _compbinationList = snapshot.data.documents
-                          .map((doc) =>
-                              Combination.fromMap(doc.data, doc.documentID))
-                          .where((com) => com.isActive == true)
-                          .toList();
-                      return new StaggeredGridView.countBuilder(
-                        primary: false,
-                        shrinkWrap: true,
-                        crossAxisCount: 4,
-                        itemCount: _compbinationList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          Combination combination =
-                              _compbinationList.elementAt(index);
-                          return ProductGridItemWidget(
-                            combination: combination,
-                            heroTag: 'favorites_grid',
-                          );
-                        },
+              child: StaggeredGridView.countBuilder(
+                primary: false,
+                shrinkWrap: true,
+                crossAxisCount: 4,
+                itemCount: _compbinationList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  // print(_compbinationList.length);
+                  Combination combination = _compbinationList.elementAt(index);
+                  // print(combination);
+                  // return Text(combination.nameArFull + 'helllloo');
+                  return ProductGridItemWidget(
+                    combination: combination,
+                    heroTag: 'favorites_grid',
+                  );
+                },
 //                  staggeredTileBuilder: (int index) => new StaggeredTile.fit(index % 2 == 0 ? 1 : 2),
-                        staggeredTileBuilder: (int index) =>
-                            new StaggeredTile.fit(2),
-                        mainAxisSpacing: 15.0,
-                        crossAxisSpacing: 15.0,
-                      );
-                    } else {
-                      return Text('Lodinnngl.........');
-                    }
-                  }),
+                staggeredTileBuilder: (int index) => new StaggeredTile.fit(2),
+                mainAxisSpacing: 15.0,
+                crossAxisSpacing: 15.0,
+              ),
             ),
           ),
           Offstage(

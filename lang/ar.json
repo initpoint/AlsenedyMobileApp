@@ -15,5 +15,16 @@
   "reset_password": "إعادة تعين كلمة المرور",
   "comfirm_to_send_email": "تأكيد وإرسال ",
   "combinations": "التركيبات",
-  "new_combinations": "التركيبات الجديدة"
+  "new_combinations": "التركيبات الجديدة",
+  "home": "الصفحة الرئيسية",
+  "languages":"اللغات",
+  "logout":"تسجيل الخروج",
+  "AccountStatement": "كشف الحساب",
+  "Shipments": "التعاملات",
+  "Home": "الرئيسية",
+  "Promotions": "العروض",
+  "NewCombinations": "جديد",
+  "Chat": "المحادثات"
+
+
 }

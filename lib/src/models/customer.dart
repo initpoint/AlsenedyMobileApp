@@ -4,6 +4,7 @@ class Customer {
   String photoUrl = '';
   String uid = '';
   String email = '';
+  String pricelist;
 
   Customer({
     this.id,
@@ -11,6 +12,7 @@ class Customer {
     this.photoUrl,
     this.uid,
     this.email,
+    this.pricelist
   });
 
   Customer.fromMap(Map snapshot, String id) :
@@ -18,6 +20,7 @@ class Customer {
         fullName = snapshot['fullName'] ?? '',
         photoUrl = snapshot['photoUrl'] ?? '',
         uid = snapshot['uid'] ?? '',
+        pricelist = snapshot['pricelist'] ?? '',
         email = snapshot['email'] ?? '';
 
   toJson() {

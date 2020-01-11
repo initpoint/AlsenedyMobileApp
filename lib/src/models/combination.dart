@@ -11,6 +11,17 @@ class Combination {
   String photoUrl;
   bool isActive;
   bool isNew;
+  dynamic prices;
+  List<String> pics;
+  String barCodeId;
+  String code;
+  bool hasChildren;
+  String headId;
+  String materialCode;
+  String materialNameAr;
+  String nameArFull;
+  String unitCode;
+  String unitNameAr;
 
   Combination({
     this.id,
@@ -25,11 +36,22 @@ class Combination {
     this.photoUrl,
     this.isActive,
     this.isNew,
+    this.prices,
+    this.pics,
+    this.barCodeId,
+    this.code,
+    this.hasChildren,
+    this.headId,
+    this.materialCode,
+    this.materialNameAr,
+    this.nameArFull,
+    this.unitCode,
+    this.unitNameAr
   });
 
   Combination.fromMap(Map snapshot, String id) :
         id = id ?? '',
-        nameAr = snapshot['nameAr'] ?? '',
+        nameAr = snapshot['nameAr'] ?? 'default name',
         nameEn = snapshot['nameEn'] ?? '',
         descriptionAr = snapshot['descriptionAr'] ?? '',
         descriptionEn = snapshot['descriptionEn'] ?? '',
@@ -39,7 +61,18 @@ class Combination {
         discount = snapshot['discount'] ?? 0.0,
         photoUrl = snapshot['photoUrl'] ?? '',
         isActive = snapshot['isActive'] ?? false,
-        isNew = snapshot['isNew'] ?? false;
+        pics = snapshot['pics']?.cast<String>() ?? [],
+        isNew = snapshot['isNew'] ?? false,
+        prices = snapshot['prices'] ?? [],
+        barCodeId = snapshot['barCodeId'] ?? '',
+        code = snapshot['code'] ?? '',
+        hasChildren = snapshot['hasChildren'] ?? '',
+        headId = snapshot['headId'] ?? '',
+        materialCode = snapshot['materialCode'] ?? '',
+        materialNameAr = snapshot['materialNameAr'] ?? '',
+        nameArFull = snapshot['nameArFull'] ?? '',
+        unitCode = snapshot['unitCode'] ?? '',
+        unitNameAr = snapshot['unitNameA'] ?? '';
 
   toJson() {
     return {
@@ -55,6 +88,7 @@ class Combination {
       "photoUrl": photoUrl,
       "isActive": isActive,
       "isNew": isNew,
+      "pics": pics,
     };
   }
 }
