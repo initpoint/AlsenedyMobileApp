@@ -20,14 +20,19 @@ class ProductGridItemWidget extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
         Navigator.of(context).pushNamed('/Product',
-            arguments: new RouteArgument(argumentsList: [this.combination, this.heroTag], id: this.combination?.id));
+            arguments: new RouteArgument(
+                argumentsList: [this.combination, this.heroTag],
+                id: this.combination?.id));
       },
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(6),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.10), offset: Offset(0, 4), blurRadius: 10)
+            BoxShadow(
+                color: Theme.of(context).hintColor.withOpacity(0.10),
+                offset: Offset(0, 4),
+                blurRadius: 10)
           ],
         ),
         child: Column(
@@ -35,7 +40,9 @@ class ProductGridItemWidget extends StatelessWidget {
           children: <Widget>[
             Hero(
               tag: this.heroTag + combination?.id,
-              child: combination.pics.isEmpty ? Image.asset('img/defalut.jpg') : Image.network(combination.pics.first),
+              child: combination.pics.isEmpty
+                  ? Image.asset('img/defalut.jpg')
+                  : Image.network(combination.pics.first),
             ),
             SizedBox(height: 12),
             Padding(
@@ -47,9 +54,23 @@ class ProductGridItemWidget extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Text(
-                combination?.price?.toString(),
-                style: Theme.of(context).textTheme.title,
+              child: Row(
+                // crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    combination?.price?.toString(),
+                    style: Theme.of(context).textTheme.title,
+                  ),
+                  combination.isNew
+                      ? Chip(
+                          backgroundColor: Colors.red,
+                          label: Text(
+                            'New',
+                            style: TextStyle(color: Colors.white),
+                          ))
+                      : Container()
+                ],
               ),
             ),
             Padding(
@@ -57,14 +78,7 @@ class ProductGridItemWidget extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   // The title of the product
-                  // Expanded(
-                  //   child: Text(
-                  //     combination.nameArFull,
-                  //     style: Theme.of(context).textTheme.body1,
-                  //     overflow: TextOverflow.fade,
-                  //     softWrap: false,
-                  //   ),
-                  // ),
+
                   // Icon(
                   //   Icons.star,
                   //   color: Colors.amber,
