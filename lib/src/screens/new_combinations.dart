@@ -1,17 +1,17 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
-import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:ecommerce_app_ui_kit/src/models/product.dart';
 import 'package:ecommerce_app_ui_kit/src/services/combinations.service.dart';
-import 'package:ecommerce_app_ui_kit/src/widgets/EmptyFavoritesWidget.dart';
-import 'package:ecommerce_app_ui_kit/src/widgets/FavoriteListItemWidget.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/ProductGridItemWidget.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/SearchBarWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:ecommerce_app_ui_kit/src/widgets/EmptyFavoritesWidget.dart';
+import 'package:ecommerce_app_ui_kit/src/widgets/FavoriteListItemWidget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/combination.dart';
 
 class NewCombinationsWidget extends StatefulWidget {
   @override
@@ -19,15 +19,24 @@ class NewCombinationsWidget extends StatefulWidget {
 }
 
 class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
+  
   String layout = 'grid';
   ProductsList _productsList = new ProductsList();
   List<Combination> _compbinationList = List<Combination>();
 
   @override
-  Widget build(BuildContext context) {
-    var combinationsRef = Provider.of<CombinationsService>(context);
+  void initState() {
+    CombinationsRepo().getCombinations().listen((data) {
+      setState(() {
+        _compbinationList = data.where((com) => com.isActive == true && com.isNew == true).toList();
+      });
+    });
+    super.initState();
+  }
 
-     return SingleChildScrollView(
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +59,7 @@ class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
                   color: Theme.of(context).hintColor,
                 ),
                 title: Text(
-                  AppLocalizations.of(context).translate('new_combinations'),
+                  AppLocalizations.of(context).translate('combinations'),
                   overflow: TextOverflow.fade,
                   softWrap: false,
                   style: Theme.of(context).textTheme.display1,
@@ -90,79 +99,50 @@ class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
             ),
           ),
           Offstage(
-            offstage:
-                this.layout != 'list' || _productsList.favoritesList.isEmpty,
-            child: StreamBuilder(
-                stream: combinationsRef.getCombinations(),
-                builder: (context, AsyncSnapshot<List<Combination>> snapshot) {
-                  if (snapshot.hasData) {
-                    // _compbinationList = snapshot.data.documents
-                    //     .map((doc) =>
-                    //         Combination.fromMap(doc.data, doc.documentID))
-                    //     .where((com) => com.isNew == true  && com.isActive == true)
-                    //     .toList();
-                    return ListView.separated(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      primary: false,
-                      itemCount: _compbinationList.length,
-                      separatorBuilder: (context, index) {
-                        return SizedBox(height: 10);
-                      },
-                      itemBuilder: (context, index) {
-                        return null; FavoriteListItemWidget(
-                          heroTag: 'favorites_list',
-                          combination: _compbinationList.elementAt(index),
-                          onDismissed: () {
-                            setState(() {
-                              _productsList.favoritesList.removeAt(index);
-                            });
-                          },
-                        );
-                      },
-                    );
-                  } else {
-                    return Text('fetching');
-                  }
-                }),
-          ),
+              offstage:
+                  this.layout != 'list' || _productsList.favoritesList.isEmpty,
+              child: ListView.separated(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                primary: false,
+                itemCount: _compbinationList.length,
+                separatorBuilder: (context, index) {
+                  return SizedBox(height: 10);
+                },
+                itemBuilder: (context, index) {
+                  // print(_compbinationList.elementAt(index).toJson());
+                  // return Text(_compbinationList.elementAt(index).nameArFull + 'helllloo');
+                  return FavoriteListItemWidget(
+                    heroTag: 'favorites_list',
+                    combination: _compbinationList?.elementAt(index),
+                  );
+                },
+              )),
           Offstage(
             offstage:
                 this.layout != 'grid' || _productsList.favoritesList.isEmpty,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: StreamBuilder(
-                  stream: combinationsRef.getCombinations(),
-                  builder: (context, AsyncSnapshot<List<Combination>> snapshot) {
-                    if (snapshot.hasData) {
-                      // _compbinationList = snapshot.data.documents
-                      //     .map((doc) =>
-                      //         Combination.fromMap(doc.data, doc.documentID))
-                      //     .where((com) => com.isNew == true)
-                      //     .toList();
-                      return new StaggeredGridView.countBuilder(
-                        primary: false,
-                        shrinkWrap: true,
-                        crossAxisCount: 4,
-                        itemCount: _compbinationList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          Combination combination =
-                              _compbinationList.elementAt(index);
-                          return null; ProductGridItemWidget(
-                            combination: combination,
-                            heroTag: 'favorites_grid',
-                          );
-                        },
+              child: StaggeredGridView.countBuilder(
+                primary: false,
+                shrinkWrap: true,
+                crossAxisCount: 4,
+                itemCount: _compbinationList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  // print(_compbinationList.length);
+                  Combination combination = _compbinationList.elementAt(index);
+                  // print(combination);
+                  // return Text(combination.nameArFull + 'helllloo');
+                  return ProductGridItemWidget(
+                    combination: combination,
+                    heroTag: 'favorites_grid',
+                  );
+                },
 //                  staggeredTileBuilder: (int index) => new StaggeredTile.fit(index % 2 == 0 ? 1 : 2),
-                        staggeredTileBuilder: (int index) =>
-                            new StaggeredTile.fit(2),
-                        mainAxisSpacing: 15.0,
-                        crossAxisSpacing: 15.0,
-                      );
-                    } else {
-                      return Text('Lodinnngl.........');
-                    }
-                  }),
+                staggeredTileBuilder: (int index) => new StaggeredTile.fit(2),
+                mainAxisSpacing: 15.0,
+                crossAxisSpacing: 15.0,
+              ),
             ),
           ),
           Offstage(
@@ -172,5 +152,6 @@ class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
         ],
       ),
     );
- }
+  }
+
 }

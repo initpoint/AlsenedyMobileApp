@@ -27,9 +27,8 @@ class _HomeWidgetState extends State<HomeWidget>
   @override
   void initState() {
     CombinationsRepo().getCombinations().listen((data) {
-      print(data);
       setState(() {
-        _compbinationList = data;
+        _compbinationList = data.where((com) => com.isActive == true).toList();
       });
     });
     super.initState();
