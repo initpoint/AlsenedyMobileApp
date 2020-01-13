@@ -1,21 +1,30 @@
 import 'dart:async';
 import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-abstract class CombinationsService {
+abstract class CombinationsService with ChangeNotifier {
   Stream<List<Combination>> getCombinations();
 }
 
-class CombinationsRepo implements CombinationsService {
-  final CollectionReference combinationCollection =  Firestore.instance.collection('combinations');
+class CombinationsRepo with ChangeNotifier implements CombinationsService {
+  final CollectionReference combinationCollection =
+      Firestore.instance.collection('combinations');
 
-  Stream<List<Combination>> getCombinations() {
+  Stream<List<Combination>> getCombinations() async* {
+    var currentUser = await FirebaseAuth.instance.currentUser();
+    var uid = currentUser.uid;
     var combinationRef = combinationCollection.reference();
-    var combinations = combinationRef.limit(10).snapshots()
-    .map((doc) => doc.documents.map((dd) => Combination.fromMap(dd.data, dd.documentID)).toList());
-    return combinations;
+    final snapshots =
+        combinationRef.where('users', arrayContains: uid).limit(10).snapshots();
+    await for (final snapshot in snapshots) {
+      final combinations = await snapshot.documents
+          .map((doc) => Combination.fromMap(doc.data, doc.documentID))
+          .toList();
+      yield combinations;
+    }
   }
-  
 }
 
 // main(List<String> args) {
