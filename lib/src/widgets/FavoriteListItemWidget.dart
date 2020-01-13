@@ -1,9 +1,11 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
 import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
+import 'package:ecommerce_app_ui_kit/src/models/customer.dart';
 import 'package:ecommerce_app_ui_kit/src/models/product.dart';
 import 'package:ecommerce_app_ui_kit/src/models/route_argument.dart';
+import 'package:ecommerce_app_ui_kit/src/services/customer.service.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 // ignore: must_be_immutable
 class FavoriteListItemWidget extends StatefulWidget {
   String heroTag;
@@ -20,6 +22,7 @@ class FavoriteListItemWidget extends StatefulWidget {
 class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
   @override
   Widget build(BuildContext context) {
+    final UsersService usersService = Provider.of<UsersService>(context);
     return Dismissible(
       key: Key(this.widget.combination?.hashCode?.toString()),
       background: Container(
@@ -117,7 +120,16 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
                       ),
                     ),
                     SizedBox(width: 8),
-                    Text(widget.combination?.price?.toString(), style: Theme.of(context).textTheme.display1),
+                    StreamBuilder(
+                      stream: usersService.getUser().asStream(),
+                      builder: (context, AsyncSnapshot<Customer> snapshot) {
+                     if(snapshot.data != null) {
+                        return Text(widget.combination?.prices[snapshot?.data?.pricelist]?.toString() ?? 0.toString(), style: Theme.of(context).textTheme.display1);
+                     } else {
+                       return Text('0');
+                     }
+                      }
+                    ),
                   ],
                 ),
               )

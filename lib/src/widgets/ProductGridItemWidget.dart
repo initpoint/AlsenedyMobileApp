@@ -1,6 +1,11 @@
 import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
+import 'package:ecommerce_app_ui_kit/src/models/customer.dart';
 import 'package:ecommerce_app_ui_kit/src/models/route_argument.dart';
+import 'package:ecommerce_app_ui_kit/src/services/customer.service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../app_localizations.dart';
 
 class ProductGridItemWidget extends StatelessWidget {
   const ProductGridItemWidget({
@@ -14,6 +19,7 @@ class ProductGridItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UsersService usersService = Provider.of<UsersService>(context);
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
@@ -56,15 +62,24 @@ class ProductGridItemWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    combination?.price?.toString(),
-                    style: Theme.of(context).textTheme.title,
-                  ),
+                  StreamBuilder(
+                      stream: usersService.getUser().asStream(),
+                      builder: (context, AsyncSnapshot<Customer> snapshot) {
+                        if (snapshot.data != null) {
+                          return Text(
+                            combination?.prices[snapshot?.data?.pricelist]?.toString() ?? 0.toString(),
+                            style: Theme.of(context).textTheme.title,
+                          );
+                        } else {
+                          return Text('0');
+                        }
+                      }),
                   combination.isNew
                       ? Chip(
                           backgroundColor: Colors.red,
                           label: Text(
-                            'New',
+                  AppLocalizations.of(context)
+                                  .translate('new'),
                             style: TextStyle(color: Colors.white),
                           ))
                       : Container()
@@ -74,8 +89,7 @@ class ProductGridItemWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
-                children: <Widget>[
-                ],
+                children: <Widget>[],
                 crossAxisAlignment: CrossAxisAlignment.center,
               ),
             ),

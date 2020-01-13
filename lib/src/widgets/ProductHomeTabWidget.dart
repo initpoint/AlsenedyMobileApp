@@ -75,7 +75,7 @@ class productHomeTabWidgetState extends State<ProductHomeTabWidget> {
                 return  Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text(widget.combination?.price.toString() ?? 0.toString(), style: Theme.of(context).textTheme.display3),
+                  Text(widget.combination?.prices[snapshot?.data?.pricelist]?.toString() ?? 0.toString(), style: Theme.of(context).textTheme.display3),
                   SizedBox(width: 10),
                   // Text(
                   //   widget.combination.price.toString(),
@@ -95,7 +95,7 @@ class productHomeTabWidgetState extends State<ProductHomeTabWidget> {
               );
             
               } else {
-                return Text('helllo');
+                return Text('0');
               }
               }
           ),

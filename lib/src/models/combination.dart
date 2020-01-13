@@ -63,7 +63,7 @@ class Combination {
         isActive = snapshot['isActive'] ?? false,
         pics = snapshot['pics']?.cast<String>() ?? [],
         isNew = snapshot['isNew'] ?? false,
-        prices = snapshot['prices'] ?? [],
+        prices = snapshot['prices'] ?? {},
         barCodeId = snapshot['barCodeId'] ?? '',
         code = snapshot['code'] ?? '',
         hasChildren = snapshot['hasChildren'] ?? false,
