@@ -7,7 +7,7 @@ abstract class CombinationsService {
 }
 
 class CombinationsRepo implements CombinationsService {
-  final CollectionReference combinationCollection =  Firestore.instance.collection('combination');
+  final CollectionReference combinationCollection =  Firestore.instance.collection('combinations');
 
   Stream<List<Combination>> getCombinations() {
     var combinationRef = combinationCollection.reference();

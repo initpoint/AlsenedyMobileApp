@@ -9,8 +9,6 @@ import 'package:ecommerce_app_ui_kit/src/widgets/FavoriteListItemWidget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../app_localizations.dart';
-import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/combination.dart';
 
 class HomeWidget extends StatefulWidget {
@@ -110,8 +108,6 @@ class _HomeWidgetState extends State<HomeWidget>
                   return SizedBox(height: 10);
                 },
                 itemBuilder: (context, index) {
-                  // print(_compbinationList.elementAt(index).toJson());
-                  // return Text(_compbinationList.elementAt(index).nameArFull + 'helllloo');
                   return FavoriteListItemWidget(
                     heroTag: 'favorites_list',
                     combination: _compbinationList?.elementAt(index),
@@ -129,16 +125,12 @@ class _HomeWidgetState extends State<HomeWidget>
                 crossAxisCount: 4,
                 itemCount: _compbinationList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  // print(_compbinationList.length);
                   Combination combination = _compbinationList.elementAt(index);
-                  // print(combination);
-                  // return Text(combination.nameArFull + 'helllloo');
                   return ProductGridItemWidget(
                     combination: combination,
                     heroTag: 'favorites_grid',
                   );
                 },
-//                  staggeredTileBuilder: (int index) => new StaggeredTile.fit(index % 2 == 0 ? 1 : 2),
                 staggeredTileBuilder: (int index) => new StaggeredTile.fit(2),
                 mainAxisSpacing: 15.0,
                 crossAxisSpacing: 15.0,

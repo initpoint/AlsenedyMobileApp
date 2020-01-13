@@ -1,4 +1,3 @@
-import 'package:ecommerce_app_ui_kit/src/services/combinations.service.dart';
 import 'package:ecommerce_app_ui_kit/src/services/customer.service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app_localizations.dart';
@@ -25,7 +24,6 @@ class MyApp extends StatefulWidget {
     state.changeLanguage(newLocale);
   }
 
-  // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -62,8 +60,6 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<BaseAuth>(create: (_) => new Auth()),
-        // ChangeNotifierProvider<CombinationsService>(
-        //     create: (_) => new CombinationsRepo()),
         ProxyProvider<BaseAuth, UsersService>(
             update: (context, baseAuth, usersService) =>
                 new UsersRepo(baseAuth: baseAuth)),
@@ -201,28 +197,6 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-// class Navigation extends StatefulWidget {
-//   @override
-//   _NavigationState createState() => _NavigationState();
-// }
-
-// class _NavigationState extends State<Navigation> {
-//   @override
-//   Widget build(BuildContext context) {
-//     final auth = Provider.of<BaseAuth>(context);
-//     return StreamBuilder(
-//         stream: auth.onAuthStateChanged(),
-//         builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
-//           if (snapshot.data != null) {
-//             print('user is logged in');
-//             return TabsWidget(currentTab: 2);
-//           }
-//             print('not logged in');
-//           return SignInWidget();
-//         });
-//   }
-// }
-
 class Navigation extends StatelessWidget {
    @override
   Widget build(BuildContext context) {
@@ -231,13 +205,10 @@ class Navigation extends StatelessWidget {
         stream: auth.onAuthStateChanged(),
         builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
           if (snapshot.data != null) {
-            print('user is logged in');
             return TabsWidget(currentTab: 2);
           }
-            print('not logged in');
           return SignInWidget();
         }
         );
   }
 }
-// user != null ? TabsWidget(currentTab: 2) : SignInWidget();

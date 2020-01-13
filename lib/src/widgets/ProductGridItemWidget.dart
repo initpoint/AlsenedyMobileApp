@@ -1,5 +1,4 @@
 import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
-import 'package:ecommerce_app_ui_kit/src/models/product.dart';
 import 'package:ecommerce_app_ui_kit/src/models/route_argument.dart';
 import 'package:flutter/material.dart';
 
@@ -55,7 +54,6 @@ class ProductGridItemWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
@@ -77,17 +75,6 @@ class ProductGridItemWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
                 children: <Widget>[
-                  // The title of the product
-
-                  // Icon(
-                  //   Icons.star,
-                  //   color: Colors.amber,
-                  //   size: 18,
-                  // ),
-                  // Text(
-                  //   combination.rate.toString(),
-                  //   style: Theme.of(context).textTheme.body2,
-                  // )
                 ],
                 crossAxisAlignment: CrossAxisAlignment.center,
               ),
