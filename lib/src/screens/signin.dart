@@ -209,7 +209,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                               onPressed: () async {
                                 try {
                                   var userId = await auth.signIn(
-                                      'customer1@mailinator.com', '123456');
+                                      'customer1@mailinator.com', '12345678');
                                   if (userId != null) {
                                     Navigator.of(context).pushNamed('/');
                                   }
@@ -238,7 +238,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                               onPressed: () async {
                                 try {
                                   var userId = await auth.signIn(
-                                      'customer2@mailinator.com', '123456');
+                                      'customer2@mailinator.com', '12345678');
                                   if (userId != null) {
                                     Navigator.of(context).pushNamed('/');
                                   }
