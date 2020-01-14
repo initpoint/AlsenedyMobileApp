@@ -21,26 +21,17 @@ class CombinationsRepo with ChangeNotifier implements CombinationsService {
     var uid = currentUser.uid;
     var combIds = await getPermissions(uid);
     var combinationRef = combinationCollection.reference();
-    // final snapshots =
-    //     combinationRef.where('documentId', arrayContainsAny: comIds).limit(10).snapshots();
-    // Stream<QuerySnapshot>  snapshots2;
+    var total = 0;
     for (var combId in combIds) {
-      print(combId);
+      if(total >= 300) {
+        break;
+      }
+      total ++;
       final snapshot = await combinationRef.document(combId).get();
-      // var ss = snapshot.data.map((doc) => Combination.fromMap(doc.data, doc.documentID));
-      //       print(combinations);
-      //    combinations;
       final combination =
           Combination.fromMap(snapshot.data, snapshot.documentID);
       combList.add(combination);
     }
-
-    // await for (final snapshot in snapshots2) {
-    //   final combinations = await snapshot.documents
-    //       .map((doc) => Combination.fromMap(doc.data, doc.documentID))
-    //       .toList();
-    // yield combinations;
-    // }
     return combList;
   }
 
