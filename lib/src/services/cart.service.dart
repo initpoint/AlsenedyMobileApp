@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:ecommerce_app_ui_kit/src/models/cart.model.dart';
-import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,7 +27,7 @@ class CartRepo with ChangeNotifier implements CartService {
     await cartCollection.add(cart.toMap());
   }
   Future<void> updateCart(Cart cart) async {
-    await cartCollection.
+    // await cartCollection.
   }
   Future<void> deleteCart(Cart cart) async {}
 

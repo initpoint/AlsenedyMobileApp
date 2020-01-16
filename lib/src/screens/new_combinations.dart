@@ -17,7 +17,6 @@ class NewCombinationsWidget extends StatefulWidget {
 }
 
 class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
-  
   String layout = 'grid';
   ProductsList _productsList = new ProductsList();
   List<Combination> _compbinationList = List<Combination>();
@@ -26,7 +25,9 @@ class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
   void initState() {
     CombinationsRepo().getCombinations().then((data) {
       setState(() {
-        _compbinationList = data.where((com) => com.isActive == true && com.isNew == true).toList();
+        _compbinationList = data
+            .where((com) => com.isActive == true && com.isNew == true)
+            .toList();
       });
     });
     super.initState();
@@ -96,45 +97,55 @@ class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
               ),
             ),
           ),
-          Offstage(
+          Container(
+            child: Offstage(
+                offstage: this.layout != 'list' ||
+                    _productsList.favoritesList.isEmpty,
+                child: _compbinationList.length == 0
+                    ? Center(child: CircularProgressIndicator())
+                    : ListView.separated(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        primary: false,
+                        itemCount: _compbinationList.length,
+                        separatorBuilder: (context, index) {
+                          return SizedBox(height: 10);
+                        },
+                        itemBuilder: (context, index) {
+                          return FavoriteListItemWidget(
+                            heroTag: 'favorites_list',
+                            combination: _compbinationList?.elementAt(index),
+                          );
+                        },
+                      )),
+          ),
+          Container(
+            child: Offstage(
               offstage:
-                  this.layout != 'list' || _productsList.favoritesList.isEmpty,
-              child: ListView.separated(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                primary: false,
-                itemCount: _compbinationList.length,
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: 10);
-                },
-                itemBuilder: (context, index) {
-                  return FavoriteListItemWidget(
-                    heroTag: 'favorites_list',
-                    combination: _compbinationList?.elementAt(index),
-                  );
-                },
-              )),
-          Offstage(
-            offstage:
-                this.layout != 'grid' || _productsList.favoritesList.isEmpty,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: StaggeredGridView.countBuilder(
-                primary: false,
-                shrinkWrap: true,
-                crossAxisCount: 4,
-                itemCount: _compbinationList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Combination combination = _compbinationList.elementAt(index);
-                  return ProductGridItemWidget(
-                    combination: combination,
-                    heroTag: 'favorites_grid',
-                  );
-                },
-                staggeredTileBuilder: (int index) => new StaggeredTile.fit(2),
-                mainAxisSpacing: 15.0,
-                crossAxisSpacing: 15.0,
-              ),
+                  this.layout != 'grid' || _productsList.favoritesList.isEmpty,
+              child: _compbinationList.length == 0
+                  ? Center(child: CircularProgressIndicator())
+                  : Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: StaggeredGridView.countBuilder(
+                        primary: false,
+                        shrinkWrap: true,
+                        crossAxisCount: 4,
+                        itemCount: _compbinationList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          Combination combination =
+                              _compbinationList.elementAt(index);
+                          return ProductGridItemWidget(
+                            combination: combination,
+                            heroTag: 'favorites_grid',
+                          );
+                        },
+                        staggeredTileBuilder: (int index) =>
+                            new StaggeredTile.fit(2),
+                        mainAxisSpacing: 15.0,
+                        crossAxisSpacing: 15.0,
+                      ),
+                    ),
             ),
           ),
           Offstage(
@@ -145,5 +156,4 @@ class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
       ),
     );
   }
-
 }
