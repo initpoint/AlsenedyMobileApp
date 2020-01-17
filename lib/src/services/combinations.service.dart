@@ -25,21 +25,37 @@ class CombinationsRepo implements CombinationsService {
 
   Future<List<Combination>> getCombinationsForFirst() async {
     List<Combination> combList = [];
+    var currentUser = await FirebaseAuth.instance.currentUser();
+    var uid = currentUser.uid;
+    var currentCustomer = await this.currentCustomer(uid);
+    var combIds = await _getPermissions(uid);
+
     var combinationRef = combinationCollection.reference();
     var combJson = await combinationRef
         .where('isActive', isEqualTo: true)
         .limit(pageSize)
         .getDocuments();
     _lastDocument = combJson.documents.last;
-    combList = combJson.documents
+    combJson.documents
         .map((data) => Combination.fromMap(data.data, data.documentID))
-        .toList();
+        .toList()
+        .forEach((comb) {
+      final combPrice = comb.prices[currentCustomer.pricelist];
+      if (combPrice != null && combPrice != 0) {
+        comb.price = combPrice;
+        combList.add(comb);
+      }
+    });
 
     return combList;
   }
 
   Future<List<Combination>> getCombinations() async {
     List<Combination> combList = [];
+    var currentUser = await FirebaseAuth.instance.currentUser();
+    var uid = currentUser.uid;
+    var currentCustomer = await this.currentCustomer(uid);
+    var combIds = await _getPermissions(uid);
     try {
       var combinationRef = combinationCollection.limit(pageSize).reference();
       var combJson = await combinationRef
@@ -49,9 +65,16 @@ class CombinationsRepo implements CombinationsService {
           .startAfterDocument(_lastDocument)
           .getDocuments();
       _lastDocument = combJson.documents.last;
-      combList = combJson.documents
+      combJson.documents
           .map((data) => Combination.fromMap(data.data, data.documentID))
-          .toList();
+          .toList()
+          .forEach((comb) {
+        final combPrice = comb.prices[currentCustomer.pricelist];
+        if (combPrice != null && combPrice != 0) {
+          comb.price = combPrice;
+          combList.add(comb);
+        }
+      });
     } catch (e) {
       this.allComming = true;
     }
