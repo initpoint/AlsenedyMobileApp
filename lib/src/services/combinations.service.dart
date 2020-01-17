@@ -3,7 +3,6 @@ import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app_ui_kit/src/models/customer.dart';
 import 'package:ecommerce_app_ui_kit/src/models/permission.model.dart';
-import 'package:ecommerce_app_ui_kit/src/services/customer.service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class CombinationsService {
@@ -19,19 +18,22 @@ class CombinationsRepo implements CombinationsService {
 
   final CollectionReference usersCollection =
       Firestore.instance.collection('customers');
-
-  Future<List<Combination>> getCombinations() async {
+  final pageSize = 4;
+  Future<List<Combination>> getCombinations({int pageNumber = 1}) async {
     List<Combination> combList = [];
     var currentUser = await FirebaseAuth.instance.currentUser();
     var uid = currentUser.uid;
     var currentCustomer = await this.currentCustomer(uid);
     var combIds = await _getPermissions(uid);
     var combinationRef = combinationCollection.reference();
+    var count = 0;
     for (var combId in combIds) {
+      if(count >= (pageSize * pageNumber)) {
+        break;
+      }
+      count ++;
       final snapshot = await combinationRef.document(combId).get();
-      final combination =
-          Combination.fromMap(snapshot.data, snapshot.documentID);
-      // print(currentCustomer.pricelist);
+      final combination = Combination.fromMap(snapshot.data, snapshot.documentID);
       final combPrice = combination.prices[currentCustomer.pricelist];
       if (combPrice != null && combPrice != 0) {
         combination.price = combPrice;

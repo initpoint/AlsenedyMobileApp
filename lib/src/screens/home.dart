@@ -19,20 +19,52 @@ class HomeWidget extends StatefulWidget {
 class _HomeWidgetState extends State<HomeWidget>
     with SingleTickerProviderStateMixin {
   String layout = 'grid';
+  ScrollController _scrollController;
+  CombinationsRepo _combinationsRepo;
+
   ProductsList _productsList = new ProductsList();
   List<Combination> _compbinationList = List<Combination>();
+  int currentPage = 1;
   getCombinations() async {
-    var combinations = await CombinationsRepo().getCombinations();
+    var combinations = await _combinationsRepo.getCombinations();
     setState(() {
       _compbinationList =
           combinations.where((com) => com.isActive == true).toList();
     });
   }
 
+  _scrollListener() async {
+    if (_scrollController.offset <=
+            _scrollController.position.minScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      print('start');
+    }
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      var combToAdd =
+          await _combinationsRepo.getCombinations(pageNumber: currentPage++);
+        _compbinationList.addAll(combToAdd);
+      setState(() {
+        _compbinationList = _compbinationList.toSet().toList();
+      });
+      print('end');
+    }
+  }
+
   @override
   void initState() {
+    _combinationsRepo = CombinationsRepo();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
     this.getCombinations();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -104,6 +136,7 @@ class _HomeWidgetState extends State<HomeWidget>
       );
     }
     return SingleChildScrollView(
+      controller: _scrollController,
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
