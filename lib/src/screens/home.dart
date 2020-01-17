@@ -26,7 +26,7 @@ class _HomeWidgetState extends State<HomeWidget>
   List<Combination> _compbinationList = List<Combination>();
   int currentPage = 1;
   getCombinations() async {
-    var combinations = await _combinationsRepo.getCombinations();
+    var combinations = await _combinationsRepo.getCombinationsForFirst();
     setState(() {
       _compbinationList =
           combinations.where((com) => com.isActive == true).toList();
@@ -42,9 +42,10 @@ class _HomeWidgetState extends State<HomeWidget>
     if (_scrollController.offset >=
             _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
-      var combToAdd =
-          await _combinationsRepo.getCombinations(pageNumber: currentPage++);
-        _compbinationList.addAll(combToAdd);
+      print(_compbinationList.length);
+      var combToAdd = await _combinationsRepo.getCombinations();
+      _compbinationList.addAll(combToAdd);
+      print(_compbinationList.length);
       setState(() {
         _compbinationList = _compbinationList.toSet().toList();
       });
@@ -201,42 +202,74 @@ class _HomeWidgetState extends State<HomeWidget>
           Offstage(
               offstage:
                   this.layout != 'list' || _productsList.favoritesList.isEmpty,
-              child: ListView.separated(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                primary: false,
-                itemCount: _compbinationList.length,
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: 10);
-                },
-                itemBuilder: (context, index) {
-                  return FavoriteListItemWidget(
-                    heroTag: 'favorites_list',
-                    combination: _compbinationList?.elementAt(index),
-                  );
-                },
+              child: Column(
+                children: <Widget>[
+                  ListView.separated(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: _compbinationList.length,
+                    separatorBuilder: (context, index) {
+                      return SizedBox(height: 10);
+                    },
+                    itemBuilder: (context, index) {
+                      return FavoriteListItemWidget(
+                        heroTag: 'favorites_list',
+                        combination: _compbinationList?.elementAt(index),
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  !_combinationsRepo.allComming
+                      ? Center(
+                          child: LinearProgressIndicator(),
+                        )
+                      : Text('لا يوجد المزيد من التركيبات'),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
               )),
           Offstage(
             offstage:
                 this.layout != 'grid' || _productsList.favoritesList.isEmpty,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: StaggeredGridView.countBuilder(
-                primary: false,
-                shrinkWrap: true,
-                crossAxisCount: 4,
-                itemCount: _compbinationList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Combination combination = _compbinationList.elementAt(index);
-                  // return Center(child: CircularProgressIndicator()  ,);
-                  return ProductGridItemWidget(
-                    combination: combination,
-                    heroTag: 'favorites_grid',
-                  );
-                },
-                staggeredTileBuilder: (int index) => new StaggeredTile.fit(2),
-                mainAxisSpacing: 15.0,
-                crossAxisSpacing: 15.0,
+              child: Column(
+                children: <Widget>[
+                  StaggeredGridView.countBuilder(
+                    primary: false,
+                    shrinkWrap: true,
+                    crossAxisCount: 4,
+                    itemCount: _compbinationList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Combination combination =
+                          _compbinationList.elementAt(index);
+                      // return Center(child: CircularProgressIndicator()  ,);
+                      return ProductGridItemWidget(
+                        combination: combination,
+                        heroTag: 'favorites_grid',
+                      );
+                    },
+                    staggeredTileBuilder: (int index) =>
+                        new StaggeredTile.fit(2),
+                    mainAxisSpacing: 15.0,
+                    crossAxisSpacing: 15.0,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  !_combinationsRepo.allComming
+                      ? Center(
+                          child: LinearProgressIndicator(),
+                        )
+                      : Text('لا يوجد المزيد من التركيبات'),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
               ),
             ),
           ),

@@ -15,6 +15,7 @@ class SignInWidget extends StatefulWidget {
 class _SignInWidgetState extends State<SignInWidget> {
   bool _showPassword = false;
   bool _loginError = false;
+  bool _isLogin = false;
   String _email;
   String _password;
   final _formKey = GlobalKey<FormState>();
@@ -83,9 +84,10 @@ class _SignInWidgetState extends State<SignInWidget> {
                               color: Theme.of(context).accentColor,
                             ),
                           ),
-                          validator: (value) =>
-                              value.isEmpty ? AppLocalizations.of(context)
-                                .translate('email_can_not_be_empty') : null,
+                          validator: (value) => value.isEmpty
+                              ? AppLocalizations.of(context)
+                                  .translate('email_can_not_be_empty')
+                              : null,
                           onChanged: (value) {
                             _email = value.trim();
                           },
@@ -129,10 +131,10 @@ class _SignInWidgetState extends State<SignInWidget> {
                                   : Icons.visibility),
                             ),
                           ),
-                          validator: (value) =>
-                              value.isEmpty ? 
-                            AppLocalizations.of(context)
-                                .translate('password_can_not_be_empty') : null,
+                          validator: (value) => value.isEmpty
+                              ? AppLocalizations.of(context)
+                                  .translate('password_can_not_be_empty')
+                              : null,
                           onChanged: (value) {
                             _password = value.trim();
                           },
@@ -148,13 +150,17 @@ class _SignInWidgetState extends State<SignInWidget> {
                             style: Theme.of(context).textTheme.body1,
                           ),
                         ),
+                        _isLogin
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : Container(),
                         SizedBox(height: 30),
                         FlatButton(
                           padding: EdgeInsets.symmetric(
                               vertical: 12, horizontal: 70),
                           child: Text(
-                            AppLocalizations.of(context)
-                                  .translate('sign'),
+                            AppLocalizations.of(context).translate('sign'),
                             style: Theme.of(context).textTheme.title.merge(
                                   TextStyle(
                                       color: Theme.of(context).primaryColor),
@@ -163,21 +169,25 @@ class _SignInWidgetState extends State<SignInWidget> {
                           color: Theme.of(context).accentColor,
                           shape: StadiumBorder(),
                           onPressed: () async {
-                            Locale newLocale = Locale('en', 'US');
-                            MyApp.setLocale(context, newLocale);
-                            // if (_formKey.currentState.validate()) {
-                            //   try {
-                            //     var userId =
-                            //         await auth.signIn(_email, _password);
-                            //     if (userId != null) {
-                            //       Navigator.of(context).pushNamed('/');
-                            //     }
-                            //   } catch (e) {
-                            //     setState(() {
-                            //       _loginError = true;
-                            //     });
-                            //   }
-                            // }
+                            // Locale newLocale = Locale('en', 'US');
+                            // MyApp.setLocale(context, newLocale);
+                            if (_formKey.currentState.validate()) {
+                              try {
+                                setState(() {
+                                  _isLogin = true;
+                                });
+                                var userId =
+                                    await auth.signIn(_email, _password);
+                                if (userId != null) {
+                                  Navigator.of(context).pushNamed('/');
+                                }
+                              } catch (e) {
+                                setState(() {
+                                  _isLogin = false;
+                                  _loginError = true;
+                                });
+                              }
+                            }
                           },
                         ),
                         SizedBox(height: 10),
@@ -208,6 +218,9 @@ class _SignInWidgetState extends State<SignInWidget> {
                               shape: StadiumBorder(),
                               onPressed: () async {
                                 try {
+                                  setState(() {
+                                    _isLogin = true;
+                                  });
                                   var userId = await auth.signIn(
                                       'customer1@mailinator.com', '12345678');
                                   if (userId != null) {
@@ -215,6 +228,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                                   }
                                 } catch (e) {
                                   setState(() {
+                                    _isLogin = false;
                                     _loginError = true;
                                   });
                                 }
@@ -237,6 +251,9 @@ class _SignInWidgetState extends State<SignInWidget> {
                               shape: StadiumBorder(),
                               onPressed: () async {
                                 try {
+                                  setState(() {
+                                    _isLogin = true;
+                                  });
                                   var userId = await auth.signIn(
                                       'customer2@mailinator.com', '12345678');
                                   if (userId != null) {
@@ -244,6 +261,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                                   }
                                 } catch (e) {
                                   setState(() {
+                                    _isLogin = false;
                                     _loginError = true;
                                   });
                                 }

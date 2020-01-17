@@ -18,29 +18,44 @@ class CombinationsRepo implements CombinationsService {
 
   final CollectionReference usersCollection =
       Firestore.instance.collection('customers');
-  final pageSize = 4;
-  Future<List<Combination>> getCombinations({int pageNumber = 1}) async {
+
+  DocumentSnapshot _lastDocument;
+  int pageSize = 4;
+  bool allComming = false;
+
+  Future<List<Combination>> getCombinationsForFirst() async {
     List<Combination> combList = [];
-    var currentUser = await FirebaseAuth.instance.currentUser();
-    var uid = currentUser.uid;
-    var currentCustomer = await this.currentCustomer(uid);
-    var combIds = await _getPermissions(uid);
     var combinationRef = combinationCollection.reference();
-    var count = 0;
-    for (var combId in combIds) {
-      if(count >= (pageSize * pageNumber)) {
-        break;
-      }
-      count ++;
-      final snapshot = await combinationRef.document(combId).get();
-      final combination = Combination.fromMap(snapshot.data, snapshot.documentID);
-      final combPrice = combination.prices[currentCustomer.pricelist];
-      if (combPrice != null && combPrice != 0) {
-        combination.price = combPrice;
-        combList.add(combination);
-      }
+    var combJson = await combinationRef
+        .where('isActive', isEqualTo: true)
+        .limit(pageSize)
+        .getDocuments();
+    _lastDocument = combJson.documents.last;
+    combList = combJson.documents
+        .map((data) => Combination.fromMap(data.data, data.documentID))
+        .toList();
+
+    return combList;
+  }
+
+  Future<List<Combination>> getCombinations() async {
+    List<Combination> combList = [];
+    try {
+      var combinationRef = combinationCollection.limit(pageSize).reference();
+      var combJson = await combinationRef
+          .where('isActive', isEqualTo: true)
+          .limit(pageSize)
+          .orderBy('barCodeId')
+          .startAfterDocument(_lastDocument)
+          .getDocuments();
+      _lastDocument = combJson.documents.last;
+      combList = combJson.documents
+          .map((data) => Combination.fromMap(data.data, data.documentID))
+          .toList();
+    } catch (e) {
+      this.allComming = true;
     }
-    // await Future.delayed(const Duration(seconds: 7));
+
     return combList;
   }
 
@@ -61,4 +76,19 @@ class CombinationsRepo implements CombinationsService {
             .first);
     return user.first;
   }
+
+  // var currentUser = await FirebaseAuth.instance.currentUser();
+  // var uid = currentUser.uid;
+  // var currentCustomer = await this.currentCustomer(uid);
+  // var combIds = await _getPermissions(uid);
+  // for (var combId in combIds) {
+  //   final snapshot = await combinationRef.document(combId).get();
+  //   final combination = Combination.fromMap(snapshot.data, snapshot.documentID);
+  //   final combPrice = combination.prices[currentCustomer.pricelist];
+  //   if (combPrice != null && combPrice != 0) {
+  //     combination.price = combPrice;
+  //     combList.add(combination);
+  //   }
+  // }
+  // await Future.delayed(const Duration(seconds: 7));
 }
