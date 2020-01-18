@@ -20,7 +20,7 @@ class CombinationsRepo implements CombinationsService {
       Firestore.instance.collection('customers');
 
   DocumentSnapshot _lastDocument;
-  int pageSize = 4;
+  int pageSize = 10;
   bool allComming = false;
 
   Future<List<Combination>> getCombinationsForFirst() async {

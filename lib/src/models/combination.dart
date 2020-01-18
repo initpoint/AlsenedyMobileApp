@@ -12,7 +12,7 @@ class Combination {
   bool isActive;
   bool isNew;
   dynamic prices;
-  List<String> pics;
+  List<String> pics = [];
   String barCodeId;
   String code;
   bool hasChildren;

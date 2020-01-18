@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_ui_kit/src/services/cart.service.dart';
 import 'package:ecommerce_app_ui_kit/src/services/customer.service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app_localizations.dart';
@@ -59,6 +60,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<CartService>(create: (_) => new CartRepo()),
         ChangeNotifierProvider<BaseAuth>(create: (_) => new Auth()),
         ProxyProvider<BaseAuth, UsersService>(
             update: (context, baseAuth, usersService) =>

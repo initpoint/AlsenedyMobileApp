@@ -1,9 +1,8 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
 import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
-import 'package:ecommerce_app_ui_kit/src/models/product.dart';
+import 'package:ecommerce_app_ui_kit/src/services/cart.service.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/FlashSalesCarouselWidget.dart';
 import 'package:flutter/material.dart';
-
 class ProductDetailsTabWidget extends StatefulWidget {
   Combination combination;
   List<Combination> _combinationList = new List<Combination>();
@@ -16,7 +15,7 @@ class ProductDetailsTabWidget extends StatefulWidget {
 
 class ProductDetailsTabWidgetState extends State<ProductDetailsTabWidget> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

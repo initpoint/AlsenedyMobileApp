@@ -59,30 +59,52 @@ class ProductGridItemWidget extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 children: <Widget>[
-                  StreamBuilder(
-                      stream: usersService.getUser().asStream(),
-                      builder: (context, AsyncSnapshot<Customer> snapshot) {
-                        if (snapshot.data != null) {
-                          return Text(
-                            combination?.prices[snapshot?.data?.pricelist]?.toString() ?? 0.toString(),
-                            style: Theme.of(context).textTheme.title,
-                          );
-                        } else {
-                          return Text('0');
-                        }
-                      }),
-                  combination.isNew
-                      ? Chip(
-                          backgroundColor: Colors.red,
-                          label: Text(
-                  AppLocalizations.of(context)
-                                  .translate('new'),
-                            style: TextStyle(color: Colors.white),
-                          ))
-                      : Container()
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        combination?.price?.toString() ?? 0.toString(),
+                        style: Theme.of(context).textTheme.title,
+                      ),
+                      combination.isNew
+                          ? Chip(
+                              backgroundColor: Colors.red,
+                              label: Text(
+                                AppLocalizations.of(context).translate('new'),
+                                style: TextStyle(color: Colors.white),
+                              ))
+                          : Container(),
+                    ],
+                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: <Widget>[
+                  //     IconButton(
+                  //       onPressed: () {
+                  //         // cartService.addNew();
+                  //       },
+                  //       iconSize: 30,
+                  //       padding: EdgeInsets.symmetric(horizontal: 5),
+                  //       icon: Icon(Icons.add_circle_outline),
+                  //       color: Theme.of(context).hintColor,
+                  //     ),
+                  //     Text(0.toString(),
+                  //         style: Theme.of(context).textTheme.subhead),
+                  //     IconButton(
+                  //       onPressed: () {
+                          // setState(() {
+                          //   widget.quantity = this.decrementQuantity(widget.quantity);
+                          // });
+                    //     },
+                    //     iconSize: 30,
+                    //     padding: EdgeInsets.symmetric(horizontal: 5),
+                    //     icon: Icon(Icons.remove_circle_outline),
+                    //     color: Theme.of(context).hintColor,
+                    //   ),
+                    // ],
+                  // )
                 ],
               ),
             ),

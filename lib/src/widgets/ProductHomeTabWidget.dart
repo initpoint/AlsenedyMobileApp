@@ -22,7 +22,6 @@ class ProductHomeTabWidget extends StatefulWidget {
 }
 
 class productHomeTabWidgetState extends State<ProductHomeTabWidget> {
-  
   @override
   Widget build(BuildContext context) {
     // BaseAuth auth = Provider.of<BaseAuth>(context);
@@ -47,19 +46,19 @@ class productHomeTabWidgetState extends State<ProductHomeTabWidget> {
               ),
               // Chip(
               //   padding: EdgeInsets.all(0),
-                // label: Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: <Widget>[
-                    // Text(widget.combination.rate.toString(),
-                    //     style:
-                    //         Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).primaryColor))),
-                    // Icon(
-                    //   Icons.star_border,
-                    //   color: Theme.of(context).primaryColor,
-                    //   size: 16,
-                    // ),
-                //   ],
-                // ),
+              // label: Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: <Widget>[
+              // Text(widget.combination.rate.toString(),
+              //     style:
+              //         Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).primaryColor))),
+              // Icon(
+              //   Icons.star_border,
+              //   color: Theme.of(context).primaryColor,
+              //   size: 16,
+              // ),
+              //   ],
+              // ),
               //   backgroundColor: Theme.of(context).accentColor.withOpacity(0.9),
               //   shape: StadiumBorder(),
               // ),
@@ -68,36 +67,27 @@ class productHomeTabWidgetState extends State<ProductHomeTabWidget> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-          child: StreamBuilder(
-            stream: usersService.getUser().asStream(),
-            builder: (context,AsyncSnapshot<Customer> snapshot) {
-              if(snapshot.data != null) {
-                return  Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(widget.combination?.prices[snapshot?.data?.pricelist]?.toString() ?? 0.toString(), style: Theme.of(context).textTheme.display3),
-                  SizedBox(width: 10),
-                  // Text(
-                  //   widget.combination.price.toString(),
-                  //   style: Theme.of(context)
-                  //       .textTheme
-                  //       .headline
-                  //       .merge(TextStyle(color: Theme.of(context).focusColor, decoration: TextDecoration.lineThrough)),
-                  // ),
-                  // SizedBox(width: 10),
-                  // Expanded(
-                  //   child: Text(
-                  //     '${widget.combination.amount.toString()} Sales',
-                  //     textAlign: TextAlign.right,
-                  //   ),
-                  // )
-                ],
-              );
-            
-              } else {
-                return Text('0');
-              }
-              }
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(widget.combination.price.toString(),
+                  style: Theme.of(context).textTheme.display3),
+              SizedBox(width: 10),
+              // Text(
+              //   widget.combination.price.toString(),
+              //   style: Theme.of(context)
+              //       .textTheme
+              //       .headline
+              //       .merge(TextStyle(color: Theme.of(context).focusColor, decoration: TextDecoration.lineThrough)),
+              // ),
+              // SizedBox(width: 10),
+              // Expanded(
+              //   child: Text(
+              //     '${widget.combination.amount.toString()} Sales',
+              //     textAlign: TextAlign.right,
+              //   ),
+              // )
+            ],
           ),
         ),
         // Container(
@@ -275,7 +265,9 @@ class _SelectSizeWidgetState extends State<SelectSizeWidget> {
         backgroundColor: Theme.of(context).focusColor.withOpacity(0.05),
         selectedColor: Theme.of(context).focusColor.withOpacity(0.2),
         selected: size.selected,
-        shape: StadiumBorder(side: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.05))),
+        shape: StadiumBorder(
+            side: BorderSide(
+                color: Theme.of(context).focusColor.withOpacity(0.05))),
         onSelected: (bool value) {
           setState(() {
             size.selected = value;

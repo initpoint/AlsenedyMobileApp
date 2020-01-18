@@ -1,24 +1,27 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
+import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
 import 'package:ecommerce_app_ui_kit/src/models/product.dart';
+import 'package:ecommerce_app_ui_kit/src/services/cart.service.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/CartItemWidget.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 class CartWidget extends StatefulWidget {
   @override
   _CartWidgetState createState() => _CartWidgetState();
 }
 
 class _CartWidgetState extends State<CartWidget> {
-  ProductsList _productsList;
+  List<Combination> _combinationList;
   @override
   void initState() {
-    _productsList = new ProductsList();
+    // _productsList = new ProductsList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    CartService cartService = Provider.of<CartService>(context);
+    _combinationList = cartService.combinationList;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -88,12 +91,12 @@ class _CartWidgetState extends State<CartWidget> {
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     primary: false,
-                    itemCount: _productsList.cartList.length,
+                    itemCount: _combinationList.length,
                     separatorBuilder: (context, index) {
                       return SizedBox(height: 15);
                     },
                     itemBuilder: (context, index) {
-                      return CartItemWidget(product: _productsList.cartList.elementAt(index), heroTag: 'cart');
+                      return CartItemWidget(combination: _combinationList.elementAt(index), heroTag: 'cart');
                     },
                   ),
                 ],
