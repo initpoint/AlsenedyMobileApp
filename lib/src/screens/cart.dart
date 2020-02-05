@@ -152,8 +152,9 @@ class _CartWidgetState extends State<CartWidget> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width - 40,
                           child: FlatButton(
-                            onPressed: () {
-                              Navigator.of(context).pushNamed('/Checkout');
+                            onPressed: () async {
+                              await cartService.checkoutCart();
+                              Navigator.of(context).pop();
                             },
                             padding: EdgeInsets.symmetric(vertical: 14),
                             color: Theme.of(context).accentColor,

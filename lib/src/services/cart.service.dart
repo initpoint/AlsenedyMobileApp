@@ -13,6 +13,7 @@ abstract class CartService with ChangeNotifier {
   Future<void> deleteCart(Cart cart);
   List<Combination> get combinationList;
   int get cartPrice;
+  Future<void> checkoutCart();
 }
 
 class CartRepo with ChangeNotifier implements CartService {
@@ -23,18 +24,19 @@ class CartRepo with ChangeNotifier implements CartService {
       Firestore.instance.collection('customers');
 
   CartRepo() {
-    this.getCurrentActiveCart();
   }
-get cartPrice {
-  var price = 0;
-  for (var item in combinationList) {
-    price += item.price * item.amount;
+  get cartPrice {
+    var price = 0;
+    for (var item in combinationList) {
+      price += item.price * item.amount;
+    }
+    return price;
   }
-  return price;
-}
+
   List<Combination> combinationList = [];
   Cart cart;
   bool anyCartActive = true;
+  
   Future<List<Cart>> getAllCarts(String uid) async {
     var userId = await getCurrentUserId();
     var docs = await cartCollection
@@ -46,7 +48,19 @@ get cartPrice {
     return carts;
   }
 
+  Future<void> checkoutCart() async {
+    var cart = await getCurrentActiveCart();
+    cart.isActive = false;
+    await cartCollection.document(cart.id).updateData(cart.toMap());
+    for (var item in combinationList) {
+      item.amount = 0;
+    }
+    anyCartActive = false;
+    combinationList = [];
+  }
+
   Future<void> addToCartCart(Combination combination) async {
+    cart = await getCurrentActiveCart();
     Customer customer = await currentCustomer();
     cart.combinations.add(combination);
     cart.items.add(combination.id);
@@ -57,8 +71,6 @@ get cartPrice {
     if (anyCartActive) {
       await cartCollection.document(cart.id).updateData(cart.toMap());
     } else {
-      var cartToAdd = await cartCollection.add(cart.toMap());
-      cart.id = cartToAdd.documentID;
       this.anyCartActive = true;
     }
     combination.amount++;
@@ -108,17 +120,20 @@ get cartPrice {
         .where('customerId', isEqualTo: uid)
         .where('isActive', isEqualTo: true)
         .getDocuments()
-        .then((jsonCart) {
+        .then((jsonCart) async {
       var carts = jsonCart.documents
           .map((cartObj) => Cart.fromMap(cartObj.data, cartObj.documentID))
           .toList();
       if (carts.length > 0) {
         cart = carts.first;
+        cart.combinations = [];
       } else {
         this.anyCartActive = false;
+        cart = Cart(combinations: [], items: [], isActive: true);
+        var cartToAdd = await cartCollection.add(cart.toMap());
+        cart.id = cartToAdd.documentID;
       }
     });
-    this.cart = cart ??= Cart(combinations: [], items: [], isActive: true);
-    return cart ??= Cart(combinations: [], items: [], isActive: true);
+    return cart;
   }
 }
