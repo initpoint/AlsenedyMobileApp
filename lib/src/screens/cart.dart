@@ -121,29 +121,29 @@ class _CartWidgetState extends State<CartWidget> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            'Subtotal',
-                            style: Theme.of(context).textTheme.body2,
-                          ),
-                        ),
-                        Text('\$50.23', style: Theme.of(context).textTheme.subhead),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            'TAX (20%)',
-                            style: Theme.of(context).textTheme.body2,
-                          ),
-                        ),
-                        Text('\$13.23', style: Theme.of(context).textTheme.subhead),
-                      ],
-                    ),
+                    // Row(
+                    //   children: <Widget>[
+                    //     Expanded(
+                    //       child: Text(
+                    //         'Subtotal',
+                    //         style: Theme.of(context).textTheme.body2,
+                    //       ),
+                    //     ),
+                    //     Text('\$50.23', style: Theme.of(context).textTheme.subhead),
+                    //   ],
+                    // ),
+                    SizedBox(height: 50),
+                    // Row(
+                    //   children: <Widget>[
+                    //     Expanded(
+                    //       child: Text(
+                    //         'TAX (20%)',
+                    //         style: Theme.of(context).textTheme.body2,
+                    //       ),
+                    //     ),
+                    //     Text('\$13.23', style: Theme.of(context).textTheme.subhead),
+                    //   ],
+                    // ),
                     SizedBox(height: 10),
                     Stack(
                       fit: StackFit.loose,
@@ -168,7 +168,7 @@ class _CartWidgetState extends State<CartWidget> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
-                            '\$55.36',
+                            cartService.cartPrice.toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .display1

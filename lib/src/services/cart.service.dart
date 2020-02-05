@@ -12,6 +12,7 @@ abstract class CartService with ChangeNotifier {
   Future<void> updateCart(Combination combination, {bool increment = true});
   Future<void> deleteCart(Cart cart);
   List<Combination> get combinationList;
+  int get cartPrice;
 }
 
 class CartRepo with ChangeNotifier implements CartService {
@@ -24,7 +25,13 @@ class CartRepo with ChangeNotifier implements CartService {
   CartRepo() {
     this.getCurrentActiveCart();
   }
-
+get cartPrice {
+  var price = 0;
+  for (var item in combinationList) {
+    price += item.price * item.amount;
+  }
+  return price;
+}
   List<Combination> combinationList = [];
   Cart cart;
   bool anyCartActive = true;

@@ -13,7 +13,7 @@ class Combination {
   bool isNew;
   dynamic prices;
   List<String> pics = [];
-  String barCodeId;
+  List<String> barCodeId;
   String code;
   bool hasChildren;
   String headId;
@@ -64,7 +64,7 @@ class Combination {
         pics = snapshot['pics']?.cast<String>() ?? [],
         isNew = snapshot['isNew'] ?? false,
         prices = snapshot['prices'] ?? {},
-        barCodeId = snapshot['barCodeId'] ?? '',
+        barCodeId = snapshot['barCodeId']?.cast<String>() ?? [],
         code = snapshot['code'] ?? '',
         hasChildren = snapshot['hasChildren'] ?? false,
         headId = snapshot['headId'] ?? '',

@@ -20,10 +20,11 @@ class CombinationsRepo implements CombinationsService {
       Firestore.instance.collection('customers');
 
   DocumentSnapshot _lastDocument;
-  int pageSize = 10;
+  int pageSize = 800;
   bool allComming = false;
 
   Future<List<Combination>> getCombinationsForFirst() async {
+    print('combinations');
     List<Combination> combList = [];
     var currentUser = await FirebaseAuth.instance.currentUser();
     var uid = currentUser.uid;
@@ -46,7 +47,6 @@ class CombinationsRepo implements CombinationsService {
         combList.add(comb);
       }
     });
-
     return combList;
   }
 
@@ -78,7 +78,7 @@ class CombinationsRepo implements CombinationsService {
     } catch (e) {
       this.allComming = true;
     }
-
+    print(combList);
     return combList;
   }
 
