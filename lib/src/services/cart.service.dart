@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:ecommerce_app_ui_kit/src/models/cart-item.model.dart';
 import 'package:ecommerce_app_ui_kit/src/models/cart.model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
@@ -23,8 +24,6 @@ class CartRepo with ChangeNotifier implements CartService {
   final CollectionReference usersCollection =
       Firestore.instance.collection('customers');
 
-  CartRepo() {
-  }
   get cartPrice {
     var price = 0;
     for (var item in combinationList) {
@@ -36,7 +35,7 @@ class CartRepo with ChangeNotifier implements CartService {
   List<Combination> combinationList = [];
   Cart cart;
   bool anyCartActive = true;
-  
+
   Future<List<Cart>> getAllCarts(String uid) async {
     var userId = await getCurrentUserId();
     var docs = await cartCollection
@@ -63,7 +62,6 @@ class CartRepo with ChangeNotifier implements CartService {
     cart = await getCurrentActiveCart();
     Customer customer = await currentCustomer();
     cart.combinations.add(combination);
-    cart.items.add(combination.id);
     combinationList.add(combination);
     cart.customerId = customer.id;
     cart.customerName = customer.fullName;
@@ -74,6 +72,10 @@ class CartRepo with ChangeNotifier implements CartService {
       this.anyCartActive = true;
     }
     combination.amount++;
+    cart.items.add(new CartItem(code: combination.code, name: combination.nameArFull, qty: combination.amount, shippedQty: 0));
+    // cart.items.add({combination.id: combination.amount});
+    print('sssssssss');
+    await cartCollection.document(cart.id).updateData(cart.toMap());
 
     notifyListeners();
   }
@@ -81,14 +83,17 @@ class CartRepo with ChangeNotifier implements CartService {
   Future<void> updateCart(Combination combination,
       {bool increment = true}) async {
     if (increment) {
-      if (cart.items.where((x) => x == combination.id) == null) {
+      if (cart.items== null) {
         combination.amount++;
         combinationList.add(combination);
+        // cart.items.add({combination.id: combination.amount});
+        cart.items.add(new CartItem(code: combination.code, name: combination.nameArFull, qty: combination.amount, shippedQty: 0));
+
       } else {
         combination.amount++;
       }
     } else {
-      cart.items.remove(combination.id);
+      // cart.items.where((x) => x.containsKey(combination.id));
       combination.amount--;
     }
     await cartCollection.document(cart.id).updateData(cart.toMap());
@@ -125,6 +130,7 @@ class CartRepo with ChangeNotifier implements CartService {
           .map((cartObj) => Cart.fromMap(cartObj.data, cartObj.documentID))
           .toList();
       if (carts.length > 0) {
+        print(carts.first);
         cart = carts.first;
         cart.combinations = [];
       } else {
