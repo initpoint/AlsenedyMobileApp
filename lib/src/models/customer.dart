@@ -17,7 +17,7 @@ class Customer {
 
   Customer.fromMap(Map snapshot, String id) :
         id = id ?? '',
-        fullName = snapshot['fullName'] ?? '',
+        fullName = snapshot['name'] ?? '',
         photoUrl = snapshot['photoUrl'] ?? '',
         uid = snapshot['uid'] ?? '',
         pricelist = snapshot['pricelist'] ?? '',
@@ -26,7 +26,7 @@ class Customer {
   toJson() {
     return {
       "id": id,
-      "fullName": fullName,
+      "name": fullName,
       "photoUrl": photoUrl,
       "uid": uid,
       "email": email,

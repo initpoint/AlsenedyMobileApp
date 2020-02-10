@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:ecommerce_app_ui_kit/src/models/cart-item.model.dart';
 import 'package:ecommerce_app_ui_kit/src/models/cart.model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app_ui_kit/src/models/combination.dart';
@@ -24,6 +23,9 @@ class CartRepo with ChangeNotifier implements CartService {
   final CollectionReference usersCollection =
       Firestore.instance.collection('customers');
 
+  CartRepo() {
+    this.getCurrentActiveCart();
+  }
   get cartPrice {
     var price = 0;
     for (var item in combinationList) {
@@ -34,7 +36,6 @@ class CartRepo with ChangeNotifier implements CartService {
 
   List<Combination> combinationList = [];
   Cart cart;
-  bool anyCartActive = true;
 
   Future<List<Cart>> getAllCarts(String uid) async {
     var userId = await getCurrentUserId();
@@ -54,47 +55,43 @@ class CartRepo with ChangeNotifier implements CartService {
     for (var item in combinationList) {
       item.amount = 0;
     }
-    anyCartActive = false;
     combinationList = [];
   }
 
   Future<void> addToCartCart(Combination combination) async {
     cart = await getCurrentActiveCart();
     Customer customer = await currentCustomer();
+    ++combination.amount;
     cart.combinations.add(combination);
     combinationList.add(combination);
+    cart.items.addAll({combination.id: combination.amount});
     cart.customerId = customer.id;
     cart.customerName = customer.fullName;
-
-    if (anyCartActive) {
-      await cartCollection.document(cart.id).updateData(cart.toMap());
-    } else {
-      this.anyCartActive = true;
-    }
-    combination.amount++;
-    cart.items.add(new CartItem(code: combination.code, name: combination.nameArFull, qty: combination.amount, shippedQty: 0));
-    // cart.items.add({combination.id: combination.amount});
-    print('sssssssss');
+    cart.totalPrice = cartPrice;
     await cartCollection.document(cart.id).updateData(cart.toMap());
-
     notifyListeners();
   }
 
   Future<void> updateCart(Combination combination,
       {bool increment = true}) async {
+    cart = await getCurrentActiveCart();
     if (increment) {
-      if (cart.items== null) {
+      if (!cart.items.containsKey(combination.id)) {
         combination.amount++;
         combinationList.add(combination);
-        // cart.items.add({combination.id: combination.amount});
-        cart.items.add(new CartItem(code: combination.code, name: combination.nameArFull, qty: combination.amount, shippedQty: 0));
-
+        cart.items.update(combination.id, (com) => combination.amount);
       } else {
         combination.amount++;
+        cart.totalPrice = cartPrice;
+        cart.items.update(combination.id, (com) => combination.amount);
       }
     } else {
-      // cart.items.where((x) => x.containsKey(combination.id));
       combination.amount--;
+      cart.totalPrice = cartPrice;
+      cart.items.update(combination.id, (com) => combination.amount);
+      if (combination.amount <= 0) {
+        combinationList.remove(combination);
+      }
     }
     await cartCollection.document(cart.id).updateData(cart.toMap());
     notifyListeners();
@@ -130,12 +127,16 @@ class CartRepo with ChangeNotifier implements CartService {
           .map((cartObj) => Cart.fromMap(cartObj.data, cartObj.documentID))
           .toList();
       if (carts.length > 0) {
-        print(carts.first);
         cart = carts.first;
         cart.combinations = [];
       } else {
-        this.anyCartActive = false;
-        cart = Cart(combinations: [], items: [], isActive: true);
+        var customer = await currentCustomer();
+        cart = Cart(
+            combinations: [],
+            items: {},
+            isActive: true,
+            customerId: customer.id,
+            customerName: customer.fullName);
         var cartToAdd = await cartCollection.add(cart.toMap());
         cart.id = cartToAdd.documentID;
       }
