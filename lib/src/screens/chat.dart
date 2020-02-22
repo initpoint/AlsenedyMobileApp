@@ -35,8 +35,8 @@ class _ChatWidgetState extends State<ChatWidget> {
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          FutureBuilder(
-              future: messageService.getMyChat(),
+          StreamBuilder(
+              stream: messageService.getMyChat(),
               builder: (context,AsyncSnapshot<List<Message>> snapshot) {
                 if (snapshot.hasData) {
                   return Expanded(
@@ -83,13 +83,15 @@ class _ChatWidgetState extends State<ChatWidget> {
                 suffixIcon: IconButton(
                   padding: EdgeInsets.only(right: 30),
                   onPressed: () {
-                    setState(() {
-                      _conversationList.conversations[0].chats.insert(
-                          0,
-                          new Chat(
-                              myController.text, '21min ago', _currentUser));
-                      _myListKey.currentState.insertItem(0);
-                    });
+                    // setState(() {
+                      // _conversationList.conversations[0].chats.insert(
+                      //     0,
+                      //     new Chat(
+                      //         myController.text, '21min ago', _currentUser));
+                      // _myListKey.currentState.insertItem(0);
+                      messageService.createMessage(myController.text);
+                    // });
+                    print(myController.text);
                     Timer(Duration(milliseconds: 100), () {
                       myController.clear();
                     });

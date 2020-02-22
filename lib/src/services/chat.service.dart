@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class BaseChatService with ChangeNotifier {
-  Future<List<Message>> getMyChat();
+  Stream<List<Message>> getMyChat();
   Future<bool> createMessage(String message);
 }
 
@@ -19,31 +19,29 @@ class ChatService with ChangeNotifier implements BaseChatService {
   final CollectionReference messagessCollection =
       Firestore.instance.collection('messages');
 
-  Future<bool> createMessage(String message) async {
+  Future<bool> createMessage(String messageText) async {
     var currentUser = await FirebaseAuth.instance.currentUser();
     var currentCustomer = await this.currentCustomer(currentUser.uid);
 
     var message = Message();
     message.customerId = currentCustomer.uid;
-    message.text = message.text;
+    message.text = messageText;
     message.sender = currentCustomer.uid;
     message.customerName = currentCustomer.fullName;
-
+    print(message.toJson());
     await messagessCollection.add(message.toJson());
     return true;
   }
 
-  Future<List<Message>> getMyChat() async {
+  Stream<List<Message>> getMyChat() async* {
     var currentUser = await FirebaseAuth.instance.currentUser();
-    var userMessagesFromFirebase = await messagessCollection
+   var messages =  messagessCollection
         .where('customerId', isEqualTo: currentUser.uid)
-        .getDocuments();
+        .snapshots();
 
-    var jsonMessages = userMessagesFromFirebase.documents
-        .map((data) => Message.fromMap(data.data, data.documentID))
-        .toList();
-
-    return jsonMessages;
+    yield* messages.map((data) => data.documents
+            .map((mess) => Message.fromMap(mess.data, mess.documentID))
+            .toList());
   }
 
   Future<Customer> currentCustomer(String uid) async {

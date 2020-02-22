@@ -13,10 +13,12 @@ class ChatMessageListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new SizeTransition(
-      sizeFactor: new CurvedAnimation(parent: animation, curve: Curves.decelerate),
-      child:
-          currentUser.name == this.message.customerId ? getSentMessageLayout(context) : getReceivedMessageLayout(context),
+    return SafeArea(
+          child: new SizeTransition(
+        sizeFactor: new CurvedAnimation(parent: animation, curve: Curves.decelerate),
+        child:
+            message.sender == this.message.customerId ? getSentMessageLayout(context) : getReceivedMessageLayout(context),
+      ),
     );
   }
 
