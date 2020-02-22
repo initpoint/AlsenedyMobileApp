@@ -26,7 +26,7 @@ class _HomeWidgetState extends State<HomeWidget>
   List<Combination> _compbinationList = List<Combination>();
   int currentPage = 1;
   getCombinations() async {
-    var combinations = await _combinationsRepo.getCombinationsForFirst();
+    var combinations = await _combinationsRepo.getCombinations();
     setState(() {
       _compbinationList =
           combinations.where((com) => com.isActive == true).toList();
@@ -224,7 +224,7 @@ class _HomeWidgetState extends State<HomeWidget>
                   ),
                   !_combinationsRepo.allComming
                       ? Center(
-                          child: LinearProgressIndicator(),
+                          // child: LinearProgressIndicator(),
                         )
                       : Text('لا يوجد المزيد من التركيبات'),
                   SizedBox(
@@ -263,7 +263,7 @@ class _HomeWidgetState extends State<HomeWidget>
                   ),
                   !_combinationsRepo.allComming
                       ? Center(
-                          child: LinearProgressIndicator(),
+                          // child: LinearProgressIndicator(),
                         )
                       : Text('لا يوجد المزيد من التركيبات'),
                   SizedBox(

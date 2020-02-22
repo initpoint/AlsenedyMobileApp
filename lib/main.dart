@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_ui_kit/src/services/cart.service.dart';
+import 'package:ecommerce_app_ui_kit/src/services/chat.service.dart';
 import 'package:ecommerce_app_ui_kit/src/services/customer.service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app_localizations.dart';
@@ -61,6 +62,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<CartService>(create: (_) => new CartRepo()),
+        ChangeNotifierProvider<BaseChatService>(create: (_) => new ChatService()),
         ChangeNotifierProvider<BaseAuth>(create: (_) => new Auth()),
         ProxyProvider<BaseAuth, UsersService>(
             update: (context, baseAuth, usersService) =>

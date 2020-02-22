@@ -1,20 +1,22 @@
 import 'package:ecommerce_app_ui_kit/src/models/chat.dart';
+import 'package:ecommerce_app_ui_kit/src/models/message.model.dart';
 import 'package:ecommerce_app_ui_kit/src/models/user.dart';
 import 'package:flutter/material.dart';
 
 class ChatMessageListItem extends StatelessWidget {
-  Chat chat;
+  Message message;
+  // Message message= new Message(text: 'hello');
   User currentUser = new User.init().getCurrentUser();
   final Animation animation;
 
-  ChatMessageListItem({this.chat, this.animation});
+  ChatMessageListItem({this.message, this.animation});
 
   @override
   Widget build(BuildContext context) {
     return new SizeTransition(
       sizeFactor: new CurvedAnimation(parent: animation, curve: Curves.decelerate),
       child:
-          currentUser.name == this.chat.user.name ? getSentMessageLayout(context) : getReceivedMessageLayout(context),
+          currentUser.name == this.message.customerId ? getSentMessageLayout(context) : getReceivedMessageLayout(context),
     );
   }
 
@@ -35,23 +37,23 @@ class ChatMessageListItem extends StatelessWidget {
               child: new Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  new Text(this.chat.user.name, style: Theme.of(context).textTheme.body2),
+                  // new Text(this.chat.user.name, style: Theme.of(context).textTheme.body2),
                   new Container(
                     margin: const EdgeInsets.only(top: 5.0),
-                    child: new Text(chat.text),
+                    child: new Text(message.text),
                   ),
                 ],
               ),
             ),
             new Column(
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                new Container(
-                    margin: const EdgeInsets.only(left: 8.0),
-                    child: new CircleAvatar(
-                      backgroundImage: AssetImage(this.chat.user.avatar),
-                    )),
-              ],
+              // children: <Widget>[
+              //   new Container(
+              //       margin: const EdgeInsets.only(left: 8.0),
+              //       child: new CircleAvatar(
+              //         backgroundImage: AssetImage(this.chat.user.avatar),
+              //       )),
+              // ],
             ),
           ],
         ),
@@ -74,24 +76,24 @@ class ChatMessageListItem extends StatelessWidget {
           children: <Widget>[
             new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                new Container(
-                    margin: const EdgeInsets.only(right: 8.0),
-                    child: new CircleAvatar(
-                      backgroundImage: AssetImage(this.chat.user.avatar),
-                    )),
-              ],
+              // children: <Widget>[
+              //   new Container(
+              //       margin: const EdgeInsets.only(right: 8.0),
+              //       child: new CircleAvatar(
+              //         backgroundImage: AssetImage(this.chat.user.avatar),
+              //       )),
+              // ],
             ),
             new Flexible(
               child: new Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  new Text(this.chat.user.name,
-                      style: Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).primaryColor))),
+                  // new Text(this.chat.user.name,
+                  //     style: Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).primaryColor))),
                   new Container(
                     margin: const EdgeInsets.only(top: 5.0),
                     child: new Text(
-                      chat.text,
+                      message.text,
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
                   ),

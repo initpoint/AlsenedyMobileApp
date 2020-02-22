@@ -197,6 +197,20 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           // ),
           ListTile(
             onTap: () {
+              Navigator.of(context).pushNamed('/Chat');
+            },
+            leading: Icon(
+              UiIcons.chat,
+              color: Theme.of(context).focusColor.withOpacity(1),
+            ),
+            title: Text(
+               AppLocalizations.of(context)
+                                  .translate('Chat'),
+              style: Theme.of(context).textTheme.subhead,
+            ),
+          ),
+          ListTile(
+            onTap: () {
               Navigator.of(context).pushNamed('/Languages');
             },
             leading: Icon(
