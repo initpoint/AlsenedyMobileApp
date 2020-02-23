@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_ui_kit/src/models/cart.model.dart';
+import 'package:ecommerce_app_ui_kit/src/screens/cart-details.dart';
 import 'package:ecommerce_app_ui_kit/src/services/cart.service.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
@@ -40,24 +41,39 @@ class _MyCartsState extends State<MyCarts> {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[ 
-                        Text(
-                           snapshot.data[index].items.length.toString() +'  Items - ' + snapshot.data[index].totalPrice.toString() + ' USD' ,
-                          style: TextStyle(fontSize: 30),
-                          textAlign: TextAlign.center,
-                        )
-                      ],
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CartDetailsWidget(
+                                combinationsIds: snapshot.data[index].items,
+                              ),
+                            ));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                            snapshot.data[index].items.length.toString() +
+                                '  Items - ' +
+                                snapshot.data[index].totalPrice.toString() +
+                                ' USD',
+                            style: TextStyle(fontSize: 30),
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ),
                     ),
                   );
                 },
               );
             } else if (snapshot.hasError) {
               print(snapshot.error);
-              return Container(child: Text('has Error'),);
-            }
-             else {
+              return Container(
+                child: Text('has Error'),
+              );
+            } else {
               return Container(child: Text('waiiiii'));
             }
           }),

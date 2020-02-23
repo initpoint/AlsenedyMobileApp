@@ -2,6 +2,7 @@ import 'package:ecommerce_app_ui_kit/main.dart';
 import 'package:ecommerce_app_ui_kit/src/models/route_argument.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/brand.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/brands.dart';
+import 'package:ecommerce_app_ui_kit/src/screens/cart-details.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/cart.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/categories.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/category.dart';
