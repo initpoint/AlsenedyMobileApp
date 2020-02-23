@@ -17,6 +17,7 @@ import 'package:ecommerce_app_ui_kit/src/screens/reset_password.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/signin.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/signup.dart';
 import 'package:ecommerce_app_ui_kit/src/screens/tabs.dart';
+import 'package:ecommerce_app_ui_kit/src/widgets/MyCartsWidget.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -72,6 +73,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => CartWidget());
       case '/Checkout':
         return MaterialPageRoute(builder: (_) => CheckoutWidget());
+      case '/MyCarts':
+        return MaterialPageRoute(builder: (_) => MyCarts());
       case '/Chat':
         return MaterialPageRoute(builder: (_) => ChatWidget());
       case '/CheckoutDone':

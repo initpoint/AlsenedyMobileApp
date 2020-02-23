@@ -14,6 +14,7 @@ abstract class CartService with ChangeNotifier {
   List<Combination> get combinationList;
   int get cartPrice;
   Future<void> checkoutCart();
+  Stream<List<Cart>> getCustomerCarts();
 }
 
 class CartRepo with ChangeNotifier implements CartService {
@@ -23,9 +24,7 @@ class CartRepo with ChangeNotifier implements CartService {
   final CollectionReference usersCollection =
       Firestore.instance.collection('customers');
 
-  CartRepo() {
-    this.getCurrentActiveCart();
-  }
+
   get cartPrice {
     var price = 0;
     for (var item in combinationList) {
@@ -142,5 +141,18 @@ class CartRepo with ChangeNotifier implements CartService {
       }
     });
     return cart;
+  }
+
+  Stream<List<Cart>> getCustomerCarts() async* {
+    Customer currentCustomer = await this.currentCustomer();
+    var carts = cartCollection
+        .where('customerId', isEqualTo: currentCustomer.id)
+        .snapshots();
+
+    var cartsToReturn = carts.map((data) => data.documents
+        .map((cart) => Cart.fromMap(cart.data, cart.documentID))
+        .toList());
+       print(cartsToReturn);
+    yield* cartsToReturn;
   }
 }
