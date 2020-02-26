@@ -11,8 +11,6 @@ abstract class BaseChatService with ChangeNotifier {
 }
 
 class ChatService with ChangeNotifier implements BaseChatService {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
   final CollectionReference usersCollection =
       Firestore.instance.collection('customers');
 
@@ -35,11 +33,11 @@ class ChatService with ChangeNotifier implements BaseChatService {
 
   Stream<List<Message>> getMyChat() async* {
     var currentUser = await FirebaseAuth.instance.currentUser();
-   var messages =  messagessCollection
+    yield* messagessCollection
         .where('customerId', isEqualTo: currentUser.uid)
-        .snapshots();
-
-    yield* messages.map((data) => data.documents
+        .orderBy('createDate', descending: true)
+        .snapshots()
+        .asyncMap((data) => data.documents
             .map((mess) => Message.fromMap(mess.data, mess.documentID))
             .toList());
   }

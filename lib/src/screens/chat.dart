@@ -7,6 +7,7 @@ import 'package:ecommerce_app_ui_kit/src/models/message.model.dart';
 import 'package:ecommerce_app_ui_kit/src/models/user.dart';
 import 'package:ecommerce_app_ui_kit/src/services/chat.service.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/ChatMessageListItemWidget.dart';
+import 'package:ecommerce_app_ui_kit/src/widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,7 @@ class ChatWidget extends StatefulWidget {
 
 class _ChatWidgetState extends State<ChatWidget> {
   ConversationsList _conversationList = new ConversationsList();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   User _currentUser = new User.init().getCurrentUser();
   final _myListKey = GlobalKey<AnimatedListState>();
   final myController = TextEditingController();
@@ -32,12 +34,28 @@ class _ChatWidgetState extends State<ChatWidget> {
   Widget build(BuildContext context) {
     final messageService = Provider.of<BaseChatService>(context);
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: DrawerWidget(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: new IconButton(
+          icon: new Icon(Icons.sort, color: Theme.of(context).hintColor),
+          onPressed: () => _scaffoldKey.currentState.openDrawer(),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          'Chat',
+          style: Theme.of(context).textTheme.display1,
+        ),
+      ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           StreamBuilder(
               stream: messageService.getMyChat(),
-              builder: (context,AsyncSnapshot<List<Message>> snapshot) {
+              builder: (context, AsyncSnapshot<List<Message>> snapshot)  {
+                print('we got messssssssssssssssssssssssssages');
                 if (snapshot.hasData) {
                   return Expanded(
                     child: AnimatedList(
@@ -45,8 +63,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                       reverse: true,
                       padding:
                           EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                      initialItemCount:
-                          snapshot.data.length,
+                      initialItemCount: snapshot.data.length,
                       itemBuilder:
                           (context, index, Animation<double> animation) {
                         Message message = snapshot.data[index];
@@ -57,7 +74,13 @@ class _ChatWidgetState extends State<ChatWidget> {
                       },
                     ),
                   );
-                } else {
+                } 
+                else if(snapshot.hasError){
+                  return Center(
+                    child: Text('error' + snapshot.error.toString()),
+                  );
+                }
+                else {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
@@ -82,16 +105,15 @@ class _ChatWidgetState extends State<ChatWidget> {
                     color: Theme.of(context).focusColor.withOpacity(0.8)),
                 suffixIcon: IconButton(
                   padding: EdgeInsets.only(right: 30),
-                  onPressed: () {
+                  onPressed: () async {
                     // setState(() {
-                      // _conversationList.conversations[0].chats.insert(
-                      //     0,
-                      //     new Chat(
-                      //         myController.text, '21min ago', _currentUser));
-                      // _myListKey.currentState.insertItem(0);
-                      messageService.createMessage(myController.text);
+                    // _conversationList.conversations[0].chats.insert(
+                    //     0,
+                    //     new Chat(
+                    //         myController.text, '21min ago', _currentUser));
+                    // _myListKey.currentState.insertItem(0);
+                   await messageService.createMessage(myController.text).catchError((e) {print(e);});
                     // });
-                    print(myController.text);
                     Timer(Duration(milliseconds: 100), () {
                       myController.clear();
                     });
