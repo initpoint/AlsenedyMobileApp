@@ -10,6 +10,7 @@ import 'package:ecommerce_app_ui_kit/src/widgets/ChatMessageListItemWidget.dart'
 import 'package:ecommerce_app_ui_kit/src/widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatWidget extends StatefulWidget {
   @override
@@ -53,20 +54,23 @@ class _ChatWidgetState extends State<ChatWidget> {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           StreamBuilder(
-              stream: messageService.getMyChat(),
-              builder: (context, AsyncSnapshot<List<Message>> snapshot)  {
-                print('we got messssssssssssssssssssssssssages');
+              stream: Firestore.instance.collection('messages').snapshots(),
+              builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  var messagesList = snapshot.data.documents
+                      .map(
+                          (mess) => Message.fromMap(mess.data, mess.documentID))
+                      .toList();
                   return Expanded(
                     child: AnimatedList(
                       key: _myListKey,
                       reverse: true,
                       padding:
                           EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                      initialItemCount: snapshot.data.length,
+                      initialItemCount: messagesList.length,
                       itemBuilder:
                           (context, index, Animation<double> animation) {
-                        Message message = snapshot.data[index];
+                        Message message = messagesList[index];
                         return ChatMessageListItem(
                           message: message,
                           animation: animation,
@@ -74,13 +78,11 @@ class _ChatWidgetState extends State<ChatWidget> {
                       },
                     ),
                   );
-                } 
-                else if(snapshot.hasError){
+                } else if (snapshot.hasError) {
                   return Center(
                     child: Text('error' + snapshot.error.toString()),
                   );
-                }
-                else {
+                } else {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
@@ -112,7 +114,11 @@ class _ChatWidgetState extends State<ChatWidget> {
                     //     new Chat(
                     //         myController.text, '21min ago', _currentUser));
                     // _myListKey.currentState.insertItem(0);
-                   await messageService.createMessage(myController.text).catchError((e) {print(e);});
+                    await messageService
+                        .createMessage(myController.text)
+                        .catchError((e) {
+                      print(e);
+                    });
                     // });
                     Timer(Duration(milliseconds: 100), () {
                       myController.clear();

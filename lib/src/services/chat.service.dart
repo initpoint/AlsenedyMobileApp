@@ -36,10 +36,13 @@ class ChatService with ChangeNotifier implements BaseChatService {
     yield* messagessCollection
         .where('customerId', isEqualTo: currentUser.uid)
         .orderBy('createDate', descending: true)
-        .snapshots()
-        .asyncMap((data) => data.documents
+        .snapshots(includeMetadataChanges: true)
+        .map((data) {
+          print('data comming');
+         return  data.documents
             .map((mess) => Message.fromMap(mess.data, mess.documentID))
-            .toList());
+            .toList();
+        });
   }
 
   Future<Customer> currentCustomer(String uid) async {
