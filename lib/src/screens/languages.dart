@@ -44,19 +44,19 @@ class _LanguagesWidgetState extends State<LanguagesWidget> {
         actions: <Widget>[
           new ShoppingCartButtonWidget(
               iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
-          Container(
-              width: 30,
-              height: 30,
-              margin: EdgeInsets.only(top: 12.5, bottom: 12.5, right: 20),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(300),
-                onTap: () {
-                  Navigator.of(context).pushNamed('/Tabs', arguments: 1);
-                },
-                child: CircleAvatar(
-                  backgroundImage: AssetImage('img/user2.jpg'),
-                ),
-              )),
+          // Container(
+          //     width: 30,
+          //     height: 30,
+          //     margin: EdgeInsets.only(top: 12.5, bottom: 12.5, right: 20),
+          //     child: InkWell(
+          //       borderRadius: BorderRadius.circular(300),
+          //       onTap: () {
+          //         Navigator.of(context).pushNamed('/Tabs', arguments: 1);
+          //       },
+                // child: CircleAvatar(
+                //   backgroundImage: AssetImage('img/user2.jpg'),
+                // ),
+              // )),
         ],
       ),
       body: SingleChildScrollView(

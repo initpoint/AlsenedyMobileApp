@@ -7,19 +7,19 @@ class ChatMessageListItem extends StatelessWidget {
   Message message;
   // Message message= new Message(text: 'hello');
   User currentUser = new User.init().getCurrentUser();
-  final Animation animation;
+  // final Animation animation;
 
-  ChatMessageListItem({this.message, this.animation});
+  ChatMessageListItem({this.message});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-          child: new SizeTransition(
-        sizeFactor: new CurvedAnimation(parent: animation, curve: Curves.decelerate),
+          // child: new SizeTransition(
+        // sizeFactor: new CurvedAnimation(parent: animation, curve: Curves.decelerate),
         child:
             message.sender == this.message.customerId ? getSentMessageLayout(context) : getReceivedMessageLayout(context),
-      ),
-    );
+      );
+    // );
   }
 
   Widget getSentMessageLayout(context) {

@@ -11,6 +11,7 @@ import 'package:ecommerce_app_ui_kit/src/widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ChatWidget extends StatefulWidget {
   @override
@@ -18,11 +19,34 @@ class ChatWidget extends StatefulWidget {
 }
 
 class _ChatWidgetState extends State<ChatWidget> {
-  ConversationsList _conversationList = new ConversationsList();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  User _currentUser = new User.init().getCurrentUser();
   final _myListKey = GlobalKey<AnimatedListState>();
   final myController = TextEditingController();
+  // final CollectionReference reference = ;
+
+  List<Message> messagesList = [];
+
+  @override
+  void initState() {
+    FirebaseAuth.instance.currentUser().then((data) {
+      print(data.uid);
+      Firestore.instance
+          .collection('messages')
+          .where('customerId', isEqualTo: data.uid)
+          .orderBy('createDate', descending: true)
+          .snapshots()
+          .listen((querySnapshot) {
+        // final messages = 
+        setState(() {
+          this.messagesList = querySnapshot.documents
+            .map((mess) => Message.fromMap(mess.data, mess.documentID))
+            .toList();
+        });
+      });
+    });
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -53,41 +77,20 @@ class _ChatWidgetState extends State<ChatWidget> {
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          StreamBuilder(
-              stream: Firestore.instance.collection('messages').snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  var messagesList = snapshot.data.documents
-                      .map(
-                          (mess) => Message.fromMap(mess.data, mess.documentID))
-                      .toList();
-                  return Expanded(
-                    child: AnimatedList(
-                      key: _myListKey,
-                      reverse: true,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                      initialItemCount: messagesList.length,
-                      itemBuilder:
-                          (context, index, Animation<double> animation) {
-                        Message message = messagesList[index];
-                        return ChatMessageListItem(
-                          message: message,
-                          animation: animation,
-                        );
-                      },
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text('error' + snapshot.error.toString()),
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              }),
+          Expanded(
+            child: ListView.builder(
+              reverse: true,
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+              itemCount: this.messagesList.length,
+              itemBuilder: (context, index) {
+                Message message = this.messagesList[index];
+                print('this is message' + message.customerId);
+                return ChatMessageListItem(
+                  message: message,
+                );
+              },
+            ),
+          ),
           Container(
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
@@ -108,12 +111,6 @@ class _ChatWidgetState extends State<ChatWidget> {
                 suffixIcon: IconButton(
                   padding: EdgeInsets.only(right: 30),
                   onPressed: () async {
-                    // setState(() {
-                    // _conversationList.conversations[0].chats.insert(
-                    //     0,
-                    //     new Chat(
-                    //         myController.text, '21min ago', _currentUser));
-                    // _myListKey.currentState.insertItem(0);
                     await messageService
                         .createMessage(myController.text)
                         .catchError((e) {
