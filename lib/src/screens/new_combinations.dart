@@ -20,11 +20,14 @@ class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
   String layout = 'grid';
   ProductsList _productsList = new ProductsList();
   List<Combination> _compbinationList = List<Combination>();
+  bool isLoading = false;
 
   @override
   void initState() {
+    this.isLoading = true;
     CombinationsRepo().getCombinations().then((data) {
       setState(() {
+    this.isLoading = false;
         _compbinationList = data
             .where((com) => com.isActive == true && com.isNew == true)
             .toList();
@@ -95,7 +98,7 @@ class _NewCombinationsWidgetState extends State<NewCombinationsWidget> {
           ),
           Expanded(
             child: Center(
-              child: CircularProgressIndicator(),
+              child: isLoading? CircularProgressIndicator(): Text('No more items ...'),
             ),
           ),
         ],
