@@ -61,7 +61,7 @@ class _TabsWidgetState extends State<TabsWidget> {
       switch (tabItem) {
         case 0:
           widget.currentTitle = 'AccountStatement';
-          widget.currentPage = TransactionsWidget();
+          widget.currentPage = AccountsWidget();
           break;
         case 1:
           widget.currentTitle = 'Shipments';
