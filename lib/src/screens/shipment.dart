@@ -1,5 +1,6 @@
 import 'package:ecommerce_app_ui_kit/src/models/bills.model.dart';
 import 'package:ecommerce_app_ui_kit/src/models/customer.dart';
+import 'package:ecommerce_app_ui_kit/src/screens/shipment_items.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -58,11 +59,22 @@ class _ShipmentsWidgetState extends State<ShipmentsWidget> {
             itemCount: billList.length,
             itemBuilder: (context, index) {
               final bill = billList[index];
-              return Column(
-                children: <Widget>[
-                  Text(bill.customerId),
-                  Text(bill.createDate)
-                ],
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ShipmentItemssWidget(
+                              billItems: bill.items,
+                            )),
+                  );
+                },
+                child: Column(
+                  children: <Widget>[
+                    Text(bill.customerId),
+                    Text(bill.createDate)
+                  ],
+                ),
               );
             },
             separatorBuilder: (context, index) {
