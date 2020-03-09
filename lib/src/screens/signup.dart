@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
+import 'package:ecommerce_app_ui_kit/src/firebase/auth/phone_auth/get_phone.dart';
 import 'package:ecommerce_app_ui_kit/src/services/auth.service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,13 +43,16 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     color: Theme.of(context).primaryColor,
                     boxShadow: [
                       BoxShadow(
-                          color: Theme.of(context).hintColor.withOpacity(0.2), offset: Offset(0, 10), blurRadius: 20)
+                          color: Theme.of(context).hintColor.withOpacity(0.2),
+                          offset: Offset(0, 10),
+                          blurRadius: 20)
                     ],
                   ),
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: 25),
-                      Text('Sign Up', style: Theme.of(context).textTheme.display3),
+                      Text('Sign Up',
+                          style: Theme.of(context).textTheme.display3),
                       SizedBox(height: 20),
                       new TextFormField(
                         style: TextStyle(color: Theme.of(context).accentColor),
@@ -59,15 +63,19 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 TextStyle(color: Theme.of(context).accentColor),
                               ),
                           enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
-                          focusedBorder:
-                              UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).accentColor)),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .accentColor
+                                      .withOpacity(0.2))),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).accentColor)),
                           prefixIcon: Icon(
                             UiIcons.envelope,
                             color: Theme.of(context).accentColor,
                           ),
                         ),
-                         validator: (value) =>
+                        validator: (value) =>
                             value.isEmpty ? 'Email cannot be empty' : null,
                         onChanged: (value) {
                           _email = value.trim();
@@ -84,9 +92,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 TextStyle(color: Theme.of(context).accentColor),
                               ),
                           enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
-                          focusedBorder:
-                              UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).accentColor)),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .accentColor
+                                      .withOpacity(0.2))),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).accentColor)),
                           prefixIcon: Icon(
                             UiIcons.padlock_1,
                             color: Theme.of(context).accentColor,
@@ -97,8 +109,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 _showPassword = !_showPassword;
                               });
                             },
-                            color: Theme.of(context).accentColor.withOpacity(0.4),
-                            icon: Icon(_showPassword ? Icons.visibility_off : Icons.visibility),
+                            color:
+                                Theme.of(context).accentColor.withOpacity(0.4),
+                            icon: Icon(_showPassword
+                                ? Icons.visibility_off
+                                : Icons.visibility),
                           ),
                         ),
                       ),
@@ -113,9 +128,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 TextStyle(color: Theme.of(context).accentColor),
                               ),
                           enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
-                          focusedBorder:
-                              UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).accentColor)),
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .accentColor
+                                      .withOpacity(0.2))),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).accentColor)),
                           prefixIcon: Icon(
                             UiIcons.padlock_1,
                             color: Theme.of(context).accentColor,
@@ -126,11 +145,14 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 _showPassword = !_showPassword;
                               });
                             },
-                            color: Theme.of(context).accentColor.withOpacity(0.4),
-                            icon: Icon(_showPassword ? Icons.visibility_off : Icons.visibility),
+                            color:
+                                Theme.of(context).accentColor.withOpacity(0.4),
+                            icon: Icon(_showPassword
+                                ? Icons.visibility_off
+                                : Icons.visibility),
                           ),
                         ),
-                      validator: (value) =>
+                        validator: (value) =>
                             value.isEmpty ? 'Password cannot be empty' : null,
                         onChanged: (value) {
                           _password = value.trim();
@@ -138,14 +160,37 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       ),
                       SizedBox(height: 40),
                       FlatButton(
-                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 70),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 70),
                         onPressed: () {
                           Navigator.of(context).pushNamed('/SignIn');
                         },
                         child: Text(
                           'Sign Up',
                           style: Theme.of(context).textTheme.title.merge(
-                                TextStyle(color: Theme.of(context).primaryColor),
+                                TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                        ),
+                        color: Theme.of(context).accentColor,
+                        shape: StadiumBorder(),
+                      ),
+                      SizedBox(height: 40),
+                      FlatButton(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 70),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PhoneAuthGetPhone()),
+                          );
+                        },
+                        child: Text(
+                          'Sign Up',
+                          style: Theme.of(context).textTheme.title.merge(
+                                TextStyle(
+                                    color: Theme.of(context).primaryColor),
                               ),
                         ),
                         color: Theme.of(context).accentColor,
@@ -174,7 +219,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       ),
                   children: [
                     TextSpan(text: 'Already have an account ?'),
-                    TextSpan(text: ' Sign In', style: TextStyle(fontWeight: FontWeight.w700)),
+                    TextSpan(
+                        text: ' Sign In',
+                        style: TextStyle(fontWeight: FontWeight.w700)),
                   ],
                 ),
               ),

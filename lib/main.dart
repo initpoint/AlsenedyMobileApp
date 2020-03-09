@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_ui_kit/src/firebase/auth/phone_auth/get_phone.dart';
 import 'package:ecommerce_app_ui_kit/src/services/cart.service.dart';
 import 'package:ecommerce_app_ui_kit/src/services/chat.service.dart';
 import 'package:ecommerce_app_ui_kit/src/services/customer.service.dart';
@@ -211,7 +212,7 @@ class Navigation extends StatelessWidget {
           if (snapshot.data != null) {
             return TabsWidget(currentTab: 2);
           }
-          return SignInWidget();
+          return PhoneAuthGetPhone();
         }
         );
   }
