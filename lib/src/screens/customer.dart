@@ -1,6 +1,8 @@
 import 'package:ecommerce_app_ui_kit/config/ui_icons.dart';
 import 'package:ecommerce_app_ui_kit/src/firebase/auth/phone_auth/get_phone.dart';
+import 'package:ecommerce_app_ui_kit/src/models/customer.dart';
 import 'package:ecommerce_app_ui_kit/src/services/auth.service.dart';
+import 'package:ecommerce_app_ui_kit/src/services/customer.service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,9 +17,11 @@ class _CustomerDataWidgetState extends State<CustomerDataWidget> {
   String _email;
   String _name;
   String _company;
+  String _city;
 
   Widget build(BuildContext context) {
     final BaseAuth auth = Provider.of<BaseAuth>(context);
+    final UsersService usersRepo = UsersRepo();
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
@@ -52,8 +56,7 @@ class _CustomerDataWidgetState extends State<CustomerDataWidget> {
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: 25),
-                      Text('Sign Up',
-                          style: Theme.of(context).textTheme.display3),
+                      Text('Info', style: Theme.of(context).textTheme.display3),
                       SizedBox(height: 20),
                       new TextFormField(
                         style: TextStyle(color: Theme.of(context).accentColor),
@@ -83,14 +86,110 @@ class _CustomerDataWidgetState extends State<CustomerDataWidget> {
                         },
                       ),
                       SizedBox(height: 20),
+                      new TextFormField(
+                        style: TextStyle(color: Theme.of(context).accentColor),
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: new InputDecoration(
+                          hintText: 'Full Name',
+                          hintStyle: Theme.of(context).textTheme.body1.merge(
+                                TextStyle(color: Theme.of(context).accentColor),
+                              ),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .accentColor
+                                      .withOpacity(0.2))),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).accentColor)),
+                          prefixIcon: Icon(
+                            UiIcons.envelope,
+                            color: Theme.of(context).accentColor,
+                          ),
+                        ),
+                        validator: (value) =>
+                            value.isEmpty ? 'Full Name cannot be empty' : null,
+                        onChanged: (value) {
+                          _name = value.trim();
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      new TextFormField(
+                        style: TextStyle(color: Theme.of(context).accentColor),
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: new InputDecoration(
+                          hintText: 'Company Name',
+                          hintStyle: Theme.of(context).textTheme.body1.merge(
+                                TextStyle(color: Theme.of(context).accentColor),
+                              ),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .accentColor
+                                      .withOpacity(0.2))),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).accentColor)),
+                          prefixIcon: Icon(
+                            UiIcons.credit_card,
+                            color: Theme.of(context).accentColor,
+                          ),
+                        ),
+                        validator: (value) => value.isEmpty
+                            ? 'Company Name cannot be empty'
+                            : null,
+                        onChanged: (value) {
+                          _company = value.trim();
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      new TextFormField(
+                        style: TextStyle(color: Theme.of(context).accentColor),
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: new InputDecoration(
+                          hintText: 'City',
+                          hintStyle: Theme.of(context).textTheme.body1.merge(
+                                TextStyle(color: Theme.of(context).accentColor),
+                              ),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .accentColor
+                                      .withOpacity(0.2))),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).accentColor)),
+                          prefixIcon: Icon(
+                            UiIcons.cosmetics,
+                            color: Theme.of(context).accentColor,
+                          ),
+                        ),
+                        validator: (value) =>
+                            value.isEmpty ? 'City cannot be empty' : null,
+                        onChanged: (value) {
+                          _city = value.trim();
+                        },
+                      ),
+                      SizedBox(height: 20),
                       FlatButton(
                         padding:
                             EdgeInsets.symmetric(vertical: 12, horizontal: 70),
-                        onPressed: () {
-                          Navigator.of(context).pushNamed('/SignIn');
+                        onPressed: () async {
+                          var user = await auth.getCurrentUser();
+                          var customer = Customer(
+                            id: user.uid,
+                              uid: user.uid,
+                              fullName: _name,
+                              email: _email,
+                              company: _company,
+                              phoneNumber: user.phoneNumber,
+                              credit: '0',
+                              debt: '0');
+                          await usersRepo.addUser(customer);
+                          Navigator.pushNamed(context, '/');
                         },
                         child: Text(
-                          'Sign Up',
+                          'DONE',
                           style: Theme.of(context).textTheme.title.merge(
                                 TextStyle(
                                     color: Theme.of(context).primaryColor),
@@ -106,8 +205,7 @@ class _CustomerDataWidgetState extends State<CustomerDataWidget> {
               ],
             ),
             FlatButton(
-              onPressed: () {
-              },
+              onPressed: () {},
               child: RichText(
                 text: TextSpan(
                   style: Theme.of(context).textTheme.title.merge(

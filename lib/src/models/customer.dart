@@ -4,7 +4,9 @@ class Customer {
   String photoUrl = '';
   String uid = '';
   String email = '';
+  String phoneNumber = '';
   String pricelist;
+  String company;
   String debt = '';
   String credit = '';
 
@@ -14,6 +16,8 @@ class Customer {
     this.photoUrl,
     this.uid,
     this.email,
+    this.company,
+    this.phoneNumber,
     this.pricelist,
     this.debt,
     this.credit
@@ -27,7 +31,9 @@ class Customer {
         pricelist = snapshot['pricelist'] ?? '',
         email = snapshot['email'] ?? '',
         credit = snapshot['credit'].toString() ?? '',
-        debt = snapshot['debt'].toString() ?? '';
+        debt = snapshot['debt'].toString() ?? '',
+        phoneNumber = snapshot['phoneNumber'].toString() ?? '',
+        company = snapshot['company'].toString() ?? '';
 
   toJson() {
     return {
@@ -36,6 +42,10 @@ class Customer {
       "photoUrl": photoUrl,
       "uid": uid,
       "email": email,
+      "debt": debt,
+      "credit": credit,
+      "company": company,
+      "phoneNumber": phoneNumber,
     };
   }
 }

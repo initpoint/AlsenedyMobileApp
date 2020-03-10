@@ -6,7 +6,7 @@ import 'package:ecommerce_app_ui_kit/src/firebase/auth/utils/constants.dart';
 import 'package:ecommerce_app_ui_kit/src/firebase/auth/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'code.dart' show FirebasePhoneAuth, phoneAuthState;
+import 'code.dart' show FirebasePhoneAuth, PhoneAuthState, phoneAuthState;
 
 /*
  *  PhoneAuthUI - this file contains whole ui and controllers of ui
@@ -288,8 +288,7 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
   searchCountries() {
     String query = _searchCountryController.text;
     if (query.length == 0 || query.length == 1) {
-      if(!_countriesStreamController.isClosed)
-        _countriesSink.add(countries);
+      if (!_countriesStreamController.isClosed) _countriesSink.add(countries);
 //      print('added all countries again');
     } else if (query.length >= 2 && query.length <= 5) {
       List<Country> searchResults = [];
@@ -390,19 +389,23 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
         phoneNumber: countries[_selectedCountryIndex].dialCode +
             _phoneNumberController.text);
 
-    Navigator.of(context).pushReplacement(CupertinoPageRoute(
-            builder: (BuildContext context) => PhoneAuthVerify()));
+    // Navigator.of(context).pushReplacement(CupertinoPageRoute(
+    //         builder: (BuildContext context) => PhoneAuthVerify()));
 
-//    FirebasePhoneAuth.stateStream.listen((state) {
-//
-//      print(state);
-//
-//      if (state == PhoneAuthState.CodeSent) {
-//        Navigator.of(context).pushReplacement(CupertinoPageRoute(
-//            builder: (BuildContext context) => PhoneAuthVerify()));
-//      }
-//      if (state == PhoneAuthState.Failed)
-//        debugPrint("Seems there is an issue with it");
-//    });
+    FirebasePhoneAuth.stateStream.listen((state) {
+      print('this is state this i s statse');
+      print(state);
+
+      if (state == PhoneAuthState.CodeSent) {
+        Navigator.of(context).pushReplacement(CupertinoPageRoute(
+            builder: (BuildContext context) => PhoneAuthVerify()));
+      }
+
+      if (state == PhoneAuthState.Verified) {
+        Navigator.of(context).pushNamed('/');
+      }
+      if (state == PhoneAuthState.Failed)
+        debugPrint("Seems there is an issue with it");
+    });
   }
 }
