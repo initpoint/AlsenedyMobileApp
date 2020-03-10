@@ -53,11 +53,10 @@ class CombinationsRepo implements CombinationsService {
   }
 
   Future<Customer> currentCustomer(String uid) async {
-    var user = usersCollection.where('uid', isEqualTo: uid).snapshots().map(
-        (doc) => doc.documents
-            .map((dd) => Customer.fromMap(dd.data, dd.documentID))
-            .first);
-    return user.first;
+    var user = await usersCollection
+        .document(uid).get().then((data) {
+          return Customer.fromMap(data.data, data.documentID);
+        });
+    return user;
   }
- 
 }

@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_ui_kit/app_localizations.dart';
 import 'package:ecommerce_app_ui_kit/src/models/language.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/DrawerWidget.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/LanguageItemWidget.dart';
@@ -38,7 +39,7 @@ class _LanguagesWidgetState extends State<LanguagesWidget> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          'Languages',
+          AppLocalizations.of(context).translate('languages'),
           style: Theme.of(context).textTheme.display1,
         ),
         actions: <Widget>[
@@ -64,27 +65,27 @@ class _LanguagesWidgetState extends State<LanguagesWidget> {
         child: StickyHeader(
           header: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SearchBarWidget(),
+            // child: SearchBarWidget(),
           ),
           content: Column(
             children: <Widget>[
-              SizedBox(height: 15),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: ListTile(
-                  contentPadding: EdgeInsets.symmetric(vertical: 0),
-                  leading: Icon(
-                    Icons.translate,
-                    color: Theme.of(context).hintColor,
-                  ),
-                  title: Text(
-                    'App Language',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.display1,
-                  ),
-                ),
-              ),
+              // SizedBox(height: 15),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 20),
+              //   child: ListTile(
+              //     contentPadding: EdgeInsets.symmetric(vertical: 0),
+              //     leading: Icon(
+              //       Icons.translate,
+              //       color: Theme.of(context).hintColor,
+              //     ),
+              //     title: Text(
+              //       'App Language',
+              //       maxLines: 1,
+              //       overflow: TextOverflow.ellipsis,
+              //       style: Theme.of(context).textTheme.display1,
+              //     ),
+              //   ),
+              // ),
               SizedBox(height: 10),
               ListView.separated(
                 scrollDirection: Axis.vertical,

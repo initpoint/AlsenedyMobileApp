@@ -14,10 +14,10 @@
   "back_to_sign_in": "العودة إلي تسجيل الدخول",
   "reset_password": "إعادة تعين كلمة المرور",
   "comfirm_to_send_email": "تأكيد وإرسال ",
-  "combinations": "التركيبات",
+  "combinations": "المواد",
   "new_combinations": "التركيبات الجديدة",
   "home": "الصفحة الرئيسية",
-  "languages":"اللغات",
+  "languages":"اللغة",
   "logout":"تسجيل الخروج",
   "AccountStatement": "كشف الحساب",
   "Shipments": "التعاملات",
@@ -30,5 +30,6 @@
   "select_your_country": "اختر الدولة",
   "enter_your_phone":"ادخل رقم الهاتف",
   "we_will_send":"سوف نرسل لك",
-  "one_time_password":"One time password"
+  "no_more_items":"لا يوجد مواد لعرضها برجاء الاتصال بالدعم الفني عند السينيدي"
+
 }

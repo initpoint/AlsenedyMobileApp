@@ -5,7 +5,7 @@ class Customer {
   String uid = '';
   String email = '';
   String phoneNumber = '';
-  String pricelist;
+  String pricelist = '';
   String company;
   String debt = '';
   String credit = '';
@@ -46,6 +46,7 @@ class Customer {
       "credit": credit,
       "company": company,
       "phoneNumber": phoneNumber,
+      "pricelist": pricelist,
     };
   }
 }

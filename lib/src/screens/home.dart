@@ -25,39 +25,43 @@ class _HomeWidgetState extends State<HomeWidget>
   ProductsList _productsList = new ProductsList();
   List<Combination> _compbinationList = List<Combination>();
   int currentPage = 1;
+  bool isLoading = false;
+
   getCombinations() async {
+    this.isLoading = true;
     var combinations = await _combinationsRepo.getCombinations();
     setState(() {
       _compbinationList =
           combinations.where((com) => com.isActive == true).toList();
+    this.isLoading = false;
     });
   }
 
-  _scrollListener() async {
-    if (_scrollController.offset <=
-            _scrollController.position.minScrollExtent &&
-        !_scrollController.position.outOfRange) {
-      print('start');
-    }
-    if (_scrollController.offset >=
-            _scrollController.position.maxScrollExtent &&
-        !_scrollController.position.outOfRange) {
-      print(_compbinationList.length);
-      var combToAdd = await _combinationsRepo.getCombinations();
-      _compbinationList.addAll(combToAdd);
-      print(_compbinationList.length);
-      setState(() {
-        _compbinationList = _compbinationList.toSet().toList();
-      });
-      print('end');
-    }
-  }
+  // _scrollListener() async {
+  //   if (_scrollController.offset <=
+  //           _scrollController.position.minScrollExtent &&
+  //       !_scrollController.position.outOfRange) {
+  //     print('start');
+  //   }
+  //   if (_scrollController.offset >=
+  //           _scrollController.position.maxScrollExtent &&
+  //       !_scrollController.position.outOfRange) {
+  //     print(_compbinationList.length);
+  //     var combToAdd = await _combinationsRepo.getCombinations();
+  //     _compbinationList.addAll(combToAdd);
+  //     print(_compbinationList.length);
+  //     setState(() {
+  //       _compbinationList = _compbinationList.toSet().toList();
+  //     });
+  //     print('end');
+  //   }
+  // }
 
   @override
   void initState() {
     _combinationsRepo = CombinationsRepo();
     _scrollController = ScrollController();
-    _scrollController.addListener(_scrollListener);
+    // _scrollController.addListener(_scrollListener);
     this.getCombinations();
     super.initState();
   }
@@ -130,7 +134,7 @@ class _HomeWidgetState extends State<HomeWidget>
           ),
           Expanded(
             child: Center(
-              child: CircularProgressIndicator(),
+              child: isLoading? CircularProgressIndicator(): Text(AppLocalizations.of(context).translate('no_more_items')),
             ),
           ),
         ],
