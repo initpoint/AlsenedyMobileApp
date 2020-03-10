@@ -26,5 +26,9 @@
   "NewCombinations": "جديد",
   "Chat": "المحادثات",
   "new": "جديد",
-  "OldCarts":"عربات التسوق"
+  "OldCarts":"عربات التسوق",
+  "select_your_country": "اختر الدولة",
+  "enter_your_phone":"ادخل رقم الهاتف",
+  "we_will_send":"سوف نرسل لك",
+  "one_time_password":"One time password"
 }

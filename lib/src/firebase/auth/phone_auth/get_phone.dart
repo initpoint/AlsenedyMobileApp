@@ -6,6 +6,7 @@ import 'package:ecommerce_app_ui_kit/src/firebase/auth/utils/constants.dart';
 import 'package:ecommerce_app_ui_kit/src/firebase/auth/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import '../../../../app_localizations.dart';
 import 'code.dart' show FirebasePhoneAuth, PhoneAuthState, phoneAuthState;
 
 /*
@@ -172,7 +173,8 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
 
           Padding(
             padding: EdgeInsets.only(top: _fixedPadding, left: _fixedPadding),
-            child: PhoneAuthWidgets.subTitle('Select your country'),
+            child: PhoneAuthWidgets.subTitle(AppLocalizations.of(context)
+                                .translate('select_your_country')),
           ),
 
           /*
@@ -189,7 +191,8 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
           //  Subtitle for Enter your phone
           Padding(
             padding: EdgeInsets.only(top: 10.0, left: _fixedPadding),
-            child: PhoneAuthWidgets.subTitle('Enter your phone'),
+            child: PhoneAuthWidgets.subTitle(AppLocalizations.of(context)
+                                .translate('enter_your_phone')),
           ),
           //  PhoneNumber TextFormFields
           Padding(
@@ -204,34 +207,37 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
           /*
            *  Some informative text
            */
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SizedBox(width: _fixedPadding),
-              Icon(Icons.info, color: Colors.white, size: 20.0),
-              SizedBox(width: 10.0),
-              Expanded(
-                child: RichText(
-                    text: TextSpan(children: [
-                  TextSpan(
-                      text: 'We will send ',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w400)),
-                  TextSpan(
-                      text: 'One Time Password',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700)),
-                  TextSpan(
-                      text: ' to this mobile number',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w400)),
-                ])),
-              ),
-              SizedBox(width: _fixedPadding),
-            ],
-          ),
+          // Row(
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: <Widget>[
+          //     SizedBox(width: _fixedPadding),
+          //     Icon(Icons.info, color: Colors.white, size: 20.0),
+          //     SizedBox(width: 10.0),
+              // Expanded(
+              //   child: RichText(
+              //       text: TextSpan(children: [
+              //     TextSpan(
+              //         text: AppLocalizations.of(context)
+              //                   .translate('we_will_send'),
+              //         style: TextStyle(
+              //             color: Colors.white, fontWeight: FontWeight.w400)),
+              //     TextSpan(
+              //         text: AppLocalizations.of(context)
+              //                   .translate('one_time_password'),
+              //         style: TextStyle(
+              //             color: Colors.white,
+              //             fontSize: 16.0,
+              //             fontWeight: FontWeight.w700)),
+              //     TextSpan(
+              //         text: ' to this mobile number',
+              //         style: TextStyle(
+              //             color: Colors.white, fontWeight: FontWeight.w400)),
+              //   ])),
+              // ),
+              
+              // SizedBox(width: _fixedPadding),
+          //   ],
+          // ),
 
           /*
            *  Button: OnTap of this, it appends the dial code and the phone number entered by the user to send OTP,
@@ -245,7 +251,8 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'SEND OTP',
+                AppLocalizations.of(context)
+                             .translate('sign_in'),
                 style: TextStyle(
                     color: widget.cardBackgroundColor, fontSize: 18.0),
               ),
