@@ -68,6 +68,14 @@ class ProductGridItemWidget extends StatelessWidget {
                         combination?.price?.toString() ?? 0.toString(),
                         style: Theme.of(context).textTheme.title,
                       ),
+                      combination.hasPromotion
+                          ? Chip(
+                              backgroundColor: Colors.purple,
+                              label: Text(
+                                'عرض',
+                                style: TextStyle(color: Colors.white),
+                              ))
+                          : Container(),
                       combination.isNew
                           ? Chip(
                               backgroundColor: Colors.red,
@@ -94,16 +102,16 @@ class ProductGridItemWidget extends StatelessWidget {
                   //         style: Theme.of(context).textTheme.subhead),
                   //     IconButton(
                   //       onPressed: () {
-                          // setState(() {
-                          //   widget.quantity = this.decrementQuantity(widget.quantity);
-                          // });
-                    //     },
-                    //     iconSize: 30,
-                    //     padding: EdgeInsets.symmetric(horizontal: 5),
-                    //     icon: Icon(Icons.remove_circle_outline),
-                    //     color: Theme.of(context).hintColor,
-                    //   ),
-                    // ],
+                  // setState(() {
+                  //   widget.quantity = this.decrementQuantity(widget.quantity);
+                  // });
+                  //     },
+                  //     iconSize: 30,
+                  //     padding: EdgeInsets.symmetric(horizontal: 5),
+                  //     icon: Icon(Icons.remove_circle_outline),
+                  //     color: Theme.of(context).hintColor,
+                  //   ),
+                  // ],
                   // )
                 ],
               ),

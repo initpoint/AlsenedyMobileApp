@@ -22,6 +22,7 @@ class Combination {
   String nameArFull;
   String unitCode;
   String unitNameAr;
+  bool hasPromotion;
 
   Combination({
     this.id,
@@ -46,7 +47,8 @@ class Combination {
     this.materialNameAr,
     this.nameArFull,
     this.unitCode,
-    this.unitNameAr
+    this.unitNameAr,
+    this.hasPromotion
   });
 
   Combination.fromMap(Map snapshot, String id) :
@@ -67,6 +69,7 @@ class Combination {
         barCodeId = snapshot['barCodeId']?.cast<String>() ?? [],
         code = snapshot['code'] ?? '',
         hasChildren = snapshot['hasChildren'] ?? false,
+        hasPromotion = snapshot['hasPromotion'] ?? false,
         headId = snapshot['headId'] ?? '',
         materialCode = snapshot['materialCode'] ?? '',
         materialNameAr = snapshot['materialNameAr'] ?? '',
