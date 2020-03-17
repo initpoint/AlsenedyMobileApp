@@ -4,8 +4,10 @@ import 'package:ecommerce_app_ui_kit/src/models/customer.dart';
 import 'package:ecommerce_app_ui_kit/src/models/product.dart';
 import 'package:ecommerce_app_ui_kit/src/models/product_color.dart';
 import 'package:ecommerce_app_ui_kit/src/models/product_size.dart';
+import 'package:ecommerce_app_ui_kit/src/models/promotion.dart';
 import 'package:ecommerce_app_ui_kit/src/services/auth.service.dart';
 import 'package:ecommerce_app_ui_kit/src/services/customer.service.dart';
+import 'package:ecommerce_app_ui_kit/src/services/promotion.service.dart';
 import 'package:ecommerce_app_ui_kit/src/widgets/FlashSalesCarouselWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +27,8 @@ class productHomeTabWidgetState extends State<ProductHomeTabWidget> {
   @override
   Widget build(BuildContext context) {
     // BaseAuth auth = Provider.of<BaseAuth>(context);
-    final UsersService usersService = Provider.of<UsersService>(context);
+    final PromotionsService promotionsService =
+        Provider.of<PromotionsService>(context);
 
     // print(widget.combination.prices['No4wqKyS8cu3tINgz7D4'] ?? 0);
     return Column(
@@ -90,42 +93,82 @@ class productHomeTabWidgetState extends State<ProductHomeTabWidget> {
             ],
           ),
         ),
-        // Container(
-        //   width: double.infinity,
-        //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        //   decoration: BoxDecoration(
-        //     color: Theme.of(context).primaryColor.withOpacity(0.9),
-        //     boxShadow: [
-        //       BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.15), blurRadius: 5, offset: Offset(0, 2)),
-        //     ],
-        //   ),
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: <Widget>[
-        //       Row(
-        //         children: <Widget>[
-        //           Expanded(
-        //             child: Text(
-        //               'Select Color',
-        //               style: Theme.of(context).textTheme.body2,
-        //             ),
-        //           ),
-        //           MaterialButton(
-        //             onPressed: () {},
-        //             padding: EdgeInsets.all(0),
-        //             minWidth: 0,
-        //             child: Text(
-        //               'Clear All',
-        //               style: Theme.of(context).textTheme.body1,
-        //             ),
-        //           )
-        //         ],
-        //       ),
-        //       SizedBox(height: 10),
-        //       // SelectColorWidget()
-        //     ],
-        //   ),
-        // ),
+        Container(
+          child: Text(
+            'العروض' + '(${widget.combination.promotionCode.length})',
+            style: TextStyle(fontSize: 28),
+          ),
+        ),
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor.withOpacity(0.9),
+            boxShadow: [
+              BoxShadow(
+                  color: Theme.of(context).focusColor.withOpacity(0.15),
+                  blurRadius: 5,
+                  offset: Offset(0, 2)),
+            ],
+          ),
+          child: FutureBuilder(
+              future: promotionsService
+                  .getPromotions(widget.combination.promotionCode),
+              builder: (context, AsyncSnapshot<List<Promotion>> snapshot) {
+                if (snapshot.hasData) {
+                  return Container(
+                      height: 200,
+                      child: ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final promotion = snapshot.data[index];
+
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  promotion.priceListNameAr,
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      promotion.notes,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                    Text(
+                                      promotion.materialDiscountType == '%'
+                                          ? '%' +
+                                              promotion
+                                                  .materialDiscountPercentage
+                                          : promotion.materialDiscountAmount +
+                                              'ريال',
+                                      style: TextStyle(fontSize: 20),
+                                    )
+                                  ],
+                                )
+                              ],
+                            );
+                          }));
+                } else if (snapshot.hasError) {
+                  return Container(
+                    child: Center(
+                      child: Text('Error'),
+                    ),
+                  );
+                } else {
+                  return Container(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+              }),
+        ),
         // Container(
         //   width: double.infinity,
         //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),

@@ -14,6 +14,7 @@ class Combination {
   dynamic prices;
   List<String> pics = [];
   List<String> barCodeId;
+  List<String> promotionCode;
   String code;
   bool hasChildren;
   String headId;
@@ -48,7 +49,8 @@ class Combination {
     this.nameArFull,
     this.unitCode,
     this.unitNameAr,
-    this.hasPromotion
+    this.hasPromotion,
+    this.promotionCode
   });
 
   Combination.fromMap(Map snapshot, String id) :
@@ -67,6 +69,7 @@ class Combination {
         isNew = snapshot['isNew'] ?? false,
         prices = snapshot['prices'] ?? {},
         barCodeId = snapshot['barCodeId']?.cast<String>() ?? [],
+        promotionCode = snapshot['promotionCode']?.cast<String>() ?? [],
         code = snapshot['code'] ?? '',
         hasChildren = snapshot['hasChildren'] ?? false,
         hasPromotion = snapshot['hasPromotion'] ?? false,

@@ -2,6 +2,7 @@ import 'package:ecommerce_app_ui_kit/src/firebase/auth/phone_auth/get_phone.dart
 import 'package:ecommerce_app_ui_kit/src/services/cart.service.dart';
 import 'package:ecommerce_app_ui_kit/src/services/chat.service.dart';
 import 'package:ecommerce_app_ui_kit/src/services/customer.service.dart';
+import 'package:ecommerce_app_ui_kit/src/services/promotion.service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app_localizations.dart';
 import 'package:ecommerce_app_ui_kit/config/app_config.dart' as config;
@@ -64,6 +65,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider<CartService>(create: (_) => new CartRepo()),
         ChangeNotifierProvider<BaseChatService>(create: (_) => new ChatService()),
+        ChangeNotifierProvider<PromotionsService>(create: (_) => new PromotionsRepo()),
         ChangeNotifierProvider<BaseAuth>(create: (_) => new Auth()),
         ProxyProvider<BaseAuth, UsersService>(
             update: (context, baseAuth, usersService) =>
