@@ -210,6 +210,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.1+1"
+  load:
+    dependency: "direct overridden"
+    description:
+      name: load
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.5+1"
   matcher:
     dependency: transitive
     description:

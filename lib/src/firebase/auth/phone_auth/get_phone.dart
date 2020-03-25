@@ -4,10 +4,12 @@ import 'package:ecommerce_app_ui_kit/src/firebase/auth/data_models/countries.dar
 import 'package:ecommerce_app_ui_kit/src/firebase/auth/phone_auth/verify.dart';
 import 'package:ecommerce_app_ui_kit/src/firebase/auth/utils/constants.dart';
 import 'package:ecommerce_app_ui_kit/src/firebase/auth/utils/widgets.dart';
+import 'package:ecommerce_app_ui_kit/src/screens/tabs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../../app_localizations.dart';
 import 'code.dart' show FirebasePhoneAuth, PhoneAuthState, phoneAuthState;
+import 'package:load/load.dart';
 
 /*
  *  PhoneAuthUI - this file contains whole ui and controllers of ui
@@ -31,6 +33,7 @@ class PhoneAuthGetPhone extends StatefulWidget {
 }
 
 class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
+  BuildContext context;
   /*
    *  _height & _width:
    *    will be calculated from the MediaQuery of widget's context
@@ -97,6 +100,8 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
 
   @override
   Widget build(BuildContext context) {
+      setState(() => this.context = context);
+
     //  Fetching height & width parameters from the MediaQuery
     //  _logoPadding will be a constant, scaling it according to device's size
     _height = MediaQuery.of(context).size.height;
@@ -173,8 +178,8 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
 
           Padding(
             padding: EdgeInsets.only(top: _fixedPadding, left: _fixedPadding),
-            child: PhoneAuthWidgets.subTitle(AppLocalizations.of(context)
-                                .translate('select_your_country')),
+            child: PhoneAuthWidgets.subTitle(
+                AppLocalizations.of(context).translate('select_your_country')),
           ),
 
           /*
@@ -191,8 +196,8 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
           //  Subtitle for Enter your phone
           Padding(
             padding: EdgeInsets.only(top: 10.0, left: _fixedPadding),
-            child: PhoneAuthWidgets.subTitle(AppLocalizations.of(context)
-                                .translate('enter_your_phone')),
+            child: PhoneAuthWidgets.subTitle(
+                AppLocalizations.of(context).translate('enter_your_phone')),
           ),
           //  PhoneNumber TextFormFields
           Padding(
@@ -213,29 +218,29 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
           //     SizedBox(width: _fixedPadding),
           //     Icon(Icons.info, color: Colors.white, size: 20.0),
           //     SizedBox(width: 10.0),
-              // Expanded(
-              //   child: RichText(
-              //       text: TextSpan(children: [
-              //     TextSpan(
-              //         text: AppLocalizations.of(context)
-              //                   .translate('we_will_send'),
-              //         style: TextStyle(
-              //             color: Colors.white, fontWeight: FontWeight.w400)),
-              //     TextSpan(
-              //         text: AppLocalizations.of(context)
-              //                   .translate('one_time_password'),
-              //         style: TextStyle(
-              //             color: Colors.white,
-              //             fontSize: 16.0,
-              //             fontWeight: FontWeight.w700)),
-              //     TextSpan(
-              //         text: ' to this mobile number',
-              //         style: TextStyle(
-              //             color: Colors.white, fontWeight: FontWeight.w400)),
-              //   ])),
-              // ),
-              
-              // SizedBox(width: _fixedPadding),
+          // Expanded(
+          //   child: RichText(
+          //       text: TextSpan(children: [
+          //     TextSpan(
+          //         text: AppLocalizations.of(context)
+          //                   .translate('we_will_send'),
+          //         style: TextStyle(
+          //             color: Colors.white, fontWeight: FontWeight.w400)),
+          //     TextSpan(
+          //         text: AppLocalizations.of(context)
+          //                   .translate('one_time_password'),
+          //         style: TextStyle(
+          //             color: Colors.white,
+          //             fontSize: 16.0,
+          //             fontWeight: FontWeight.w700)),
+          //     TextSpan(
+          //         text: ' to this mobile number',
+          //         style: TextStyle(
+          //             color: Colors.white, fontWeight: FontWeight.w400)),
+          //   ])),
+          // ),
+
+          // SizedBox(width: _fixedPadding),
           //   ],
           // ),
 
@@ -251,8 +256,7 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                AppLocalizations.of(context)
-                             .translate('sign_in'),
+                AppLocalizations.of(context).translate('sign_in'),
                 style: TextStyle(
                     color: widget.cardBackgroundColor, fontSize: 18.0),
               ),
@@ -404,14 +408,14 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
         Navigator.of(context).pushReplacement(CupertinoPageRoute(
             builder: (BuildContext context) => PhoneAuthVerify()));
       }
-      if(state == PhoneAuthState.Error || state == PhoneAuthState.Failed) {
+      if (state == PhoneAuthState.Error || state == PhoneAuthState.Failed) {
         Navigator.of(context).pushNamed('/dgffdg');
-      } 
-      if(state == PhoneAuthState.Started) {
-        Scaffold.of(context).showSnackBar(SnackBar(content: new Text('انتظر جاري التحميل .....')));
       }
       if (state == PhoneAuthState.Verified) {
-        Navigator.of(context).pushNamed('/');
+        Future(() {
+             Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (_) => TabsWidget(currentTab: 2)));
+        });
       }
       if (state == PhoneAuthState.Failed)
         debugPrint("Seems there is an issue with it");

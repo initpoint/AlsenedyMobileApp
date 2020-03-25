@@ -14,10 +14,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:load/load.dart';
 
 void main() {
   Provider.debugCheckInvalidValueType = null;
-  runApp(MyApp());
+  runApp(LoadingProvider(child: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -64,8 +65,10 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<CartService>(create: (_) => new CartRepo()),
-        ChangeNotifierProvider<BaseChatService>(create: (_) => new ChatService()),
-        ChangeNotifierProvider<PromotionsService>(create: (_) => new PromotionsRepo()),
+        ChangeNotifierProvider<BaseChatService>(
+            create: (_) => new ChatService()),
+        ChangeNotifierProvider<PromotionsService>(
+            create: (_) => new PromotionsRepo()),
         ChangeNotifierProvider<BaseAuth>(create: (_) => new Auth()),
         ProxyProvider<BaseAuth, UsersService>(
             update: (context, baseAuth, usersService) =>
@@ -205,7 +208,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class Navigation extends StatelessWidget {
-   @override
+  @override
   Widget build(BuildContext context) {
     final auth = Provider.of<BaseAuth>(context);
     return StreamBuilder(
@@ -215,7 +218,6 @@ class Navigation extends StatelessWidget {
             return TabsWidget(currentTab: 2);
           }
           return PhoneAuthGetPhone();
-        }
-        );
+        });
   }
 }

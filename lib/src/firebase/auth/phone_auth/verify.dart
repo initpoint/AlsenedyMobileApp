@@ -41,13 +41,13 @@ class _PhoneAuthVerifyState extends State<PhoneAuthVerify> {
 //      //if (FirebasePhoneAuth.phoneAuthState.isClosed)
 //
 //    });
-    FirebasePhoneAuth.phoneAuthState.stream.listen((PhoneAuthState state) => {
+    FirebasePhoneAuth.phoneAuthState.stream.listen((PhoneAuthState state)  {
           if (state == PhoneAuthState.Verified && this.first != 1)
             {
               Future(() {
                 Navigator.pushNamed(context, '/');
                 this.first++;
-              })
+              });
             }
         });
     super.initState();
@@ -170,7 +170,7 @@ class _PhoneAuthVerifyState extends State<PhoneAuthVerify> {
 
           RaisedButton(
             elevation: 16.0,
-            onPressed: signIn,
+            onPressed: this.code.length == 6 ? signIn : null,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -188,11 +188,12 @@ class _PhoneAuthVerifyState extends State<PhoneAuthVerify> {
 
   signIn() {
     if (code.length != 6) {
-      //  TODO: show error
+      Scaffold.of(context).showSnackBar(new SnackBar(content: new Text('برجاء ارسال الرمز المكون من  6 ارقام ')));
+    } else {
+      FirebasePhoneAuth.signInWithPhoneNumber(smsCode: code);
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => CustomerDataWidget()));
     }
-    FirebasePhoneAuth.signInWithPhoneNumber(smsCode: code);
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => CustomerDataWidget()));
   }
 
   // This will return pin field - it accepts only single char
