@@ -400,14 +400,16 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
     //         builder: (BuildContext context) => PhoneAuthVerify()));
 
     FirebasePhoneAuth.stateStream.listen((state) {
-      print('this is state this i s statse');
-      print(state);
-
       if (state == PhoneAuthState.CodeSent) {
         Navigator.of(context).pushReplacement(CupertinoPageRoute(
             builder: (BuildContext context) => PhoneAuthVerify()));
       }
-
+      if(state == PhoneAuthState.Error || state == PhoneAuthState.Failed) {
+        Navigator.of(context).pushNamed('/dgffdg');
+      } 
+      if(state == PhoneAuthState.Started) {
+        Scaffold.of(context).showSnackBar(SnackBar(content: new Text('انتظر جاري التحميل .....')));
+      }
       if (state == PhoneAuthState.Verified) {
         Navigator.of(context).pushNamed('/');
       }
